@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/16 22:41:20 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/16 22:59:53 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,31 @@ namespace ft {
 
 			/*
 			** Member Functions
+			**
+			** constructor		constructs the vector
+			** destructor		destructs the vector
+			** operator=		assigns values to the container
+			** assign			assigns values to the container
+			** get_allocator	returns the associated allocator
 			*/
 
 			explicit vector() :	_data(NULL),
 								_size(0),
 								_capacity(0) {}
 
+			~vector() {}
+
+			allocator_type get_allocator() const {}
+
 
 			/*
 			** Element Access
+			**
+			** at				access specified element with bounds checking
+			** operator[]		access specified element
+			** front			access the first element
+			** back				access the last element
+			** data				direct access to the underlying array
 			*/
 
 
@@ -58,11 +74,11 @@ namespace ft {
 			/*
 			** Capacity
 			**
-			** empty		checks whether the container is empty
-			** size			returns the number of elements
-			** max_size		returns the maximum possible number of elements
-			** reserve		reserves storage
-			** capacity		returns the number of elements that can be held in currently allocated storage
+			** empty			checks whether the container is empty
+			** size				returns the number of elements
+			** max_size			returns the maximum possible number of elements
+			** reserve			reserves storage
+			** capacity			returns the number of elements that can be held in currently allocated storage
 			*/
 
 			bool empty()					{ return !_size ? true : false; }
@@ -79,10 +95,6 @@ namespace ft {
 			*/
 
 
-			/*
-			** Non-Member Functions
-			*/
-
 
 		private:
 			pointer		_data;
@@ -90,6 +102,10 @@ namespace ft {
 			size_type	_capacity;
 
 	};
+
+	/*
+	** Non-Member Functions
+	*/
 
 }
 

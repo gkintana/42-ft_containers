@@ -6,11 +6,13 @@
 #    By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/06 17:01:53 by gkintana          #+#    #+#              #
-#    Updated: 2022/08/06 17:06:14 by gkintana         ###   ########.fr        #
+#    Updated: 2022/08/16 22:47:07 by gkintana         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	ft_containers
+
+INC_DIR		=	include
 
 SRCS		=	sources/vector_tests.cpp
 
@@ -27,7 +29,8 @@ CYAN		=	"\033[3;36m"
 
 %.o : %.cpp
 			@printf $(CYAN)
-			$(CXX) $(CPPFLAGS) -c $< -o $@
+			@printf "\033[A\033[2K\r"
+			$(CXX) $(CPPFLAGS) -I$(INC_DIR) -c $< -o $@
 
 all:		$(NAME)
 
