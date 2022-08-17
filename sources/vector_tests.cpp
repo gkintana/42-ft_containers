@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/17 22:49:03 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/17 23:30:24 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 using namespace std;
 
 int main() {
-	vector<int> v;
+	// vector<int> v;
 
-	v.push_back(2);
+	// v.push_back(2);
 	// cout << v.size() << endl;
 
 	// cout << "Element Access Tests" << endl;
@@ -36,17 +36,23 @@ int main() {
 	// cout << v[123212312231239] << endl;
 
 
+	ft::vector<int> v(5, 20);
+
+	cout << boolalpha << v.empty() << endl
+		 << v.capacity() << endl
+		 << v[3] << endl;
+
 	ft::vector<int> v2(5, 20);
 
-	cout << boolalpha << v2.empty() << endl;
-	cout << v2.capacity() << endl;
-	cout << v2[3] << endl;
+	cout << boolalpha << v2.empty() << endl
+		 << v2.capacity() << endl
+		 << v2[3] << endl;
 
 	/*-----------------------------------------------------------------------*/
-	cout << "\nPop Back Tests" << endl;
+	cout << "\n::Pop_Back() Tests" << endl;
 	vector<int> std_vPop(5, 42);
 	ft::vector<int> ft_vPop(5, 42);
-	
+
 	cout << "std\tft\n-----\t-----" << endl;
 	for (size_t i = 0; std_vPop.size(); i++) {
 		cout << std_vPop.size();
@@ -61,5 +67,19 @@ int main() {
 		ft_vPop.pop_back();
 	}
 	/*-----------------------------------------------------------------------*/
+	cout << "\n::At() Tests" << endl;
+	vector<int> std_vAt;
+	ft::vector<int> ft_vAt;
+
+	try {
+		cout << std_vAt.at(42) << endl;	// terminate called after throwing an instance of 'std::out_of_range'
+	} catch (exception &e) {
+		cerr << e.what() << endl;
+	}
+	try {
+		cout << ft_vAt.at(42) << endl;
+	} catch (exception &e) {
+		cerr << e.what() << endl;
+	}
 
 }

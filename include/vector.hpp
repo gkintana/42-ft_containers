@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/17 22:46:47 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/17 23:31:10 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <iostream>
 #include <memory>
+#include <exception>
+#include <sstream>
 
 #include <vector>
 
@@ -92,10 +94,20 @@ namespace ft {
 
 			reference at(size_type pos) {
 				// REMINDER: add bounds checking
+				if (pos >= m_size) {
+					std::stringstream str;
+					str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << m_size << ")";
+					throw std::out_of_range(str.str());
+				}
 				return m_data[pos];
 			}
 			const_reference at(size_type pos) const {
 				// REMINDER: add bounds checking
+				if (pos >= m_size) {
+					std::stringstream str;
+					str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << m_size << ")";
+					throw std::out_of_range(str.str());
+				}
 				return m_data[pos];
 			}
 			 
