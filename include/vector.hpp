@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/17 13:52:30 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/17 22:46:47 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,24 @@ namespace ft {
 			** get_allocator	returns the associated allocator
 			*/
 
-			explicit vector(const allocator_type &alloc = allocator_type()) :	_data(NULL),
-																				_alloc(alloc),
-																				_size(0),
-																				_capacity(0) {}
+			explicit vector(const allocator_type &alloc = allocator_type()) :	m_data(NULL),
+																				m_alloc(alloc),
+																				m_size(0),
+																				m_capacity(0) {}
 
 			explicit vector(size_type n, const value_type &val = value_type(), 
-							const allocator_type &alloc = allocator_type()) {
-				_size = n;
-				_capacity = n * 2;
-				_alloc = alloc;
-				_data = _alloc.allocate(_capacity, NULL);
-				for (size_type i = 0; i < _size; i++) {
-					_alloc.construct(_data + i, val);
+							const allocator_type &alloc = allocator_type()) :	m_alloc(alloc),
+																				m_size(n),
+																				m_capacity(n * 2) {
+				m_data = m_alloc.allocate(m_capacity, NULL);
+				for (size_type i = 0; i < m_size; i++) {
+					m_alloc.construct(m_data + i, val);
 				}
 			}
 
 			~vector() {}
 
-			allocator_type get_allocator() const {}
+			allocator_type get_allocator() const { return m_alloc; }
 
 
 			/*
@@ -91,17 +90,23 @@ namespace ft {
 			** data				direct access to the underlying array
 			*/
 
-			// reference at(size_type pos) {
-			// 	return _data[]
-			// }
-
-			reference operator[](size_type pos)				{ return _data[pos]; }
-			const_reference operator[](size_type pos) const	{ return _data[pos]; }
-			reference front()								{ return _data[0]; }
-			const_reference front() const					{ return _data[0]; }
-			reference back()								{ return _data[_size - 1]; }
-			const_reference back() const					{ return _data[_size - 1]; }
-			T* data()										{ return _data; }
+			reference at(size_type pos) {
+				// REMINDER: add bounds checking
+				return m_data[pos];
+			}
+			const_reference at(size_type pos) const {
+				// REMINDER: add bounds checking
+				return m_data[pos];
+			}
+			 
+			reference operator[](size_type pos)				{ return m_data[pos]; }
+			const_reference operator[](size_type pos) const	{ return m_data[pos]; }
+			reference front()								{ return m_data[0]; }
+			const_reference front() const					{ return m_data[0]; }
+			reference back()								{ return m_data[m_size - 1]; }
+			const_reference back() const					{ return m_data[m_size - 1]; }
+			T* data()										{ return m_data; }
+			const T* data() const							{ return m_data; }
 
 			/*
 			** Iterators
@@ -118,10 +123,10 @@ namespace ft {
 			** capacity			returns the number of elements that can be held in currently allocated storage
 			*/
 
-			bool empty()					{ return !_size ? true : false; }
-			size_type size()				{ return _size; }
+			bool empty()					{ return !m_size ? true : false; }
+			size_type size()				{ return m_size; }
 			// size_type max_size()			{ return ; }
-			size_type capacity()			{ return _capacity; }
+			size_type capacity()			{ return m_capacity; }
 			void reserve(size_type new_cap)	{
 				(void)new_cap;
 			}
@@ -131,15 +136,14 @@ namespace ft {
 			** Modifiers
 			*/
 
-			void pop_back() {
-				
-			}
+			void pop_back()	{ m_alloc.destroy(&m_data[m_size-- - 1]); }
+
 
 		private:
-			pointer			_data;
-			allocator_type	_alloc;
-			size_type		_size;
-			size_type		_capacity;
+			pointer			m_data;
+			allocator_type	m_alloc;
+			size_type		m_size;
+			size_type		m_capacity;
 
 	};
 

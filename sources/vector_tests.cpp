@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/17 13:49:29 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/17 22:49:03 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,51 @@
 
 #include <vector.hpp>
 
+using namespace std;
+
 int main() {
-	std::vector<int> v;
+	vector<int> v;
 
 	v.push_back(2);
-	// std::cout << v.size() << std::endl;
+	// cout << v.size() << endl;
 
-	// std::cout << "Element Access Tests" << std::endl;
+	// cout << "Element Access Tests" << endl;
 	// try {
-	// 	std::cout << "\tat(42) = "<< v.at(42) << std::endl;
-	// } catch (std::exception &e) {
-	// 	std::cerr << e.what() << std::endl;
+	// 	cout << "\tat(42) = "<< v.at(42) << endl;
+	// } catch (exception &e) {
+	// 	cerr << e.what() << endl;
 	// }
-	// std::cout << "\toperator[-42] = "<< v[-42] << std::endl;
-	// std::cout << "\toperator[42] = "<< v[42] << std::endl;
-	// // std::cout << "\tfront() = " << v.front() << std::endl;
-	// std::cout << "\tback() = " << v.back() << std::endl;
-	// std::cout << v[123212312231239] << std::endl;
+	// cout << "\toperator[-42] = "<< v[-42] << endl;
+	// cout << "\toperator[42] = "<< v[42] << endl;
+	// // cout << "\tfront() = " << v.front() << endl;
+	// cout << "\tback() = " << v.back() << endl;
+	// cout << v[123212312231239] << endl;
 
 
 	ft::vector<int> v2(5, 20);
 
-	// // v.push_back(2);
-	// std::cout << std::boolalpha << v2.empty() << std::endl;
-	std::cout << v2.size() << std::endl;
-	// std::cout << v2.capacity() << std::endl;
-	// std::cout << v2[83221312321312389] << std::endl;
+	cout << boolalpha << v2.empty() << endl;
+	cout << v2.capacity() << endl;
+	cout << v2[3] << endl;
+
+	/*-----------------------------------------------------------------------*/
+	cout << "\nPop Back Tests" << endl;
+	vector<int> std_vPop(5, 42);
+	ft::vector<int> ft_vPop(5, 42);
+	
+	cout << "std\tft\n-----\t-----" << endl;
+	for (size_t i = 0; std_vPop.size(); i++) {
+		cout << std_vPop.size();
+		std_vPop.pop_back();
+		cout << "\t" << ft_vPop.size() << endl;
+		ft_vPop.pop_back();
+	}
+	for (size_t i = 0; i < 3; i++) {
+		cout << std_vPop.size();
+		std_vPop.pop_back();
+		cout << "\t" << ft_vPop.size() << endl;
+		ft_vPop.pop_back();
+	}
+	/*-----------------------------------------------------------------------*/
+
 }
