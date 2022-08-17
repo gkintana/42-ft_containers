@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/17 10:32:09 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/17 13:52:30 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 // https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c
 // https://gcc.gnu.org/onlinedocs/gcc-4.6.2/libstdc++/api/a01069_source.html
 // https://stackoverflow.com/questions/3582608/how-to-correctly-implement-custom-iterators-and-const-iterators#
+// https://cplusplus.com/reference/memory/allocator/
+// https://codereview.stackexchange.com/questions/255149/stdvector-allocator-aware-implementation
+// https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c?rq=1
+// https://codereview.stackexchange.com/questions/94211/implementation-of-stdvector-class?rq=1
+// https://codereview.stackexchange.com/questions/96253/second-implementation-of-stdvector?rq=1
+// https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c?rq=1
 
 namespace ft {
 
@@ -54,9 +60,21 @@ namespace ft {
 			** get_allocator	returns the associated allocator
 			*/
 
-			explicit vector() :	_data(NULL),
-								_size(0),
-								_capacity(0) {}
+			explicit vector(const allocator_type &alloc = allocator_type()) :	_data(NULL),
+																				_alloc(alloc),
+																				_size(0),
+																				_capacity(0) {}
+
+			explicit vector(size_type n, const value_type &val = value_type(), 
+							const allocator_type &alloc = allocator_type()) {
+				_size = n;
+				_capacity = n * 2;
+				_alloc = alloc;
+				_data = _alloc.allocate(_capacity, NULL);
+				for (size_type i = 0; i < _size; i++) {
+					_alloc.construct(_data + i, val);
+				}
+			}
 
 			~vector() {}
 
@@ -113,12 +131,15 @@ namespace ft {
 			** Modifiers
 			*/
 
-
+			void pop_back() {
+				
+			}
 
 		private:
-			pointer		_data;
-			size_type	_size;
-			size_type	_capacity;
+			pointer			_data;
+			allocator_type	_alloc;
+			size_type		_size;
+			size_type		_capacity;
 
 	};
 
