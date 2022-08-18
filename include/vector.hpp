@@ -126,29 +126,27 @@ namespace ft {
 				}
 			}
 
-			vector &operator=(const vector &x) {
-				std::cout << "ASSIGNEMNT OP" << std::endl;
-				if (this != &x) {
-					this->m_data = x.m_data;
-					this->m_alloc = x.m_alloc;
-					// this->m_alloc.allocate(x.m_capacity, NULL);
-					this->m_size = x.m_size;
-					this->m_capacity = x.m_capacity;
+			~vector() {
+				for (size_type i = 0; i < m_size; i++) {
+					m_alloc.destroy(m_data + i);
 				}
-				return *this;
+				m_alloc.deallocate(m_data, m_capacity);
 			}
 
 			vector(const vector& x) {
 				std::cout << "COPY OP" << std::endl;
 				*this = x;
 			}
-			
 
-			~vector() {
-				for (size_type i = 0; i < m_size; i++) {
-					m_alloc.destroy(m_data + i);
+			vector &operator=(const vector &x) {
+				std::cout << "ASSIGNEMNT OP" << std::endl;
+				if (this != &x) {
+					this->m_data = x.m_data;
+					this->m_alloc = x.m_alloc;
+					this->m_size = x.m_size;
+					this->m_capacity = x.m_capacity;
 				}
-				m_alloc.deallocate(m_data, m_capacity);
+				return *this;
 			}
 
 			allocator_type get_allocator() const { return m_alloc; }
