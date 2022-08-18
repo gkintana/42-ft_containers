@@ -51,28 +51,38 @@ namespace ft {
 			typedef std::forward_iterator_tag	iterator_category;
 
 
-			iterator(pointer ptr) : m_ptr(ptr) {}
+			iterator(pointer data) : _ptr(data) {}
 
 			~iterator() {}
 
-			// reference operator*() const { *return m_ptr; }
-			// pointer operator->() { return m_ptr; }
-			
-			// iterator &operator++() {
-			// 	m_ptr++;
-			// 	return *this;
-			// }
+			reference operator*() const { return *_ptr; }
 
-			// iterator operator++(T) {
-			// 	iterator temp = *this;
-			// 	++(*this);
-			// 	return temp;
-			// }
-
-			// iterator
+			pointer operator->() { return _ptr; }
 			
+			iterator &operator++() {
+				_ptr++;
+				return *this;
+			}
+
+			iterator operator++(T) {
+				iterator temp = *this;
+				++(*this);
+				return temp;
+			}
+
+			iterator &operator--() {
+				_ptr--;
+				return *this;
+			}
+
+			iterator operator--(T) {
+				iterator temp = *this;
+				--(*this);
+				return temp;
+			}
+
 		private:
-			pointer	m_ptr;
+			pointer	_ptr;
 
 		
 	};
@@ -92,6 +102,7 @@ namespace ft {
 			typedef Allocator									allocator_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
+			typedef ft::iterator<T>								iterator;
 			// typedef implementation-defined						iterator;
 			// typedef implementation-defined						const_iterator;
 			typedef typename allocator_type::size_type			size_type;
@@ -163,7 +174,6 @@ namespace ft {
 			*/
 
 			reference at(size_type pos) {
-				// REMINDER: add bounds checking
 				if (pos >= m_size) {
 					std::stringstream str;
 					str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << m_size << ")";
@@ -171,8 +181,8 @@ namespace ft {
 				}
 				return m_data[pos];
 			}
+
 			const_reference at(size_type pos) const {
-				// REMINDER: add bounds checking
 				if (pos >= m_size) {
 					std::stringstream str;
 					str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << m_size << ")";
