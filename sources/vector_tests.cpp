@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/17 23:30:24 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/18 21:21:29 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int main() {
 		cout << "\t" << ft_vPop.size() << endl;
 		ft_vPop.pop_back();
 	}
-	for (size_t i = 0; i < 3; i++) {
-		cout << std_vPop.size();
-		std_vPop.pop_back();
-		cout << "\t" << ft_vPop.size() << endl;
-		ft_vPop.pop_back();
-	}
+	// for (size_t i = 0; i < 1; i++) {
+	// 	cout << std_vPop.size();
+	// 	std_vPop.pop_back();
+	// 	cout << "\t" << ft_vPop.size() << endl;
+	// 	ft_vPop.pop_back();
+	// }
 	/*-----------------------------------------------------------------------*/
 	cout << "\n::At() Tests" << endl;
 	vector<int> std_vAt;
@@ -81,5 +81,14 @@ int main() {
 	} catch (exception &e) {
 		cerr << e.what() << endl;
 	}
+	/*-----------------------------------------------------------------------*/
 
+	ft::vector<int> vOrig(3, 20);
+	ft::vector<int> vCopy = vOrig;
+
+	cout << vCopy.size() << endl;
+	cout << vCopy.capacity() << endl;
+	cout << vCopy[2] << endl;
+
+	return 0;
 }

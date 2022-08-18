@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/18 10:04:41 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/18 21:25:13 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,22 @@ namespace ft {
 
 			~iterator() {}
 
+			// reference operator*() const { *return m_ptr; }
+			// pointer operator->() { return m_ptr; }
 			
+			// iterator &operator++() {
+			// 	m_ptr++;
+			// 	return *this;
+			// }
 
+			// iterator operator++(T) {
+			// 	iterator temp = *this;
+			// 	++(*this);
+			// 	return temp;
+			// }
+
+			// iterator
+			
 		private:
 			pointer	m_ptr;
 
@@ -112,7 +126,30 @@ namespace ft {
 				}
 			}
 
-			~vector() {}
+			vector &operator=(const vector &x) {
+				std::cout << "ASSIGNEMNT OP" << std::endl;
+				if (this != &x) {
+					this->m_data = x.m_data;
+					this->m_alloc = x.m_alloc;
+					// this->m_alloc.allocate(x.m_capacity, NULL);
+					this->m_size = x.m_size;
+					this->m_capacity = x.m_capacity;
+				}
+				return *this;
+			}
+
+			vector(const vector& x) {
+				std::cout << "COPY OP" << std::endl;
+				*this = x;
+			}
+			
+
+			~vector() {
+				for (size_type i = 0; i < m_size; i++) {
+					m_alloc.destroy(m_data + i);
+				}
+				m_alloc.deallocate(m_data, m_capacity);
+			}
 
 			allocator_type get_allocator() const { return m_alloc; }
 
@@ -145,7 +182,7 @@ namespace ft {
 				}
 				return m_data[pos];
 			}
-			 
+
 			reference operator[](size_type pos)				{ return m_data[pos]; }
 			const_reference operator[](size_type pos) const	{ return m_data[pos]; }
 			reference front()								{ return m_data[0]; }
@@ -181,6 +218,14 @@ namespace ft {
 
 			/*
 			** Modifiers
+			**
+			** clear		clears the contents
+			** insert		inserts elements
+			** erase		erases elements
+			** push_back	adds an element to the end
+			** pop_back		removes the last element
+			** resize		changes the number of elements stored
+			** swap			swaps the contents
 			*/
 
 			void pop_back()	{ m_alloc.destroy(&m_data[m_size-- - 1]); }
