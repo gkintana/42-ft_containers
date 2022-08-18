@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/17 23:31:10 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/18 10:04:41 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,44 @@
 // https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c?rq=1
 // https://codereview.stackexchange.com/questions/94211/implementation-of-stdvector-class?rq=1
 // https://codereview.stackexchange.com/questions/96253/second-implementation-of-stdvector?rq=1
-// https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c?rq=1
+// https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
 
 namespace ft {
+
+	template < class T >
+	class iterator {
+		// C11
+		// using iterator_category = std::forward_iterator_tag;
+		// using difference_type   = std::ptrdiff_t;
+		// using value_type        = T;
+		// using pointer           = T*;
+		// using reference         = T&;
+
+		public:
+			typedef T							value_type;
+			typedef T*							pointer;
+			typedef T&							reference;
+			typedef std::ptrdiff_t				difference_type;
+			typedef std::forward_iterator_tag	iterator_category;
+
+
+			iterator(pointer ptr) : m_ptr(ptr) {}
+
+			~iterator() {}
+
+			
+
+		private:
+			pointer	m_ptr;
+
+		
+	};
+
+
+	template < class T >
+	class const_iterator {
+		
+	};
 
 	template < class T, class Allocator = std::allocator<T> >
 	class vector {
