@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/19 09:53:26 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/20 00:50:33 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <sstream>
 
 #include <vector>
+#include <iterator>
 
 // https://en.cppreference.com/w/cpp/container/vector
 // https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
@@ -51,38 +52,62 @@ namespace ft {
 			typedef std::forward_iterator_tag	iterator_category;
 
 
-			iterator(pointer data) : _ptr(data) {}
+			iterator(pointer _ptr) : _m_ptr(_ptr) {}
 
 			~iterator() {}
 
-			reference operator*() const { return *_ptr; }
+			reference operator*() const { return *_m_ptr; }
 
-			pointer operator->() { return _ptr; }
+			pointer operator->() const { return _m_ptr; }
 			
 			iterator &operator++() {
-				_ptr++;
+				_m_ptr++;
 				return *this;
 			}
 
+			// iterator operator++(int) {
 			iterator operator++(T) {
-				iterator temp = *this;
+				iterator _temp = *this;
 				++(*this);
-				return temp;
+				return _temp;
 			}
 
 			iterator &operator--() {
-				_ptr--;
+				_m_ptr--;
 				return *this;
 			}
 
+			// iterator operator--(int) {
 			iterator operator--(T) {
-				iterator temp = *this;
+				iterator _temp = *this;
 				--(*this);
-				return temp;
+				return _temp;
+			}
+
+			reference operator[](difference_type _n) const {
+				return _m_ptr[_n];
+			}
+
+			iterator operator+(difference_type _n) const {
+				return iterator(_m_ptr + _n);
+			}
+
+			iterator &operator+=(difference_type _n) {
+				_m_ptr += _n;
+				return *this;
+			}
+
+			iterator operator-(difference_type _n) const {
+				return iterator(_m_ptr - _n);
+			}
+
+			iterator &operator-=(difference_type _n) {
+				_m_ptr -= _n;
+				return *this;
 			}
 
 		private:
-			pointer	_ptr;
+			pointer	_m_ptr;
 
 		
 	};
@@ -102,13 +127,14 @@ namespace ft {
 			typedef Allocator									allocator_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
-			typedef ft::iterator<T>								iterator;
-			// typedef implementation-defined						iterator;
-			// typedef implementation-defined						const_iterator;
 			typedef typename allocator_type::size_type			size_type;
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
+			typedef ft::iterator<T>								iterator;
+			typedef ft::iterator<const T>						const_iterator;
+			// typedef implementation-defined						iterator;
+			// typedef implementation-defined						const_iterator;
 			// typedef std::reverse_iterator<iterator>				reverse_iterator;
 			// typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
 
