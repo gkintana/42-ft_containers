@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/18 21:21:29 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/19 09:49:53 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # define DEFAULT		"\033[0m"
 # define RED			"\033[1;31m"
-# define GREEN			"\033[1;32m"
+# define GREEN			"\033[1;4;32m"
 # define YELLOW			"\033[3;33m"
 
 using namespace std;
@@ -55,7 +55,8 @@ int main() {
 
 	/*-----------------------------------------------------------------------*/
 	
-	cout << "\n::Pop_Back() Tests" << endl;
+	cout << GREEN "\n::Pop_Back() Tests" DEFAULT << endl;
+
 	vector<int> std_pop(10, 42);
 	ft::vector<int> ft_pop(10, 42);
 
@@ -144,6 +145,16 @@ int main() {
 	// cout << vCopy.capacity() << endl;
 	// cout << vCopy[2] << endl;
 	/*-----------------------------------------------------------------------*/
+
+	cout << GREEN "\nIterator ::begin() & ::end() Tests" DEFAULT << endl;
+
+	vector<int> std_iter(3, 5);
+	cout << "std.begin() = " << *std_iter.begin() << endl;
+	cout << "std.end() = " << *std_iter.end() << endl;
+
+	ft::vector<int> ft_iter(3, 5);
+	cout << "ft.begin() = " << *ft_iter.begin() << endl;
+	cout << "ft.end() = " << *ft_iter.end() << endl;
 
 	return 0;
 }

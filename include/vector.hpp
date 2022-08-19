@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/18 21:25:13 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/19 09:53:26 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,26 +122,26 @@ namespace ft {
 			** get_allocator	returns the associated allocator
 			*/
 
-			explicit vector(const allocator_type &alloc = allocator_type()) :	m_data(NULL),
-																				m_alloc(alloc),
-																				m_size(0),
-																				m_capacity(0) {}
+			explicit vector(const allocator_type &alloc = allocator_type()) :	_data(NULL),
+																				_alloc(alloc),
+																				_size(0),
+																				_capacity(0) {}
 
 			explicit vector(size_type n, const value_type &val = value_type(), 
-							const allocator_type &alloc = allocator_type()) :	m_alloc(alloc),
-																				m_size(n),
-																				m_capacity(n * 2) {
-				m_data = m_alloc.allocate(m_capacity, NULL);
-				for (size_type i = 0; i < m_size; i++) {
-					m_alloc.construct(m_data + i, val);
+							const allocator_type &alloc = allocator_type()) :	_alloc(alloc),
+																				_size(n),
+																				_capacity(n * 2) {
+				_data = _alloc.allocate(_capacity, NULL);
+				for (size_type i = 0; i < _size; i++) {
+					_alloc.construct(_data + i, val);
 				}
 			}
 
 			~vector() {
-				for (size_type i = 0; i < m_size; i++) {
-					m_alloc.destroy(m_data + i);
+				for (size_type i = 0; i < _size; i++) {
+					_alloc.destroy(_data + i);
 				}
-				m_alloc.deallocate(m_data, m_capacity);
+				_alloc.deallocate(_data, _capacity);
 			}
 
 			vector(const vector& x) {
@@ -152,15 +152,15 @@ namespace ft {
 			vector &operator=(const vector &x) {
 				std::cout << "ASSIGNEMNT OP" << std::endl;
 				if (this != &x) {
-					this->m_data = x.m_data;
-					this->m_alloc = x.m_alloc;
-					this->m_size = x.m_size;
-					this->m_capacity = x.m_capacity;
+					_data = x._data;
+					_alloc = x._alloc;
+					_size = x._size;
+					_capacity = x._capacity;
 				}
 				return *this;
 			}
 
-			allocator_type get_allocator() const { return m_alloc; }
+			allocator_type get_allocator() const { return _alloc; }
 
 
 			/*
@@ -174,35 +174,49 @@ namespace ft {
 			*/
 
 			reference at(size_type pos) {
-				if (pos >= m_size) {
+				if (pos >= _size) {
 					std::stringstream str;
-					str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << m_size << ")";
+					str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << _size << ")";
 					throw std::out_of_range(str.str());
 				}
-				return m_data[pos];
+				return _data[pos];
 			}
 
 			const_reference at(size_type pos) const {
-				if (pos >= m_size) {
+				if (pos >= _size) {
 					std::stringstream str;
-					str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << m_size << ")";
+					str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << _size << ")";
 					throw std::out_of_range(str.str());
 				}
-				return m_data[pos];
+				return _data[pos];
 			}
 
-			reference operator[](size_type pos)				{ return m_data[pos]; }
-			const_reference operator[](size_type pos) const	{ return m_data[pos]; }
-			reference front()								{ return m_data[0]; }
-			const_reference front() const					{ return m_data[0]; }
-			reference back()								{ return m_data[m_size - 1]; }
-			const_reference back() const					{ return m_data[m_size - 1]; }
-			T* data()										{ return m_data; }
-			const T* data() const							{ return m_data; }
+			reference operator[](size_type pos)				{ return _data[pos]; }
+			const_reference operator[](size_type pos) const	{ return _data[pos]; }
+			reference front()								{ return _data[0]; }
+			const_reference front() const					{ return _data[0]; }
+			reference back()								{ return _data[_size - 1]; }
+			const_reference back() const					{ return _data[_size - 1]; }
+			T* data()										{ return _data; }
+			const T* data() const							{ return _data; }
+
 
 			/*
 			** Iterators
+			**
+			** begin		returns an iterator to the beginning
+			** end			returns an iterator to the end
+			** rbegin		returns a reverse iterator to the beginning
+			** rend			returns a reverse iterator to the end
 			*/
+
+			iterator begin() { return iterator(_data); }
+
+			// const_iterator begin() {}
+
+			iterator end() { return iterator(_data + _size); }
+
+			// const_iterator end() {}
 
 
 			/*
@@ -215,10 +229,10 @@ namespace ft {
 			** capacity			returns the number of elements that can be held in currently allocated storage
 			*/
 
-			bool empty()					{ return !m_size ? true : false; }
-			size_type size()				{ return m_size; }
+			bool empty()					{ return !_size ? true : false; }
+			size_type size()				{ return _size; }
 			// size_type max_size()			{ return ; }
-			size_type capacity()			{ return m_capacity; }
+			size_type capacity()			{ return _capacity; }
 			void reserve(size_type new_cap)	{
 				(void)new_cap;
 			}
@@ -236,14 +250,14 @@ namespace ft {
 			** swap			swaps the contents
 			*/
 
-			void pop_back()	{ m_alloc.destroy(&m_data[m_size-- - 1]); }
+			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
 
 
 		private:
-			pointer			m_data;
-			allocator_type	m_alloc;
-			size_type		m_size;
-			size_type		m_capacity;
+			pointer			_data;
+			allocator_type	_alloc;
+			size_type		_size;
+			size_type		_capacity;
 
 	};
 
