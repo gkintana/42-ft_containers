@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/19 09:49:53 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/20 23:26:21 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,13 +148,36 @@ int main() {
 
 	cout << GREEN "\nIterator ::begin() & ::end() Tests" DEFAULT << endl;
 
+	{
+		vector<int> std_iter(3, 5);
+		cout << "std.begin() = " << *std_iter.begin() << endl;
+		cout << "std.end() = " << *std_iter.end() << endl;
+
+		ft::vector<int> ft_iter(3, 5);
+		cout << "ft.begin() = " << *ft_iter.begin() << endl;
+		cout << "ft.end() = " << *ft_iter.end() << endl;
+	}
+
+	/*-----------------------------------------------------------------------*/
+
+	cout << GREEN "\nIterator Tests" DEFAULT << endl;
+
 	vector<int> std_iter(3, 5);
-	cout << "std.begin() = " << *std_iter.begin() << endl;
-	cout << "std.end() = " << *std_iter.end() << endl;
+	vector<int> ::iterator std;
+
+	for (std = std_iter.begin(); std != std_iter.end(); std++) {
+		cout << *std << endl;
+	}
+	cout << *std << endl;
 
 	ft::vector<int> ft_iter(3, 5);
-	cout << "ft.begin() = " << *ft_iter.begin() << endl;
-	cout << "ft.end() = " << *ft_iter.end() << endl;
+	ft::vector<int>::iterator ft;
+
+	for (ft = ft_iter.begin(); ft != ft_iter.end(); ft++) {
+		cout << *ft << endl;
+	}
+	cout << *ft << endl;
+	
 
 	return 0;
 }

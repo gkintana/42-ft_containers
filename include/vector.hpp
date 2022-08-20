@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/20 00:50:33 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/20 23:28:17 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,29 @@ namespace ft {
 			typedef std::ptrdiff_t				difference_type;
 			typedef std::forward_iterator_tag	iterator_category;
 
+			iterator() : _m_ptr() {}
 
 			iterator(pointer _ptr) : _m_ptr(_ptr) {}
 
 			~iterator() {}
 
+			iterator &operator=(const iterator& _value) {
+				this->_m_ptr = _value._m_ptr;
+				return *this;
+			}
+
 			reference operator*() const { return *_m_ptr; }
 
 			pointer operator->() const { return _m_ptr; }
-			
+
+			pointer base() const { return _m_ptr; }
+
+			reference operator[](difference_type _n) const { return _m_ptr[_n]; }
+
+			iterator operator+(difference_type _n) const { return iterator(_m_ptr + _n); }
+
+			iterator operator-(difference_type _n) const { return iterator(_m_ptr - _n); }
+
 			iterator &operator++() {
 				_m_ptr++;
 				return *this;
@@ -84,21 +98,9 @@ namespace ft {
 				return _temp;
 			}
 
-			reference operator[](difference_type _n) const {
-				return _m_ptr[_n];
-			}
-
-			iterator operator+(difference_type _n) const {
-				return iterator(_m_ptr + _n);
-			}
-
 			iterator &operator+=(difference_type _n) {
 				_m_ptr += _n;
 				return *this;
-			}
-
-			iterator operator-(difference_type _n) const {
-				return iterator(_m_ptr - _n);
 			}
 
 			iterator &operator-=(difference_type _n) {
@@ -109,14 +111,49 @@ namespace ft {
 		private:
 			pointer	_m_ptr;
 
-		
 	};
 
+	template < typename _iterator >
+	inline bool
+	operator==(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() == _rhs.base();
+	}
 
-	template < class T >
-	class const_iterator {
+	template < typename _iterator >
+	inline bool
+	operator!=(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() != _rhs.base();
+	}
+
+	template < typename _iterator >
+	inline bool
+	operator<(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() < _rhs.base();
+	}
+
+	template < typename _iterator >
+	inline bool
+	operator<=(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() <= _rhs.base();
+	}
+
+	template < typename _iterator >
+	inline bool
+	operator>(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() > _rhs.base();
+	}
+
+	template < typename _iterator >
+	inline bool
+	operator>=(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() >= _rhs.base();
+	}
+
+
+	// template < class T >
+	// class const_iterator {
 		
-	};
+	// };
 
 	template < class T, class Allocator = std::allocator<T> >
 	class vector {
@@ -218,12 +255,19 @@ namespace ft {
 			}
 
 			reference operator[](size_type pos)				{ return _data[pos]; }
+
 			const_reference operator[](size_type pos) const	{ return _data[pos]; }
+
 			reference front()								{ return _data[0]; }
+
 			const_reference front() const					{ return _data[0]; }
+
 			reference back()								{ return _data[_size - 1]; }
+
 			const_reference back() const					{ return _data[_size - 1]; }
+
 			T* data()										{ return _data; }
+
 			const T* data() const							{ return _data; }
 
 
