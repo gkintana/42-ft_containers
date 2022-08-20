@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/20 23:28:17 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/21 00:15:34 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,8 @@ namespace ft {
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
-			typedef ft::iterator<T>								iterator;
-			typedef ft::iterator<const T>						const_iterator;
+			typedef ft::iterator<value_type>					iterator;
+			typedef ft::iterator<const value_type>				const_iterator;
 			// typedef implementation-defined						iterator;
 			// typedef implementation-defined						const_iterator;
 			// typedef std::reverse_iterator<iterator>				reverse_iterator;
@@ -200,6 +200,7 @@ namespace ft {
 				}
 			}
 
+			// NEEDS REVISION
 			~vector() {
 				for (size_type i = 0; i < _size; i++) {
 					_alloc.destroy(_data + i);
@@ -207,11 +208,13 @@ namespace ft {
 				_alloc.deallocate(_data, _capacity);
 			}
 
+			// NEEDS REVISION
 			vector(const vector& x) {
 				std::cout << "COPY OP" << std::endl;
 				*this = x;
 			}
 
+			// NEEDS REVISION
 			vector &operator=(const vector &x) {
 				std::cout << "ASSIGNEMNT OP" << std::endl;
 				if (this != &x) {
@@ -254,21 +257,21 @@ namespace ft {
 				return _data[pos];
 			}
 
-			reference operator[](size_type pos)				{ return _data[pos]; }
+			reference operator[](size_type pos) { return _data[pos]; }
 
-			const_reference operator[](size_type pos) const	{ return _data[pos]; }
+			const_reference operator[](size_type pos) const { return _data[pos]; }
 
-			reference front()								{ return _data[0]; }
+			reference front() { return _data[0]; }
 
-			const_reference front() const					{ return _data[0]; }
+			const_reference front() const { return _data[0]; }
 
-			reference back()								{ return _data[_size - 1]; }
+			reference back() { return _data[_size - 1]; }
 
-			const_reference back() const					{ return _data[_size - 1]; }
+			const_reference back() const { return _data[_size - 1]; }
 
-			T* data()										{ return _data; }
+			T* data() { return _data; }
 
-			const T* data() const							{ return _data; }
+			const T* data() const { return _data; }
 
 
 			/*
@@ -282,11 +285,11 @@ namespace ft {
 
 			iterator begin() { return iterator(_data); }
 
-			// const_iterator begin() {}
+			const_iterator begin() const { return const_iterator(_data); }
 
 			iterator end() { return iterator(_data + _size); }
 
-			// const_iterator end() {}
+			const_iterator end() const { return const_iterator(_data + _size); }
 
 
 			/*
@@ -299,11 +302,15 @@ namespace ft {
 			** capacity			returns the number of elements that can be held in currently allocated storage
 			*/
 
-			bool empty()					{ return !_size ? true : false; }
-			size_type size()				{ return _size; }
-			// size_type max_size()			{ return ; }
-			size_type capacity()			{ return _capacity; }
-			void reserve(size_type new_cap)	{
+			bool empty() { return !_size ? true : false; }
+
+			size_type size() { return _size; }
+
+			size_type max_size() const { return _alloc.max_size(); }
+
+			size_type capacity() { return _capacity; }
+
+			void reserve(size_type new_cap) {
 				(void)new_cap;
 			}
 
@@ -320,7 +327,31 @@ namespace ft {
 			** swap			swaps the contents
 			*/
 
+			void clear() {
+				for (size_type i = 0; i < _size; i++) {
+					_alloc.destroy(_data + i);
+				}
+				_size = 0;
+			}
+
 			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
+
+			void swap(vector &_x) {
+				pointer _temp_data = this->_data;
+				allocator_type _temp_alloc = this->_alloc;
+				size_type _temp_size = this->_size;
+				size_type _temp_capacity = this->_capacity;
+
+				this->_data = _x._data;
+				this->_alloc = _x._alloc;
+				this->_size = _x._size;
+				this->_capacity = _x._capacity;
+
+				_x._data = _temp_data;
+				_x._alloc = _temp_alloc;
+				_x._size = _temp_size;
+				_x._capacity = _temp_capacity;
+			}
 
 
 		private:
