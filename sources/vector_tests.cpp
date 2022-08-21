@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/21 00:28:27 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/21 14:05:13 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ int main() {
 	for (std::vector<int>::iterator i = std_sample2.begin(); i != std_sample2.end(); i++) {
 		cout << *i << endl;
 	}
-	std_sample1.swap(std_sample2);\
+	std_sample1.swap(std_sample2);
 	std::cout << "std_sample1 contents after ::swap()" << endl;
 	for (std::vector<int>::iterator i = std_sample1.begin(); i != std_sample1.end(); i++) {
 		cout << *i << endl;
@@ -263,6 +263,22 @@ int main() {
 	}
 	std::cout << "ft_sample2 contents after ::swap()" << endl;
 	for (ft::vector<int>::iterator i = ft_sample2.begin(); i != ft_sample2.end(); i++) {
+		cout << *i << endl;
+	}
+
+	/*-----------------------------------------------------------------------*/
+
+	cout << GREEN "\nSimple Push Test" DEFAULT << endl;
+	ft::vector<int> ft_simple_push(3, 1);
+	cout << ft_simple_push.size() << endl;
+	cout << ft_simple_push.capacity() << endl;
+	ft_simple_push.push_back(2);
+	ft_simple_push.push_back(3);
+	ft_simple_push.push_back(4);
+	ft_simple_push.push_back(5);
+	cout << ft_simple_push.size() << endl;
+	cout << ft_simple_push.capacity() << endl;
+	for (ft::vector<int>::iterator i = ft_simple_push.begin(); i != ft_simple_push.end(); i++) {
 		cout << *i << endl;
 	}
 

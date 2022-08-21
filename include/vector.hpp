@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/21 00:15:34 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/21 14:52:37 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,8 +310,15 @@ namespace ft {
 
 			size_type capacity() { return _capacity; }
 
-			void reserve(size_type new_cap) {
-				(void)new_cap;
+			void reserve(size_type new_capacity) {
+				if (new_capacity > this->max_size()) {
+					throw std::length_error("ft::vector::reserve");
+				} else if (_capacity < new_capacity) {
+				// 	const size_type _old_size = _size;
+				// 	pointer _temp;
+					
+				}
+				// (void)new_capacity;
 			}
 
 
@@ -332,6 +339,14 @@ namespace ft {
 					_alloc.destroy(_data + i);
 				}
 				_size = 0;
+			}
+
+			void push_back(const value_type &value) {
+				if (_size >= _capacity) {
+					std::cout << "INCREASE CAPACITY" << std::endl;
+				}
+				_alloc.construct(_data + _size, value);
+				_size++;
 			}
 
 			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
