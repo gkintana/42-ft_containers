@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/22 22:17:52 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/22 23:22:12 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,15 @@ namespace ft {
 				return *this;
 			}
 
+			// template <class InputIterator>
+			// void assign(InputIterator first, InputIterator last) {
+				
+			// }
+
+			// void assign(size_type n, const value_type& val) {
+				
+			// }
+
 			allocator_type get_allocator() const { return _alloc; }
 
 
@@ -291,6 +300,14 @@ namespace ft {
 
 			const_iterator end() const { return const_iterator(_data + _size); }
 
+			// reverse_iterator rbegin() {}
+
+			// const_reverse_iterator rbegin() {}
+
+			// reverse_iterator rend() {}
+
+			// const_reverse_iterator rend() {}
+
 
 			/**
 			** Capacity
@@ -298,8 +315,8 @@ namespace ft {
 			** empty			checks whether the container is empty
 			** size				returns the number of elements
 			** max_size			returns the maximum possible number of elements
-			** reserve			reserves storage
 			** capacity			returns the number of elements that can be held in currently allocated storage
+			** reserve			reserves storage
 			*/
 
 			bool empty() { return !_size ? true : false; }
@@ -351,6 +368,27 @@ namespace ft {
 				_size = 0;
 			}
 
+			// iterator insert(iterator position, const value_type &val) {
+
+			// }
+
+			// void insert(iterator position, size_type n, const value_type &val) {
+				
+			// }
+
+			// template <class InputIterator>
+			// void insert(iterator position, InputIterator first, InputIterator last) {
+				
+			// }
+
+			// iterator erase(iterator position) {
+
+			// }
+
+			// iterator erase(iterator first, iterator last) {
+				
+			// }
+
 			void push_back(const value_type &_value) {
 				if (!_capacity) {
 					this->reserve(1);
@@ -362,6 +400,10 @@ namespace ft {
 			}
 
 			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
+
+			// void resize(size_type _n, value_type _val = value_type()) {
+				
+			// }
 
 			void swap(vector &_x) {
 				pointer _temp_data = _data;
