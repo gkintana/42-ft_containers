@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:55 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/21 21:36:10 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/22 18:26:44 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,15 @@ namespace ft {
 			typedef typename container_type::reference			reference;
 			typedef typename container_type::const_reference	const_reference;
 
+			stack() : _ft_vector() {}
+
 			/**
 			** Element Access
 			**
 			** top	accesses the top element
 			*/
 
+			reference top() { return _ft_vector.back(); }
 
 			/**
 			** Capacity
@@ -43,6 +46,9 @@ namespace ft {
 			** size		returns the number of elements
 			*/
 
+			bool empty() { return _ft_vector.empty(); }
+
+			size_type size() { return _ft_vector.size(); }
 
 			/**
 			** Modifiers
@@ -51,6 +57,9 @@ namespace ft {
 			** pop		removes the top element
 			*/
 
+			void push(const value_type &value) { _ft_vector.push_back(value); }
+
+			void pop() { _ft_vector.pop_back(); }
 
 		private:
 

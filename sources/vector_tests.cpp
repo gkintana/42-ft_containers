@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/21 14:05:13 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/22 18:27:07 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <vector>
 
 #include <vector.hpp>
+#include <stack.hpp>
 
 # define DEFAULT		"\033[0m"
 # define RED			"\033[1;31m"
@@ -272,15 +273,39 @@ int main() {
 	ft::vector<int> ft_simple_push(3, 1);
 	cout << ft_simple_push.size() << endl;
 	cout << ft_simple_push.capacity() << endl;
+
 	ft_simple_push.push_back(2);
 	ft_simple_push.push_back(3);
 	ft_simple_push.push_back(4);
 	ft_simple_push.push_back(5);
+	ft_simple_push.push_back(6);
+	ft_simple_push.push_back(7);
+	ft_simple_push.push_back(8);
+
 	cout << ft_simple_push.size() << endl;
 	cout << ft_simple_push.capacity() << endl;
 	for (ft::vector<int>::iterator i = ft_simple_push.begin(); i != ft_simple_push.end(); i++) {
 		cout << *i << endl;
 	}
+
+
+
+	ft::stack<int> s;
+
+	cout << boolalpha << s.empty() << endl;
+	cout << s.size() << endl;
+
+	for (size_t i = 0; i < 10; i++) {
+		s.push(i);
+		cout << s.top() << endl;
+	}
+	cout << s.size() << endl;
+
+	for (size_t i = 0; i < 10; i++) {
+		s.pop();
+		// cout << s.top() << endl;
+	}
+	cout << s.size() << endl;
 
 	return 0;
 }

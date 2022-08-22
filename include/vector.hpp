@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/21 14:52:37 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/22 18:18:33 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ namespace ft {
 			typedef std::ptrdiff_t				difference_type;
 			typedef std::forward_iterator_tag	iterator_category;
 
-			iterator() : _m_ptr() {}
+			iterator() : _m_ptr(NULL) {}
 
 			iterator(pointer _ptr) : _m_ptr(_ptr) {}
 
@@ -193,7 +193,7 @@ namespace ft {
 			explicit vector(size_type n, const value_type &val = value_type(), 
 							const allocator_type &alloc = allocator_type()) :	_alloc(alloc),
 																				_size(n),
-																				_capacity(n * 2) {
+																				_capacity(n) {
 				_data = _alloc.allocate(_capacity, NULL);
 				for (size_type i = 0; i < _size; i++) {
 					_alloc.construct(_data + i, val);
@@ -342,8 +342,40 @@ namespace ft {
 			}
 
 			void push_back(const value_type &value) {
-				if (_size >= _capacity) {
-					std::cout << "INCREASE CAPACITY" << std::endl;
+				if (!_capacity) {
+					_size = 0;
+					_capacity = 1;
+
+					// allocator_type _temp_alloc;
+					_data = _alloc.allocate(_capacity * 2, NULL);
+
+					// for (size_type i = 0; i < _size; i++) {
+					// _alloc = _temp_alloc;
+					_alloc.construct(_data, value);
+					// }
+					// for (size_type i = 0; i < _size; i++) {
+						// _alloc.destroy(_data + i);
+					// }
+					// _alloc.deallocate(_data, 0);
+
+					// _data = _temp_data;
+					// _alloc = _temp_alloc;
+					// _capacity *= 2;
+				} else if (_size >= _capacity) {
+					allocator_type _temp_alloc;
+					pointer _temp_data = _temp_alloc.allocate(_capacity * 2, NULL);
+
+					for (size_type i = 0; i < _size; i++) {
+						_temp_alloc.construct(_temp_data + i, *(_data + i));
+					}
+					for (size_type i = 0; i < _size; i++) {
+						_alloc.destroy(_data + i);
+					}
+					_alloc.deallocate(_data, 0);
+
+					_data = _temp_data;
+					_alloc = _temp_alloc;
+					_capacity *= 2;
 				}
 				_alloc.construct(_data + _size, value);
 				_size++;
@@ -352,15 +384,15 @@ namespace ft {
 			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
 
 			void swap(vector &_x) {
-				pointer _temp_data = this->_data;
-				allocator_type _temp_alloc = this->_alloc;
-				size_type _temp_size = this->_size;
-				size_type _temp_capacity = this->_capacity;
+				pointer _temp_data = _data;
+				allocator_type _temp_alloc = _alloc;
+				size_type _temp_size = _size;
+				size_type _temp_capacity = _capacity;
 
-				this->_data = _x._data;
-				this->_alloc = _x._alloc;
-				this->_size = _x._size;
-				this->_capacity = _x._capacity;
+				_data = _x._data;
+				_alloc = _x._alloc;
+				_size = _x._size;
+				_capacity = _x._capacity;
 
 				_x._data = _temp_data;
 				_x._alloc = _temp_alloc;
