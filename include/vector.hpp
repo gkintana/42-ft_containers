@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/22 18:18:33 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:17:52 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ namespace ft {
 			// typedef std::reverse_iterator<iterator>				reverse_iterator;
 			// typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
 
-			/*
+			/**
 			** Member Functions
 			**
 			** constructor		constructs the vector
@@ -229,7 +229,7 @@ namespace ft {
 			allocator_type get_allocator() const { return _alloc; }
 
 
-			/*
+			/**
 			** Element Access
 			**
 			** at				access specified element with bounds checking
@@ -239,42 +239,42 @@ namespace ft {
 			** data				direct access to the underlying array
 			*/
 
-			reference at(size_type pos) {
-				if (pos >= _size) {
+			reference at(size_type _pos) {
+				if (_pos >= _size) {
 					std::stringstream str;
-					str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << _size << ")";
+					str << "vector::range_check: pos (which is " << _pos << ") >= this->m_size() (which is " << _size << ")";
 					throw std::out_of_range(str.str());
 				}
-				return _data[pos];
+				return *(_data + _pos);
 			}
 
-			const_reference at(size_type pos) const {
-				if (pos >= _size) {
+			const_reference at(size_type _pos) const {
+				if (_pos >= _size) {
 					std::stringstream str;
-					str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << _size << ")";
+					str << "ft::vector::at(): pos (which is " << _pos << ") >= this->size() (which is " << _size << ")";
 					throw std::out_of_range(str.str());
 				}
-				return _data[pos];
+				return *(_data + _pos);
 			}
 
-			reference operator[](size_type pos) { return _data[pos]; }
+			reference operator[](size_type _pos) { return *(_data + _pos); }
 
-			const_reference operator[](size_type pos) const { return _data[pos]; }
+			const_reference operator[](size_type _pos) const { return *(_data + _pos); }
 
-			reference front() { return _data[0]; }
+			reference front() { return *this->begin(); }
 
-			const_reference front() const { return _data[0]; }
+			const_reference front() const { return *this->begin(); }
 
-			reference back() { return _data[_size - 1]; }
+			reference back() { return *(this->end() - 1); }
 
-			const_reference back() const { return _data[_size - 1]; }
+			const_reference back() const { return *(this->end() - 1); }
 
 			T* data() { return _data; }
 
 			const T* data() const { return _data; }
 
 
-			/*
+			/**
 			** Iterators
 			**
 			** begin		returns an iterator to the beginning
@@ -292,7 +292,7 @@ namespace ft {
 			const_iterator end() const { return const_iterator(_data + _size); }
 
 
-			/*
+			/**
 			** Capacity
 			**
 			** empty			checks whether the container is empty
@@ -310,19 +310,29 @@ namespace ft {
 
 			size_type capacity() { return _capacity; }
 
-			void reserve(size_type new_capacity) {
-				if (new_capacity > this->max_size()) {
+			void reserve(size_type _new_cap) {
+				if (_new_cap > this->max_size()) {
 					throw std::length_error("ft::vector::reserve");
-				} else if (_capacity < new_capacity) {
-				// 	const size_type _old_size = _size;
-				// 	pointer _temp;
-					
+				} else if (_capacity < _new_cap) {
+					allocator_type _temp_alloc;
+					pointer _temp_data = _temp_alloc.allocate(_new_cap);
+
+					for (size_type i = 0; i < _size; i++) {
+						_temp_alloc.construct(_temp_data + i, *(_data + i));
+					}
+					for (size_type i = 0; i < _size; i++) {
+						_alloc.destroy(_data + i);
+					}
+					_alloc.deallocate(_data, _capacity);
+
+					_data = _temp_data;
+					_alloc = _temp_alloc;
+					_capacity = _new_cap;
 				}
-				// (void)new_capacity;
 			}
 
 
-			/*
+			/**
 			** Modifiers
 			**
 			** clear		clears the contents
@@ -341,43 +351,13 @@ namespace ft {
 				_size = 0;
 			}
 
-			void push_back(const value_type &value) {
+			void push_back(const value_type &_value) {
 				if (!_capacity) {
-					_size = 0;
-					_capacity = 1;
-
-					// allocator_type _temp_alloc;
-					_data = _alloc.allocate(_capacity * 2, NULL);
-
-					// for (size_type i = 0; i < _size; i++) {
-					// _alloc = _temp_alloc;
-					_alloc.construct(_data, value);
-					// }
-					// for (size_type i = 0; i < _size; i++) {
-						// _alloc.destroy(_data + i);
-					// }
-					// _alloc.deallocate(_data, 0);
-
-					// _data = _temp_data;
-					// _alloc = _temp_alloc;
-					// _capacity *= 2;
-				} else if (_size >= _capacity) {
-					allocator_type _temp_alloc;
-					pointer _temp_data = _temp_alloc.allocate(_capacity * 2, NULL);
-
-					for (size_type i = 0; i < _size; i++) {
-						_temp_alloc.construct(_temp_data + i, *(_data + i));
-					}
-					for (size_type i = 0; i < _size; i++) {
-						_alloc.destroy(_data + i);
-					}
-					_alloc.deallocate(_data, 0);
-
-					_data = _temp_data;
-					_alloc = _temp_alloc;
-					_capacity *= 2;
+					this->reserve(1);
+				} else if (_size == _capacity) {
+					this->reserve(_capacity * 2);
 				}
-				_alloc.construct(_data + _size, value);
+				_alloc.construct(_data + _size, _value);
 				_size++;
 			}
 
@@ -406,10 +386,9 @@ namespace ft {
 			allocator_type	_alloc;
 			size_type		_size;
 			size_type		_capacity;
-
 	};
 
-	/*
+	/**
 	** Non-Member Functions
 	*/
 

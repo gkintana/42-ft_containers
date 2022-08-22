@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:55 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/22 18:26:44 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:16:44 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ namespace ft {
 			** pop		removes the top element
 			*/
 
-			void push(const value_type &value) { _ft_vector.push_back(value); }
+			void push(const value_type &_value) { _ft_vector.push_back(_value); }
 
 			void pop() { _ft_vector.pop_back(); }
 
