@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/22 23:22:12 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:18:05 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,12 +381,33 @@ namespace ft {
 				
 			// }
 
-			// iterator erase(iterator position) {
-
-			// }
+			iterator erase(iterator pos) {
+				// ADD RANGE CHECK
+				// if (static_cast<size_type>() > _size) {
+				// 	throw std::out_of_range("ft::vector::range_check pos is out of range");
+				// }
+				// std::cout << "*pos = " << static_cast<size_type>(*pos) << std::endl;
+				// _alloc.destroy(_data + *pos);
+				// for (size_type i = pos; i < _size; i++) {
+				// 	// _alloc.construct(_data + i, *(_data + i + 1));
+				// 	_data[i] = _data[i + 1];
+				// }
+				for (iterator i = pos; i != this->end() - 1; i++) {
+					*i = *(i + 1);
+				}
+				_size--;
+				if (pos == iterator(_data + _size)) {
+					return this->end();
+				}
+				return pos;
+			}
 
 			// iterator erase(iterator first, iterator last) {
 				
+			// 	if (last == end()) {
+					
+			// 	}
+			// 	return pos;
 			// }
 
 			void push_back(const value_type &_value) {

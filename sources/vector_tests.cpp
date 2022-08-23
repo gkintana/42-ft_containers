@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/22 18:27:07 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/23 18:18:16 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,24 +288,65 @@ int main() {
 		cout << *i << endl;
 	}
 
+	/*-----------------------------------------------------------------------*/
 
-
-	ft::stack<int> s;
-
-	cout << boolalpha << s.empty() << endl;
-	cout << s.size() << endl;
-
-	for (size_t i = 0; i < 10; i++) {
-		s.push(i);
-		cout << s.top() << endl;
+	cout << GREEN "\nvector::erase Test" DEFAULT << endl;
+	std::vector<int> std_erase;
+	for (size_t i = 8; i < 12; i++) {
+		std_erase.push_back(i + 1);
 	}
-	cout << s.size() << endl;
-
-	for (size_t i = 0; i < 10; i++) {
-		s.pop();
-		// cout << s.top() << endl;
+	for (size_t i = 0; i < std_erase.size(); i++) {
+		std::cout << std_erase[i] << std::endl;
 	}
-	cout << s.size() << endl;
+	std::cout << "std::vector::size = " << std_erase.size() << std::endl;
+	std::cout << "std::vector::capacity = " << std_erase.capacity() << std::endl;
+
+	int index = 2;
+	std::cout << YELLOW "Erased std_erase.begin() + " << index << DEFAULT << std::endl;
+	std_erase.erase(std_erase.begin() + index);
+	for (std::vector<int>::iterator i = std_erase.begin(); i != std_erase.end(); i++) {
+		cout << *i << endl;
+	}
+	std::cout << "std::vector::size = " << std_erase.size() << std::endl;
+	std::cout << "std::vector::capacity = " << std_erase.capacity() << std::endl;
+
+
+	ft::vector<int> ft_erase;
+	for (size_t i = 8; i < 12; i++) {
+		ft_erase.push_back(i + 1);
+	}
+	for (size_t i = 0; i < ft_erase.size(); i++) {
+		std::cout << ft_erase[i] << std::endl;
+	}
+	std::cout << "ft::vector::size = " << ft_erase.size() << std::endl;
+	std::cout << "ft::vector::capacity = " << ft_erase.capacity() << std::endl;
+
+	std::cout << YELLOW "Erased ft_erase.begin() + 2" DEFAULT << std::endl;
+	ft_erase.erase(ft_erase.begin() + 2);
+	for (ft::vector<int>::iterator i = ft_erase.begin(); i != ft_erase.end(); i++) {
+		cout << *i << endl;
+	}
+	std::cout << "ft::vector::size = " << ft_erase.size() << std::endl;
+	std::cout << "ft::vector::capacity = " << ft_erase.capacity() << std::endl;
+
+	/*-----------------------------------------------------------------------*/
+
+	// ft::stack<int> s;
+
+	// cout << boolalpha << s.empty() << endl;
+	// cout << s.size() << endl;
+
+	// for (size_t i = 0; i < 10; i++) {
+	// 	s.push(i);
+	// 	cout << s.top() << endl;
+	// }
+	// cout << s.size() << endl;
+
+	// for (size_t i = 0; i < 10; i++) {
+	// 	s.pop();
+	// 	// cout << s.top() << endl;
+	// }
+	// cout << s.size() << endl;
 
 	return 0;
 }
