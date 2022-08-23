@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/23 18:18:05 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/23 23:43:29 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,17 @@ namespace ft {
 		return _lhs.base() >= _rhs.base();
 	}
 
+	template < typename _iterator >
+	inline typename iterator<_iterator>::difference_type
+	operator-(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() - _rhs.base();
+	}
+
+	template < typename _iterator >
+	inline typename iterator<_iterator>::difference_type
+	operator+(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
+		return _lhs.base() + _rhs.base();
+	}
 
 	// template < class T >
 	// class const_iterator {
@@ -382,33 +393,46 @@ namespace ft {
 			// }
 
 			iterator erase(iterator pos) {
+				// std::cout << "ft::vector.size() = " << this->end() - this->begin() << std::endl;
+				// std::cout << "distance of pos from begin() = " << pos - this->begin() << std::endl;
+
 				// ADD RANGE CHECK
-				// if (static_cast<size_type>() > _size) {
-				// 	throw std::out_of_range("ft::vector::range_check pos is out of range");
-				// }
-				// std::cout << "*pos = " << static_cast<size_type>(*pos) << std::endl;
+				if (pos - this->begin() > this->end() - this->begin()) {
+					std::stringstream str;
+					str << "ft::vector::at(): pos (which is " << pos - this->begin() << ") >= this->size() (which is " << _size << ")";
+					throw std::out_of_range(str.str());
+				}
+
 				// _alloc.destroy(_data + *pos);
-				// for (size_type i = pos; i < _size; i++) {
-				// 	// _alloc.construct(_data + i, *(_data + i + 1));
+				// for (size_type i = pos - this->begin(); i < _size; i++) {
 				// 	_data[i] = _data[i + 1];
 				// }
 				for (iterator i = pos; i != this->end() - 1; i++) {
 					*i = *(i + 1);
 				}
 				_size--;
-				if (pos == iterator(_data + _size)) {
-					return this->end();
-				}
+				// if (pos == this->end()) {
+				// 	return this->end();
+				// }
 				return pos;
 			}
 
-			// iterator erase(iterator first, iterator last) {
-				
-			// 	if (last == end()) {
-					
-			// 	}
-			// 	return pos;
-			// }
+			iterator erase(iterator _first, iterator _last) {
+				// ADD RANGE CHECK
+
+				size_type start = _first - this->begin(),
+				          end = _last - this->begin(),
+				          range = _last - _first,
+						  pos = 0;
+
+				for (size_type i = 0; i < _size; i++) {
+					if (i >= start && end + pos < _size) {
+						_data[i] = _data[end + pos++];
+					}
+				}
+				_size -= range;
+				return _first;
+			}
 
 			void push_back(const value_type &_value) {
 				if (!_capacity) {
