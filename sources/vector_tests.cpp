@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/23 23:43:48 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/24 18:20:18 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,7 +351,7 @@ int main() {
 			std::cout << std_erase[i] << std::endl;
 		}
 
-		std::cout << YELLOW "\nft::erase initial contents" DEFAULT << std::endl;
+		std::cout << YELLOW "\nft_erase initial contents" DEFAULT << std::endl;
 		ft::vector<int> ft_erase;
 
 		for (size_t i = 0; i < 10; i++) {
@@ -360,12 +360,70 @@ int main() {
 		for (ft::vector<int>::iterator i = ft_erase.begin(); i != ft_erase.end(); i++) {
 			std::cout << *i << std::endl;
 		}
-		std::cout << YELLOW "\nft::erase new contents" DEFAULT << std::endl;
+		std::cout << YELLOW "\nft_erase new contents" DEFAULT << std::endl;
 		ft_erase.erase(ft_erase.begin() + 2, ft_erase.begin() + 8);
 		for (size_t i = 0; i < ft_erase.size(); i++) {
 			std::cout << ft_erase[i] << std::endl;
 		}
 	}
+
+
+	/*-----------------------------------------------------------------------*/
+
+	cout << GREEN "\nvector::resize() Tests" DEFAULT;
+
+	std::vector<int> std_resize;
+
+	for (size_t i = 1; i < 10; i++) {
+		std_resize.push_back(i);
+	}
+	try {
+		// std_resize.resize(-1354354354343634634);
+		// std_resize.resize(0);
+		// std_resize.resize(5);
+		// std_resize.resize(8,100);
+		// std_resize.resize(12);
+		std_resize.resize(17);
+		std_resize.resize(72123213123);
+	} catch (std::exception &e) {
+		std::cerr << "\n" << e.what() << std::endl;
+	}
+
+	// size_t n = -1354354354343634634;
+	// std::cout << std_resize.max_size() << std::endl;
+	// std::cout << n << std::endl;
+
+	std::cout << "\nstd::vector contents:";
+	// for (size_t i = 0; i < std_resize.size(); i++) {
+	// 	std::cout << ' ' << std_resize[i];
+	// }
+	std::cout << "\nstd::vector::size() = " << std_resize.size() << std::endl;
+	std::cout << "std::vector::capacity() = " << std_resize.capacity() << std::endl;
+
+
+	ft::vector<int> ft_resize;
+
+	for (size_t i = 1; i < 10; i++) {
+		ft_resize.push_back(i);
+	}
+	try {
+		// ft_resize.resize(-1354354354343634634);
+		// ft_resize.resize(0);
+		// ft_resize.resize(5);
+		// ft_resize.resize(8,100);
+		// ft_resize.resize(12);
+		ft_resize.resize(17);
+		ft_resize.resize(72123213123);
+	} catch (std::exception &e) {
+		std::cerr << "\n" << e.what() << std::endl;
+	}
+
+	std::cout << "\nft::vector contents:";
+	// for (size_t i = 0; i < ft_resize.size(); i++) {
+	// 	std::cout << ' ' << ft_resize[i];
+	// }
+	std::cout << "\nft::vector::size() = " << ft_resize.size() << std::endl;
+	std::cout << "ft::vector::capacity() = " << ft_resize.capacity() << std::endl;
 
 	/*-----------------------------------------------------------------------*/
 

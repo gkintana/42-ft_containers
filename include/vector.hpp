@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/23 23:43:29 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/24 17:24:08 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,11 +397,11 @@ namespace ft {
 				// std::cout << "distance of pos from begin() = " << pos - this->begin() << std::endl;
 
 				// ADD RANGE CHECK
-				if (pos - this->begin() > this->end() - this->begin()) {
-					std::stringstream str;
-					str << "ft::vector::at(): pos (which is " << pos - this->begin() << ") >= this->size() (which is " << _size << ")";
-					throw std::out_of_range(str.str());
-				}
+				// if (pos - this->begin() > this->end() - this->begin()) {
+				// 	std::stringstream str;
+				// 	str << "ft::vector::at(): pos (which is " << pos - this->begin() << ") >= this->size() (which is " << _size << ")";
+				// 	throw std::out_of_range(str.str());
+				// }
 
 				// _alloc.destroy(_data + *pos);
 				// for (size_type i = pos - this->begin(); i < _size; i++) {
@@ -446,9 +446,35 @@ namespace ft {
 
 			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
 
-			// void resize(size_type _n, value_type _val = value_type()) {
-				
-			// }
+			void resize(size_type _n, value_type _val = value_type()) {
+				// pointer _temp_data;
+				// Allocator _temp_alloc;
+				if (_n > this->max_size()) {
+					throw std::length_error("ft::vector::length_error");
+				} else if (_n > _capacity) {
+					this->reserve(std::max(_capacity * 2, _n));
+					// for (size_type i = _size; i < _n; i++) {
+					// 	_alloc.construct(_data + i, 0);
+					// }
+				}
+				for (size_type i = _size; i < _n; i++) {
+					if (_val) {
+						_alloc.construct(_data + i, _val);
+					} else {
+						_alloc.construct(_data + i, 0);
+					}
+				}
+				// if (_val) {
+				// 	for (size_type i = _size; i < _n; i++) {
+				// 		_alloc.construct(_data + i, _val);
+				// 		// _data[i] = _val;
+				// 	}
+				// }
+				// } else if (_n > _size) {
+				// 	;
+				// }
+				_size = _n;
+			}
 
 			void swap(vector &_x) {
 				pointer _temp_data = _data;
