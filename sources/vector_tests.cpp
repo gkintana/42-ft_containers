@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/24 18:20:18 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/24 23:13:27 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,7 +384,8 @@ int main() {
 		// std_resize.resize(8,100);
 		// std_resize.resize(12);
 		std_resize.resize(17);
-		std_resize.resize(72123213123);
+		// std_resize.resize(72);
+		// std_resize.resize(72123213123);
 	} catch (std::exception &e) {
 		std::cerr << "\n" << e.what() << std::endl;
 	}
@@ -394,9 +395,9 @@ int main() {
 	// std::cout << n << std::endl;
 
 	std::cout << "\nstd::vector contents:";
-	// for (size_t i = 0; i < std_resize.size(); i++) {
-	// 	std::cout << ' ' << std_resize[i];
-	// }
+	for (size_t i = 0; i < std_resize.size(); i++) {
+		std::cout << ' ' << std_resize[i];
+	}
 	std::cout << "\nstd::vector::size() = " << std_resize.size() << std::endl;
 	std::cout << "std::vector::capacity() = " << std_resize.capacity() << std::endl;
 
@@ -413,15 +414,16 @@ int main() {
 		// ft_resize.resize(8,100);
 		// ft_resize.resize(12);
 		ft_resize.resize(17);
-		ft_resize.resize(72123213123);
+		// ft_resize.resize(72);
+		// ft_resize.resize(72123213123);
 	} catch (std::exception &e) {
 		std::cerr << "\n" << e.what() << std::endl;
 	}
 
 	std::cout << "\nft::vector contents:";
-	// for (size_t i = 0; i < ft_resize.size(); i++) {
-	// 	std::cout << ' ' << ft_resize[i];
-	// }
+	for (size_t i = 0; i < ft_resize.size(); i++) {
+		std::cout << ' ' << ft_resize[i];
+	}
 	std::cout << "\nft::vector::size() = " << ft_resize.size() << std::endl;
 	std::cout << "ft::vector::capacity() = " << ft_resize.capacity() << std::endl;
 

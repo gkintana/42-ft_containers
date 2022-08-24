@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/24 17:24:08 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/25 00:06:29 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,6 +410,7 @@ namespace ft {
 				for (iterator i = pos; i != this->end() - 1; i++) {
 					*i = *(i + 1);
 				}
+				_alloc.destroy(_data + _size - 1);
 				_size--;
 				// if (pos == this->end()) {
 				// 	return this->end();
@@ -417,12 +418,10 @@ namespace ft {
 				return pos;
 			}
 
-			iterator erase(iterator _first, iterator _last) {
-				// ADD RANGE CHECK
-
-				size_type start = _first - this->begin(),
-				          end = _last - this->begin(),
-				          range = _last - _first,
+			iterator erase(iterator first, iterator last) {
+				size_type start = first - this->begin(),
+				          end = last - this->begin(),
+				          range = last - first,
 						  pos = 0;
 
 				for (size_type i = 0; i < _size; i++) {
@@ -430,8 +429,11 @@ namespace ft {
 						_data[i] = _data[end + pos++];
 					}
 				}
+				for (size_type i = start + range; i < _size; i++) {
+					_alloc.destroy(_data + i);
+				}
 				_size -= range;
-				return _first;
+				return first;
 			}
 
 			void push_back(const value_type &_value) {
@@ -446,51 +448,38 @@ namespace ft {
 
 			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
 
-			void resize(size_type _n, value_type _val = value_type()) {
-				// pointer _temp_data;
-				// Allocator _temp_alloc;
-				if (_n > this->max_size()) {
-					throw std::length_error("ft::vector::length_error");
-				} else if (_n > _capacity) {
-					this->reserve(std::max(_capacity * 2, _n));
-					// for (size_type i = _size; i < _n; i++) {
-					// 	_alloc.construct(_data + i, 0);
-					// }
+			// REMINDER: revise & add destroy
+			void resize(size_type new_size, value_type value = value_type()) {
+				if (new_size > this->max_size()) {
+					throw std::length_error("ft::vector::resize");
+				} else if (new_size > _capacity) {
+					this->reserve(std::max(_capacity * 2, new_size));
 				}
-				for (size_type i = _size; i < _n; i++) {
-					if (_val) {
-						_alloc.construct(_data + i, _val);
+				for (size_type i = _size; i < new_size; i++) {
+					if (value) {
+						_alloc.construct(_data + i, value);
 					} else {
 						_alloc.construct(_data + i, 0);
 					}
 				}
-				// if (_val) {
-				// 	for (size_type i = _size; i < _n; i++) {
-				// 		_alloc.construct(_data + i, _val);
-				// 		// _data[i] = _val;
-				// 	}
-				// }
-				// } else if (_n > _size) {
-				// 	;
-				// }
-				_size = _n;
+				_size = new_size;
 			}
 
-			void swap(vector &_x) {
-				pointer _temp_data = _data;
-				allocator_type _temp_alloc = _alloc;
-				size_type _temp_size = _size;
-				size_type _temp_capacity = _capacity;
+			void swap(vector &x) {
+				pointer temp_data = _data;
+				allocator_type temp_alloc = _alloc;
+				size_type temp_size = _size;
+				size_type temp_capacity = _capacity;
 
-				_data = _x._data;
-				_alloc = _x._alloc;
-				_size = _x._size;
-				_capacity = _x._capacity;
+				_data = x._data;
+				_alloc = x._alloc;
+				_size = x._size;
+				_capacity = x._capacity;
 
-				_x._data = _temp_data;
-				_x._alloc = _temp_alloc;
-				_x._size = _temp_size;
-				_x._capacity = _temp_capacity;
+				x._data = temp_data;
+				x._alloc = temp_alloc;
+				x._size = temp_size;
+				x._capacity = temp_capacity;
 			}
 
 
