@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_tests.cpp                                   :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/25 11:13:51 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/25 17:29:10 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,85 @@
 #define DEFAULT		"\033[0m"
 #define RED			"\033[1;31m"
 #define GREEN		"\033[1;4;32m"
-#define YELLOW		"\033[3;33m"
+#define YELLOW		"\033[0;33m"
+#define CYAN		"\033[0;36m"
 
 // using namespace std;
 
-int main() {
-	CONTAINER_TYPE::vector<int> vector_push_back;
-
-	vector_push_back.push_back(1);
-	vector_push_back.push_back(2);
-	vector_push_back.push_back(3);
-	// /*-----------------------------------------------------------------------*/
-	// /*-----------------------------------------------------------------------*/
-	// /*-----------------------------------------------------------------------*/
-
-	for (size_t i = 0; i < vector_push_back.size(); i++) {
-		std::cout << vector_push_back[i] << std::endl;
+template <typename T>
+void pushValues(T &container, size_t size) {
+	for (size_t i = 0; i < size; i++) {
+		container.push_back(i + 1);
 	}
+}
+
+template <typename T>
+void printInfo(T &container, bool printContent) {
+	if (printContent) {
+		std::cout << CYAN "vector contents: " DEFAULT;
+		for (size_t i = 0; i < container.size(); i++) {
+			std::cout << container[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "size = " << container.size() << std::endl
+              << "capacity = " << container.capacity() << std::endl;
+}
+
+int main() {
+	std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
+	{
+		CONTAINER_TYPE::vector<int> v1;
+		printInfo(v1, true);
+		std::cout << "empty = " << std::boolalpha << v1.empty() << std::endl
+			      << "max size = " << v1.max_size() << std::endl;
+
+		CONTAINER_TYPE::vector<int> v2(5, 42);
+		printInfo(v2, true);
+		std::cout << "empty = " << std::boolalpha << v2.empty() << std::endl
+				  << "max size = " << v2.max_size() << std::endl;
+	}
+
+	// /*-----------------------------------------------------------------------*/
+	
+	std::cout << GREEN "vector::push_back tests" DEFAULT << std::endl;
+	{
+		CONTAINER_TYPE::vector<int> test_push_back;
+
+		printInfo(test_push_back, true);
+		pushValues(test_push_back, 5);
+		printInfo(test_push_back, true);
+	}
+
+	// /*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector::pop_back tests" DEFAULT << std::endl;
+	{
+		CONTAINER_TYPE::vector<int> test_pop_back;
+
+		pushValues(test_pop_back, 5);
+		printInfo(test_pop_back, true);
+		for (size_t i = test_pop_back.size(); i > 0; i--) {
+			test_pop_back.pop_back();
+		}
+		printInfo(test_pop_back, true);
+	}
+
+	// /*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector::at tests" DEFAULT << std::endl;
+	{
+		CONTAINER_TYPE::vector<int> test_at;
+
+		pushValues(test_at, 9);
+		printInfo(test_at, true);
+		std::cout << YELLOW "printing values at each position" DEFAULT << std::endl;
+		for (size_t i = 0; i < test_at.size(); i++) {
+			std::cout << "at(" << i << ") = " << test_at.at(i) << std::endl;
+		}
+	}
+	
+	// /*-----------------------------------------------------------------------*/
 
 	return 0;
 }
