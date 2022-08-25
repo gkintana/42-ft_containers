@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/25 00:06:29 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/25 11:02:08 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,27 +259,27 @@ namespace ft {
 			** data				direct access to the underlying array
 			*/
 
-			reference at(size_type _pos) {
-				if (_pos >= _size) {
+			reference at(size_type pos) {
+				if (pos >= _size) {
 					std::stringstream str;
-					str << "vector::range_check: pos (which is " << _pos << ") >= this->m_size() (which is " << _size << ")";
+					str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << _size << ")";
 					throw std::out_of_range(str.str());
 				}
-				return *(_data + _pos);
+				return *(_data + pos);
 			}
 
-			const_reference at(size_type _pos) const {
-				if (_pos >= _size) {
+			const_reference at(size_type pos) const {
+				if (pos >= _size) {
 					std::stringstream str;
-					str << "ft::vector::at(): pos (which is " << _pos << ") >= this->size() (which is " << _size << ")";
+					str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << _size << ")";
 					throw std::out_of_range(str.str());
 				}
-				return *(_data + _pos);
+				return *(_data + pos);
 			}
 
-			reference operator[](size_type _pos) { return *(_data + _pos); }
+			reference operator[](size_type pos) { return *(_data + pos); }
 
-			const_reference operator[](size_type _pos) const { return *(_data + _pos); }
+			const_reference operator[](size_type pos) const { return *(_data + pos); }
 
 			reference front() { return *this->begin(); }
 
@@ -338,12 +338,12 @@ namespace ft {
 
 			size_type capacity() { return _capacity; }
 
-			void reserve(size_type _new_cap) {
-				if (_new_cap > this->max_size()) {
+			void reserve(size_type new_cap) {
+				if (new_cap > this->max_size()) {
 					throw std::length_error("ft::vector::reserve");
-				} else if (_capacity < _new_cap) {
+				} else if (_capacity < new_cap) {
 					allocator_type _temp_alloc;
-					pointer _temp_data = _temp_alloc.allocate(_new_cap);
+					pointer _temp_data = _temp_alloc.allocate(new_cap);
 
 					for (size_type i = 0; i < _size; i++) {
 						_temp_alloc.construct(_temp_data + i, *(_data + i));
@@ -355,7 +355,7 @@ namespace ft {
 
 					_data = _temp_data;
 					_alloc = _temp_alloc;
-					_capacity = _new_cap;
+					_capacity = new_cap;
 				}
 			}
 
@@ -436,13 +436,13 @@ namespace ft {
 				return first;
 			}
 
-			void push_back(const value_type &_value) {
+			void push_back(const value_type &value) {
 				if (!_capacity) {
 					this->reserve(1);
 				} else if (_size == _capacity) {
 					this->reserve(_capacity * 2);
 				}
-				_alloc.construct(_data + _size, _value);
+				_alloc.construct(_data + _size, value);
 				_size++;
 			}
 
