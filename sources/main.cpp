@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/25 17:29:10 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/25 17:57:17 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,12 @@ int main() {
 		std::cout << YELLOW "printing values at each position" DEFAULT << std::endl;
 		for (size_t i = 0; i < test_at.size(); i++) {
 			std::cout << "at(" << i << ") = " << test_at.at(i) << std::endl;
+		}
+
+		try {
+			
+		} catch (std::exception &e) {
+			
 		}
 	}
 	

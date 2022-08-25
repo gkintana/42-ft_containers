@@ -6,7 +6,7 @@
 #    By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/06 17:01:53 by gkintana          #+#    #+#              #
-#    Updated: 2022/08/25 17:35:13 by gkintana         ###   ########.fr        #
+#    Updated: 2022/08/25 17:56:18 by gkintana         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ DEFAULT		=	"\033[0m"
 RED			=	"\033[0;31m"
 GREEN		=	"\033[1;32m"
 CYAN		=	"\033[3;36m"
+PURPLE		=	"\033[0;35m"
 
 all:		$(FT) $(STD)
 
@@ -49,11 +50,11 @@ $(STD):
 
 clean:
 			@$(RM) $(OBJS_FT) $(OBJS_STD) $(OBJ_DIR)
-			@echo $(RED)"Deleted object files"$(DEFAULT)
+			@echo $(PURPLE)"Deleted object files"$(DEFAULT)
 
 fclean:		clean
 			@$(RM) $(FT) $(STD)
-			@echo $(RED)"Deleted executable file"$(DEFAULT)
+			@echo $(PURPLE)"Deleted executable file"$(DEFAULT)
 
 re:			fclean all
 
