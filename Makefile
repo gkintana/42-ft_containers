@@ -6,15 +6,15 @@
 #    By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/06 17:01:53 by gkintana          #+#    #+#              #
-#    Updated: 2022/08/25 17:56:18 by gkintana         ###   ########.fr        #
+#    Updated: 2022/08/25 22:45:54 by gkintana         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FT			=	ft_containers
 STD			=	std_containers
 
-DEF_FT		=	CONTAINER_TYPE=ft
-DEF_STD		=	CONTAINER_TYPE=std
+DEF_FT		=	NAMESPACE=ft
+DEF_STD		=	NAMESPACE=std
 
 INC_DIR		=	include
 SRC_DIR		=	sources
@@ -50,11 +50,11 @@ $(STD):
 
 clean:
 			@$(RM) $(OBJS_FT) $(OBJS_STD) $(OBJ_DIR)
-			@echo $(PURPLE)"Deleted object files"$(DEFAULT)
+			@echo $(RED)"Deleted object files"$(DEFAULT)
 
 fclean:		clean
 			@$(RM) $(FT) $(STD)
-			@echo $(PURPLE)"Deleted executable file"$(DEFAULT)
+			@echo $(RED)"Deleted executable file"$(DEFAULT)
 
 re:			fclean all
 

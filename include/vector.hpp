@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/25 17:55:17 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/25 22:48:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,6 @@ namespace ft {
 			*/
 
 			reference at(size_type pos) {
-				// std::cout << "1231231" << std::endl;
 				if (pos >= _size) {
 					std::stringstream str;
 					str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << _size << ")";
@@ -270,7 +269,6 @@ namespace ft {
 			}
 
 			const_reference at(size_type pos) const {
-				// std::cout << "1231231" << std::endl;
 				if (pos >= _size) {
 					std::stringstream str;
 					str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << _size << ")";

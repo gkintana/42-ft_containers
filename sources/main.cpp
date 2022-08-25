@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/25 17:57:17 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/25 22:45:39 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void printInfo(T &container, bool printContent) {
 int main() {
 	std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
 	{
-		CONTAINER_TYPE::vector<int> v1;
+		NAMESPACE::vector<int> v1;
 		printInfo(v1, true);
 		std::cout << "empty = " << std::boolalpha << v1.empty() << std::endl
 			      << "max size = " << v1.max_size() << std::endl;
 
-		CONTAINER_TYPE::vector<int> v2(5, 42);
+		NAMESPACE::vector<int> v2(5, 42);
 		printInfo(v2, true);
 		std::cout << "empty = " << std::boolalpha << v2.empty() << std::endl
 				  << "max size = " << v2.max_size() << std::endl;
@@ -63,7 +63,7 @@ int main() {
 	
 	std::cout << GREEN "vector::push_back tests" DEFAULT << std::endl;
 	{
-		CONTAINER_TYPE::vector<int> test_push_back;
+		NAMESPACE::vector<int> test_push_back;
 
 		printInfo(test_push_back, true);
 		pushValues(test_push_back, 5);
@@ -74,7 +74,7 @@ int main() {
 
 	std::cout << GREEN "vector::pop_back tests" DEFAULT << std::endl;
 	{
-		CONTAINER_TYPE::vector<int> test_pop_back;
+		NAMESPACE::vector<int> test_pop_back;
 
 		pushValues(test_pop_back, 5);
 		printInfo(test_pop_back, true);
@@ -88,7 +88,7 @@ int main() {
 
 	std::cout << GREEN "vector::at tests" DEFAULT << std::endl;
 	{
-		CONTAINER_TYPE::vector<int> test_at;
+		NAMESPACE::vector<int> test_at;
 
 		pushValues(test_at, 9);
 		printInfo(test_at, true);
