@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/25 22:48:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/26 00:13:10 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,68 @@
 
 namespace ft {
 
+	/**
+	** iterator_tags
+	**
+	** empty types used to distinguish different iterators. Different underlying
+	** algorithms can then be used based on the different operations supported
+	** by different iterator types
+	*/
+
+	///  Marking input iterators.
+	struct input_iterator_tag { };
+	///  Marking output iterators.
+	struct output_iterator_tag { };
+	/// Forward iterators support a superset of input iterator operations.
+	struct forward_iterator_tag : public input_iterator_tag { };
+	/// Bidirectional iterators support a superset of forward iterator
+	/// operations.
+	struct bidirectional_iterator_tag : public forward_iterator_tag { };
+	/// Random-access iterators support a superset of bidirectional
+	/// iterator operations.
+	struct random_access_iterator_tag : public bidirectional_iterator_tag { };
+
+	/**
+	** traits class for iterators
+	**
+	** simplifies nested typedefs
+	*/
+	template <typename Iterator>
+	struct iterator_traits {
+		typedef typename Iterator::iterator_category	iterator_category;
+		typedef typename Iterator::value_type			value_type;
+		typedef typename Iterator::difference_type		difference_type;
+		typedef typename Iterator::pointer				pointer;
+		typedef typename Iterator::reference			reference;
+	};
+
+	/**
+	** partial specialization for pointer types
+	*/
+	template <typename ItPointer>
+	struct iterator_traits<ItPointer*> {
+		typedef ItPointer						value_type;
+		typedef ItPointer*						pointer;
+		typedef ItPointer&						reference;
+		typedef std::ptrdiff_t					difference_type;
+		typedef std::random_access_iterator_tag	iterator_category;
+	};
+
+	/**
+	** partial specialization for const pointer types
+	*/
+	template <typename ItPointer>
+	struct iterator_traits<const ItPointer*> {
+		typedef ItPointer						value_type;
+		typedef const ItPointer*				pointer;
+		typedef const ItPointer&				reference;
+		typedef std::ptrdiff_t					difference_type;
+		typedef std::random_access_iterator_tag	iterator_category;
+	};
+
+
+	// template <class Category, class T, class Distance = std::ptrdiff_t,
+    //           class Pointer = T*, class Reference = T&>
 	template < class T >
 	class iterator {
 		// C11
@@ -179,8 +241,8 @@ namespace ft {
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
-			typedef ft::iterator<value_type>					iterator;
-			typedef ft::iterator<const value_type>				const_iterator;
+			typedef ft::iterator< vector<value_type> >			iterator;
+			typedef ft::iterator< vector<const value_type> >	const_iterator;
 			// typedef implementation-defined						iterator;
 			// typedef implementation-defined						const_iterator;
 			// typedef std::reverse_iterator<iterator>				reverse_iterator;
