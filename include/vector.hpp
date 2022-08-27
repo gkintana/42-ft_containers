@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/26 00:13:10 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/27 15:04:42 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ namespace ft {
 
 			iterator(pointer _ptr) : _m_ptr(_ptr) {}
 
-			~iterator() {}
+			// ~iterator() {}
 
 			iterator &operator=(const iterator& _value) {
 				this->_m_ptr = _value._m_ptr;
@@ -141,8 +141,7 @@ namespace ft {
 				return *this;
 			}
 
-			// iterator operator++(int) {
-			iterator operator++(T) {
+			iterator operator++(int) {
 				iterator _temp = *this;
 				++(*this);
 				return _temp;
@@ -153,8 +152,7 @@ namespace ft {
 				return *this;
 			}
 
-			// iterator operator--(int) {
-			iterator operator--(T) {
+			iterator operator--(int) {
 				iterator _temp = *this;
 				--(*this);
 				return _temp;
@@ -241,8 +239,8 @@ namespace ft {
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef typename allocator_type::pointer			pointer;
 			typedef typename allocator_type::const_pointer		const_pointer;
-			typedef ft::iterator< vector<value_type> >			iterator;
-			typedef ft::iterator< vector<const value_type> >	const_iterator;
+			typedef ft::iterator<value_type>					iterator;
+			typedef ft::iterator<const value_type>				const_iterator;
 			// typedef implementation-defined						iterator;
 			// typedef implementation-defined						const_iterator;
 			// typedef std::reverse_iterator<iterator>				reverse_iterator;
@@ -409,10 +407,11 @@ namespace ft {
 
 					for (size_type i = 0; i < _size; i++) {
 						_temp_alloc.construct(_temp_data + i, *(_data + i));
-					}
-					for (size_type i = 0; i < _size; i++) {
 						_alloc.destroy(_data + i);
 					}
+					// for (size_type i = 0; i < _size; i++) {
+					// 	_alloc.destroy(_data + i);
+					// }
 					_alloc.deallocate(_data, _capacity);
 
 					_data = _temp_data;
@@ -441,9 +440,65 @@ namespace ft {
 				_size = 0;
 			}
 
-			// iterator insert(iterator position, const value_type &val) {
+			iterator insert(iterator position, const value_type &val) {
+				// _size++;
+				if (_size == _capacity) {
+					// this->reserve(_capacity * 2);
+					allocator_type temp_alloc;
+					pointer temp_data = temp_alloc.allocate(_capacity * 2);
 
-			// }
+					for (size_t i = 0; i < size_type(*position - 1); i++) {
+						temp_alloc.construct(temp_data + i, *(_data + i));
+					}
+
+					temp_alloc.construct(temp_data + size_type(*position - 1), val);
+					
+					for (size_t i = size_type(*position); i <= _size; i++) {
+						temp_alloc.construct(temp_data + i, *(_data + i - 1));
+					}
+					_alloc.deallocate(_data, _capacity);
+					_data = temp_data;
+					_alloc = temp_alloc;
+					// _size++;
+					_capacity *= 2;
+					// return position;
+					
+				} else {
+				// _alloc.construct(_data + _size, 0);
+				for (iterator i = this->end(); i != position; i--) {
+					*i = *(i - 1);
+				}
+				// if (position == this->begin()) {
+				*position = val;
+				// }
+			
+				
+				// size_type dist = 0;
+				// for (iterator i = this->begin(); i != this->end(); i++) {
+				// 	if (i == position - this->begin())
+				// 		dist++;
+				// }
+				// difference_type offset = position - this->begin();
+				// size_type offset = 0;
+				// std::cout << "off = " << offset << std::endl;
+				// for (long i = _size; i > 0 ; i--) {
+				// 	if (i == offset) {
+				// 		_data[i] = val;
+				// 	} else {
+				// 		_data[i] = _data[i - 1];
+				// 	}
+				// }
+				// this->_data[offset] = val;
+				
+				// size_type offset = position - this->begin();
+				// std::cout << "offset = " << *pos << std::endl;
+				// *position = val;
+				
+				(void)val;
+				}
+				_size++;
+				return position;
+			}
 
 			// void insert(iterator position, size_type n, const value_type &val) {
 				

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/25 22:45:39 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/27 14:36:37 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,22 @@ int main() {
 	}
 	
 	// /*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector::insert tests" DEFAULT << std::endl;
+	{
+		NAMESPACE::vector<int> test_insert_1;
+
+		// pushValues(test_insert_1, 6);
+		pushValues(test_insert_1, 16);
+		// pushValues(test_insert_1, 17);
+		printInfo(test_insert_1, true);
+
+		// NAMESPACE::vector<int>::iterator i = test_insert_1.begin() + 3;
+		// std::cout << *i << std::endl;
+		test_insert_1.insert(test_insert_1.begin() + 3, 30);
+		printInfo(test_insert_1, true);
+
+	}
 
 	return 0;
 }
