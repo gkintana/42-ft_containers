@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/27 15:04:42 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/27 23:06:52 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,68 +441,60 @@ namespace ft {
 			}
 
 			iterator insert(iterator position, const value_type &val) {
-				// _size++;
-				if (_size == _capacity) {
-					// this->reserve(_capacity * 2);
-					allocator_type temp_alloc;
-					pointer temp_data = temp_alloc.allocate(_capacity * 2);
-
-					for (size_t i = 0; i < size_type(*position - 1); i++) {
-						temp_alloc.construct(temp_data + i, *(_data + i));
+				// faced issues with the iterator position when the size == capacity, position
+				// was being invalidated due to the reallocation of the vector
+				difference_type offset = position - this->begin();
+				// std::cout << "offset = " << offset << std::endl;
+				if (offset >= 0) {
+					if (_size == _capacity) {
+						this->reserve(_capacity * 2);
 					}
 
-					temp_alloc.construct(temp_data + size_type(*position - 1), val);
-					
-					for (size_t i = size_type(*position); i <= _size; i++) {
-						temp_alloc.construct(temp_data + i, *(_data + i - 1));
+					if (size_type(offset) > _size) {
+						_alloc.construct(_data + _size, *(_data + _size - 1));
+					} else {
+						for (size_type i = _size; i > size_type(offset); i--) {
+							_alloc.construct(_data + i, *(_data + i - 1));
+						}
+						_alloc.construct(_data + size_type(offset), val);
 					}
-					_alloc.deallocate(_data, _capacity);
-					_data = temp_data;
-					_alloc = temp_alloc;
-					// _size++;
-					_capacity *= 2;
-					// return position;
-					
-				} else {
-				// _alloc.construct(_data + _size, 0);
-				for (iterator i = this->end(); i != position; i--) {
-					*i = *(i - 1);
-				}
-				// if (position == this->begin()) {
-				*position = val;
-				// }
-			
-				
-				// size_type dist = 0;
-				// for (iterator i = this->begin(); i != this->end(); i++) {
-				// 	if (i == position - this->begin())
-				// 		dist++;
-				// }
-				// difference_type offset = position - this->begin();
-				// size_type offset = 0;
-				// std::cout << "off = " << offset << std::endl;
-				// for (long i = _size; i > 0 ; i--) {
-				// 	if (i == offset) {
-				// 		_data[i] = val;
-				// 	} else {
-				// 		_data[i] = _data[i - 1];
-				// 	}
-				// }
-				// this->_data[offset] = val;
-				
-				// size_type offset = position - this->begin();
-				// std::cout << "offset = " << *pos << std::endl;
-				// *position = val;
-				
-				(void)val;
 				}
 				_size++;
+
 				return position;
 			}
 
-			// void insert(iterator position, size_type n, const value_type &val) {
+			void insert(iterator position, size_type n, const value_type &val) {
+				difference_type offset = position - this->begin();
+				size_type range = size_type(offset) + n;
+				size_type new_size = _size + n;
 				
-			// }
+				if (_size + n >= _capacity) {
+					// REMINDER: revise _capacity for macos
+					this->reserve(std::max(_capacity * 2, _size + n));
+				}
+				
+				allocator_type temp_alloc;
+				pointer temp_data = temp_alloc.allocate(_size);
+				for (size_type i = 0; i < _size; i++) {
+					temp_alloc.construct(temp_data + i, *(_data + i));
+				}
+
+				for (size_type i = range; i < new_size; i++) {
+					_alloc.construct(_data + i, *(temp_data + i - range + offset));
+				}
+				for (size_type i = offset; i < range; i++) {
+					_alloc.construct(_data + i, val);
+				}
+				
+				for (size_type i = 0; i < _size; i++) {
+					temp_alloc.destroy(temp_data + i);
+				}
+				temp_alloc.deallocate(temp_data, _size);
+				// (void)val;
+				_size += n;
+				// return position;
+			}
 
 			// template <class InputIterator>
 			// void insert(iterator position, InputIterator first, InputIterator last) {

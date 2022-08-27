@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/27 14:36:37 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/27 23:08:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,18 +108,44 @@ int main() {
 
 	std::cout << GREEN "vector::insert tests" DEFAULT << std::endl;
 	{
-		NAMESPACE::vector<int> test_insert_1;
+		NAMESPACE::vector<int> insert_int;
 
-		// pushValues(test_insert_1, 6);
-		pushValues(test_insert_1, 16);
-		// pushValues(test_insert_1, 17);
-		printInfo(test_insert_1, true);
+		// pushValues(insert_int, 6);
+		pushValues(insert_int, 16);
+		// pushValues(insert_int, 17);
+		printInfo(insert_int, true);
+		insert_int.insert(insert_int.begin() + 3, 30);
+		printInfo(insert_int, true);
 
-		// NAMESPACE::vector<int>::iterator i = test_insert_1.begin() + 3;
-		// std::cout << *i << std::endl;
-		test_insert_1.insert(test_insert_1.begin() + 3, 30);
-		printInfo(test_insert_1, true);
 
+		NAMESPACE::vector<std::string> insert_str;
+
+		insert_str.push_back("Hello");
+		insert_str.push_back("World");
+		insert_str.push_back("!");
+		printInfo(insert_str, true);
+		// insert_str.insert(insert_str.begin() - 1, "QWEWQE");
+		insert_str.insert(insert_str.begin() + 3, "QWEWQE");
+		// insert_str.insert(insert_str.begin() + 100, "QWEWQE");
+		printInfo(insert_str, true);
+	}
+
+	// /*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector::insert range tests" DEFAULT << std::endl;
+	{
+		NAMESPACE::vector<int> insert_int;
+
+		// pushValues(insert_int, 8);
+		pushValues(insert_int, 6);
+		// pushValues(insert_int, 16);
+		// pushValues(insert_int, 17);
+		printInfo(insert_int, true);
+		// insert_int.insert(insert_int.begin() + 3, 3, 42);
+		// insert_int.insert(insert_int.begin() + 3, 12, 42);
+		// insert_int.insert(insert_int.begin() + 3, 1, 42);
+		insert_int.insert(insert_int.begin() + 3, 0, 42);
+		printInfo(insert_int, true);
 	}
 
 	return 0;
