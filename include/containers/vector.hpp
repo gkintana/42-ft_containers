@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/28 22:59:38 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/29 00:18:18 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 #include <vector>
 // #include <iterator>
+#include <type_traits.hpp>
 #include <iterator.hpp>
 
 // https://en.cppreference.com/w/cpp/container/vector
