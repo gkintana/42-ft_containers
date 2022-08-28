@@ -6,7 +6,7 @@
 #    By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/06 17:01:53 by gkintana          #+#    #+#              #
-#    Updated: 2022/08/25 22:45:54 by gkintana         ###   ########.fr        #
+#    Updated: 2022/08/28 22:53:31 by gkintana         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ STD			=	std_containers
 DEF_FT		=	NAMESPACE=ft
 DEF_STD		=	NAMESPACE=std
 
-INC_DIR		=	include
+INC_DIR1	=	include/containers
+INC_DIR2	=	include/utilities
 SRC_DIR		=	sources
 OBJ_DIR		=	objects
 
@@ -37,14 +38,14 @@ all:		$(FT) $(STD)
 $(FT):
 			@printf $(CYAN)
 			@mkdir -p $(OBJ_DIR)
-			$(CXX) $(CPPFLAGS) -c -I$(INC_DIR) -D$(DEF_FT) $(SRC_DIR)/$(SRCS) -o $(OBJ_DIR)/$@.o
+			$(CXX) $(CPPFLAGS) -c -I$(INC_DIR1) -I$(INC_DIR2) -D$(DEF_FT) $(SRC_DIR)/$(SRCS) -o $(OBJ_DIR)/$@.o
 			@$(CXX) $(CPPFLAGS) $(OBJ_DIR)/$(FT).o -o $@
 			@echo $(DEFAULT)$(GREEN)"ft_containers Ready"$(DEFAULT)
 
 $(STD):
 			@printf $(CYAN)
 			@mkdir -p $(OBJ_DIR)
-			$(CXX) $(CPPFLAGS) -c -I$(INC_DIR) -D$(DEF_STD) $(SRC_DIR)/$(SRCS) -o $(OBJ_DIR)/$@.o
+			$(CXX) $(CPPFLAGS) -c -I$(INC_DIR1) -I$(INC_DIR2) -D$(DEF_STD) $(SRC_DIR)/$(SRCS) -o $(OBJ_DIR)/$@.o
 			@$(CXX) $(CPPFLAGS) $(OBJ_DIR)/$(STD).o -o $@
 			@echo $(DEFAULT)$(GREEN)"std_containers Ready"$(DEFAULT)
 

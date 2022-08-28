@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/28 13:35:01 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/28 22:42:11 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@
 // using namespace std;
 
 template <typename T>
-void pushValues(T &container, size_t size) {
+void pushValues(NAMESPACE::vector<T> &container, size_t size) {
 	for (size_t i = 0; i < size; i++) {
 		container.push_back(i + 1);
 	}
 }
 
 template <typename T>
-void printInfo(T &container, bool printContent) {
+void printInfo(NAMESPACE::vector<T> &container, bool printContent) {
 	if (printContent) {
 		std::cout << CYAN "vector contents: " DEFAULT;
 		for (size_t i = 0; i < container.size(); i++) {
@@ -57,6 +57,31 @@ int main() {
 		printInfo(v2, true);
 		std::cout << "empty = " << std::boolalpha << v2.empty() << std::endl
 				  << "max size = " << v2.max_size() << std::endl;
+	}
+
+	/*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
+	{
+		NAMESPACE::vector<int> vec(5, 5);
+		printInfo(vec, true);
+
+		NAMESPACE::vector<int> vec_copy = vec;
+		printInfo(vec_copy, true);
+
+		NAMESPACE::vector<int> vec_copy2;
+		printInfo(vec_copy2, true);
+		vec_copy2 = vec;
+		printInfo(vec_copy2, true);
+		vec_copy2 = vec_copy;
+		printInfo(vec_copy2, true);
+
+		NAMESPACE::vector<int> vec_copy3(vec_copy2);
+		printInfo(vec_copy3, true);
+		pushValues(vec_copy3, 5);
+
+		vec_copy2 = vec_copy3;
+		printInfo(vec_copy2, true);
 	}
 
 	// /*-----------------------------------------------------------------------*/
@@ -150,20 +175,15 @@ int main() {
 
 	// /*-----------------------------------------------------------------------*/
 
-	std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
+	std::cout << GREEN "vector::assign tests" DEFAULT << std::endl;
+	{
+		NAMESPACE::vector<int> vec(10, 10);
+		printInfo(vec, true);
 
-	NAMESPACE::vector<int> vec(5, 5);
-	printInfo(vec, true);
-
-	NAMESPACE::vector<int> vec_copy = vec;
-	printInfo(vec_copy, true);
-
-	NAMESPACE::vector<int> vec_copy2;
-	printInfo(vec_copy2, true);
-	vec_copy2 = vec;
-	printInfo(vec_copy2, true);
-	vec_copy2 = vec_copy;
-	printInfo(vec_copy2, true);
+		// vec.assign(10, 2);
+		vec.assign(5, 2);
+		printInfo(vec, true);
+	}
 
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/28 13:37:05 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/28 22:59:38 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #include <sstream>
 
 #include <vector>
-#include <iterator>
+// #include <iterator>
+#include <iterator.hpp>
 
 // https://en.cppreference.com/w/cpp/container/vector
 // https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
@@ -33,198 +34,14 @@
 // https://codereview.stackexchange.com/questions/96253/second-implementation-of-stdvector?rq=1
 // https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
 
+// https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
+// https://stackoverflow.com/questions/3582608/how-to-correctly-implement-custom-iterators-and-const-iterators#
+
+// https://stackoverflow.com/questions/61557539/how-can-i-use-my-custom-enable-if-in-c98
+// https://www.boost.org/doc/libs/1_55_0/libs/utility/enable_if.html
+// https://medium.com/@sidbhasin82/c-templates-what-is-std-enable-if-and-how-to-use-it-fd76d3abbabe
+
 namespace ft {
-
-	/**
-	** iterator_tags
-	**
-	** empty types used to distinguish different iterators. Different underlying
-	** algorithms can then be used based on the different operations supported
-	** by different iterator types
-	*/
-
-	///  Marking input iterators.
-	struct input_iterator_tag { };
-	///  Marking output iterators.
-	struct output_iterator_tag { };
-	/// Forward iterators support a superset of input iterator operations.
-	struct forward_iterator_tag : public input_iterator_tag { };
-	/// Bidirectional iterators support a superset of forward iterator
-	/// operations.
-	struct bidirectional_iterator_tag : public forward_iterator_tag { };
-	/// Random-access iterators support a superset of bidirectional
-	/// iterator operations.
-	struct random_access_iterator_tag : public bidirectional_iterator_tag { };
-
-	/**
-	** traits class for iterators
-	**
-	** simplifies nested typedefs
-	*/
-	template <typename Iterator>
-	struct iterator_traits {
-		typedef typename Iterator::iterator_category	iterator_category;
-		typedef typename Iterator::value_type			value_type;
-		typedef typename Iterator::difference_type		difference_type;
-		typedef typename Iterator::pointer				pointer;
-		typedef typename Iterator::reference			reference;
-	};
-
-	/**
-	** partial specialization for pointer types
-	*/
-	template <typename ItPointer>
-	struct iterator_traits<ItPointer*> {
-		typedef ItPointer						value_type;
-		typedef ItPointer*						pointer;
-		typedef ItPointer&						reference;
-		typedef std::ptrdiff_t					difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
-	};
-
-	/**
-	** partial specialization for const pointer types
-	*/
-	template <typename ItPointer>
-	struct iterator_traits<const ItPointer*> {
-		typedef ItPointer						value_type;
-		typedef const ItPointer*				pointer;
-		typedef const ItPointer&				reference;
-		typedef std::ptrdiff_t					difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
-	};
-
-
-	// template <class Category, class T, class Distance = std::ptrdiff_t,
-    //           class Pointer = T*, class Reference = T&>
-	template < class T >
-	class iterator {
-		// C11
-		// using iterator_category = std::forward_iterator_tag;
-		// using difference_type   = std::ptrdiff_t;
-		// using value_type        = T;
-		// using pointer           = T*;
-		// using reference         = T&;
-
-		public:
-			typedef T							value_type;
-			typedef T*							pointer;
-			typedef T&							reference;
-			typedef std::ptrdiff_t				difference_type;
-			typedef std::forward_iterator_tag	iterator_category;
-
-			iterator() : _m_ptr(NULL) {}
-
-			iterator(pointer _ptr) : _m_ptr(_ptr) {}
-
-			// ~iterator() {}
-
-			iterator &operator=(const iterator& _value) {
-				this->_m_ptr = _value._m_ptr;
-				return *this;
-			}
-
-			reference operator*() const { return *_m_ptr; }
-
-			pointer operator->() const { return _m_ptr; }
-
-			pointer base() const { return _m_ptr; }
-
-			reference operator[](difference_type _n) const { return _m_ptr[_n]; }
-
-			iterator operator+(difference_type _n) const { return iterator(_m_ptr + _n); }
-
-			iterator operator-(difference_type _n) const { return iterator(_m_ptr - _n); }
-
-			iterator &operator++() {
-				_m_ptr++;
-				return *this;
-			}
-
-			iterator operator++(int) {
-				iterator _temp = *this;
-				++(*this);
-				return _temp;
-			}
-
-			iterator &operator--() {
-				_m_ptr--;
-				return *this;
-			}
-
-			iterator operator--(int) {
-				iterator _temp = *this;
-				--(*this);
-				return _temp;
-			}
-
-			iterator &operator+=(difference_type _n) {
-				_m_ptr += _n;
-				return *this;
-			}
-
-			iterator &operator-=(difference_type _n) {
-				_m_ptr -= _n;
-				return *this;
-			}
-
-		private:
-			pointer	_m_ptr;
-
-	};
-
-	template < typename _iterator >
-	inline bool
-	operator==(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() == _rhs.base();
-	}
-
-	template < typename _iterator >
-	inline bool
-	operator!=(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() != _rhs.base();
-	}
-
-	template < typename _iterator >
-	inline bool
-	operator<(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() < _rhs.base();
-	}
-
-	template < typename _iterator >
-	inline bool
-	operator<=(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() <= _rhs.base();
-	}
-
-	template < typename _iterator >
-	inline bool
-	operator>(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() > _rhs.base();
-	}
-
-	template < typename _iterator >
-	inline bool
-	operator>=(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() >= _rhs.base();
-	}
-
-	template < typename _iterator >
-	inline typename iterator<_iterator>::difference_type
-	operator-(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() - _rhs.base();
-	}
-
-	template < typename _iterator >
-	inline typename iterator<_iterator>::difference_type
-	operator+(const iterator<_iterator> &_lhs, const iterator<_iterator> &_rhs) {
-		return _lhs.base() + _rhs.base();
-	}
-
-	// template < class T >
-	// class const_iterator {
-		
-	// };
 
 	template < class T, class Allocator = std::allocator<T> >
 	class vector {
@@ -309,9 +126,18 @@ namespace ft {
 				
 			// }
 
-			// void assign(size_type n, const value_type& val) {
+			void assign(size_type n, const value_type& val) {
+				this->clear();
+				// if (n > _capacity) {
+				// 	this->reserve(n);
+				// }
+				// _size = n;
+				this->insert(this->begin(), n, val);
+				// for (size_type i = 0; i < _size; i++) {
+				// 	_alloc.construct(_data + i, val);
+				// }
 				
-			// }
+			}
 
 			allocator_type get_allocator() const { return _alloc; }
 
@@ -583,8 +409,8 @@ namespace ft {
 			void swap(vector &x) {
 				pointer temp_data = _data;
 				allocator_type temp_alloc = _alloc;
-				size_type temp_size = _size;
-				size_type temp_capacity = _capacity;
+				size_type temp_size = _size,
+				          temp_capacity = _capacity;
 
 				_data = x._data;
 				_alloc = x._alloc;
@@ -596,7 +422,6 @@ namespace ft {
 				x._size = temp_size;
 				x._capacity = temp_capacity;
 			}
-
 
 		private:
 			pointer			_data;
