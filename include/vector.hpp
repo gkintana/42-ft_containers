@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/27 23:06:52 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/28 13:37:05 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,34 +265,41 @@ namespace ft {
 							const allocator_type &alloc = allocator_type()) :	_alloc(alloc),
 																				_size(n),
 																				_capacity(n) {
-				_data = _alloc.allocate(_capacity, NULL);
+				_data = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++) {
 					_alloc.construct(_data + i, val);
 				}
 			}
 
-			// NEEDS REVISION
 			~vector() {
-				for (size_type i = 0; i < _size; i++) {
-					_alloc.destroy(_data + i);
-				}
+				// for (size_type i = 0; i < _size; i++) {
+				// 	_alloc.destroy(_data + i);
+				// }
+				this->clear();
 				_alloc.deallocate(_data, _capacity);
+				_capacity = 0;
 			}
 
-			// NEEDS REVISION
-			vector(const vector& x) {
-				std::cout << "COPY OP" << std::endl;
+			vector(const vector& x) : _data(NULL),
+			                          _alloc(x._alloc),
+									  _size(0),
+									  _capacity(0) {
 				*this = x;
 			}
 
-			// NEEDS REVISION
 			vector &operator=(const vector &x) {
-				std::cout << "ASSIGNEMNT OP" << std::endl;
+				if (!this->empty()) {
+					this->~vector();
+				}
+
 				if (this != &x) {
-					_data = x._data;
-					_alloc = x._alloc;
+					_data = _alloc.allocate(x._capacity);
 					_size = x._size;
 					_capacity = x._capacity;
+
+					for (size_type i = 0; i < _size; i++) {
+						_alloc.construct(_data + i, *(x._data + i));
+					}
 				}
 				return *this;
 			}
@@ -466,9 +473,10 @@ namespace ft {
 
 			void insert(iterator position, size_type n, const value_type &val) {
 				difference_type offset = position - this->begin();
-				size_type range = size_type(offset) + n;
-				size_type new_size = _size + n;
-				
+				size_type range = size_type(offset) + n,
+				          old_value = offset - range,
+				          new_size = _size + n;
+
 				if (_size + n >= _capacity) {
 					// REMINDER: revise _capacity for macos
 					this->reserve(std::max(_capacity * 2, _size + n));
@@ -481,7 +489,7 @@ namespace ft {
 				}
 
 				for (size_type i = range; i < new_size; i++) {
-					_alloc.construct(_data + i, *(temp_data + i - range + offset));
+					_alloc.construct(_data + i, *(temp_data + i + old_value));
 				}
 				for (size_type i = offset; i < range; i++) {
 					_alloc.construct(_data + i, val);
@@ -491,9 +499,7 @@ namespace ft {
 					temp_alloc.destroy(temp_data + i);
 				}
 				temp_alloc.deallocate(temp_data, _size);
-				// (void)val;
 				_size += n;
-				// return position;
 			}
 
 			// template <class InputIterator>

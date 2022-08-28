@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/27 23:08:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/28 13:35:01 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,17 +136,34 @@ int main() {
 	{
 		NAMESPACE::vector<int> insert_int;
 
-		// pushValues(insert_int, 8);
+		pushValues(insert_int, 8);
 		pushValues(insert_int, 6);
 		// pushValues(insert_int, 16);
 		// pushValues(insert_int, 17);
 		printInfo(insert_int, true);
 		// insert_int.insert(insert_int.begin() + 3, 3, 42);
 		// insert_int.insert(insert_int.begin() + 3, 12, 42);
-		// insert_int.insert(insert_int.begin() + 3, 1, 42);
-		insert_int.insert(insert_int.begin() + 3, 0, 42);
+		insert_int.insert(insert_int.begin() + 3, 1, 42);
+		// insert_int.insert(insert_int.begin() + 3, 0, 42);
 		printInfo(insert_int, true);
 	}
+
+	// /*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
+
+	NAMESPACE::vector<int> vec(5, 5);
+	printInfo(vec, true);
+
+	NAMESPACE::vector<int> vec_copy = vec;
+	printInfo(vec_copy, true);
+
+	NAMESPACE::vector<int> vec_copy2;
+	printInfo(vec_copy2, true);
+	vec_copy2 = vec;
+	printInfo(vec_copy2, true);
+	vec_copy2 = vec_copy;
+	printInfo(vec_copy2, true);
 
 	return 0;
 }
