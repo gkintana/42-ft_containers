@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/28 22:42:11 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/29 18:37:49 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int main() {
 		printInfo(vec_copy2, true);
 	}
 
-	// /*-----------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------*/
 	
 	std::cout << GREEN "vector::push_back tests" DEFAULT << std::endl;
 	{
@@ -95,7 +95,7 @@ int main() {
 		printInfo(test_push_back, true);
 	}
 
-	// /*-----------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------*/
 
 	std::cout << GREEN "vector::pop_back tests" DEFAULT << std::endl;
 	{
@@ -109,7 +109,7 @@ int main() {
 		printInfo(test_pop_back, true);
 	}
 
-	// /*-----------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------*/
 
 	std::cout << GREEN "vector::at tests" DEFAULT << std::endl;
 	{
@@ -129,7 +129,7 @@ int main() {
 		}
 	}
 	
-	// /*-----------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------*/
 
 	std::cout << GREEN "vector::insert tests" DEFAULT << std::endl;
 	{
@@ -155,34 +155,86 @@ int main() {
 		printInfo(insert_str, true);
 	}
 
-	// /*-----------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------*/
 
 	std::cout << GREEN "vector::insert range tests" DEFAULT << std::endl;
 	{
 		NAMESPACE::vector<int> insert_int;
 
 		pushValues(insert_int, 8);
-		pushValues(insert_int, 6);
+		// pushValues(insert_int, 6);
 		// pushValues(insert_int, 16);
 		// pushValues(insert_int, 17);
 		printInfo(insert_int, true);
-		// insert_int.insert(insert_int.begin() + 3, 3, 42);
+		insert_int.insert(insert_int.begin() + 3, 3, 42);
 		// insert_int.insert(insert_int.begin() + 3, 12, 42);
-		insert_int.insert(insert_int.begin() + 3, 1, 42);
+		// insert_int.insert(insert_int.begin() + 3, 1, 42);
 		// insert_int.insert(insert_int.begin() + 3, 0, 42);
 		printInfo(insert_int, true);
 	}
 
-	// /*-----------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------*/
 
 	std::cout << GREEN "vector::assign tests" DEFAULT << std::endl;
 	{
 		NAMESPACE::vector<int> vec(10, 10);
 		printInfo(vec, true);
 
-		// vec.assign(10, 2);
+		vec.assign(10, 2);
 		vec.assign(5, 2);
 		printInfo(vec, true);
+	}
+
+	/*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector::assign iterator tests" DEFAULT << std::endl;
+	{
+		NAMESPACE::vector<int> vec(5, 5);
+		printInfo(vec, true);
+		NAMESPACE::vector<int> vec_copy(vec);
+
+		NAMESPACE::vector<int> vec2;
+		pushValues(vec2, 10);
+		printInfo(vec2, true);
+
+		NAMESPACE::vector<int>::iterator first = vec2.begin();
+		NAMESPACE::vector<int>::iterator last = vec2.end();
+		vec2.assign(first, last);
+		printInfo(vec2, true);
+
+		// first = vec_copy.begin() + 4;
+		// last = vec_copy.end() - 2;
+
+		first = vec_copy.begin() + 5;
+		last = vec_copy.end() - 5;
+		try {
+			vec.assign(first, last);
+			printInfo(vec, true);
+		} catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+		}
+	}
+
+	/*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector iterator constructor test" DEFAULT << std::endl;
+	{
+		// constructors used in the same order as described above:
+		// NAMESPACE::vector<int> first;                                // empty vector of ints
+		NAMESPACE::vector<int> second (4,100);                       // four ints with value 100
+		NAMESPACE::vector<int> third (second.begin(),second.end());  // iterating through second
+		printInfo(third, true);
+
+		// NAMESPACE::vector<int> fourth (third);                       // a copy of third
+
+		// // the iterator constructor can also be used to construct from arrays:
+		// int myints[] = {16,2,77,29};
+		// NAMESPACE::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+
+		// std::cout << "The contents of fifth are:";
+		// for (NAMESPACE::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+		// 	std::cout << ' ' << *it;
+		// std::cout << '\n';
 	}
 
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/29 00:18:18 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/29 18:39:41 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <vector>
 // #include <iterator>
 #include <type_traits.hpp>
+#include <iterator_traits.hpp>
 #include <iterator.hpp>
 
 // https://en.cppreference.com/w/cpp/container/vector
@@ -49,16 +50,16 @@ namespace ft {
 
 		public:
 
-			typedef T											value_type;
-			typedef Allocator									allocator_type;
-			typedef typename allocator_type::reference			reference;
-			typedef typename allocator_type::const_reference	const_reference;
-			typedef typename allocator_type::size_type			size_type;
-			typedef typename allocator_type::difference_type	difference_type;
-			typedef typename allocator_type::pointer			pointer;
-			typedef typename allocator_type::const_pointer		const_pointer;
-			typedef ft::iterator<value_type>					iterator;
-			typedef ft::iterator<const value_type>				const_iterator;
+			typedef T                                           value_type;
+			typedef Allocator                                   allocator_type;
+			typedef typename allocator_type::reference          reference;
+			typedef typename allocator_type::const_reference    const_reference;
+			typedef typename allocator_type::size_type          size_type;
+			typedef typename allocator_type::difference_type    difference_type;
+			typedef typename allocator_type::pointer            pointer;
+			typedef typename allocator_type::const_pointer      const_pointer;
+			typedef ft::iterator<value_type>                    iterator;
+			typedef ft::iterator<const value_type>              const_iterator;
 			// typedef implementation-defined						iterator;
 			// typedef implementation-defined						const_iterator;
 			// typedef std::reverse_iterator<iterator>				reverse_iterator;
@@ -87,6 +88,22 @@ namespace ft {
 				for (size_type i = 0; i < _size; i++) {
 					_alloc.construct(_data + i, val);
 				}
+			}
+
+			template <class InputIterator>
+			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+			        typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0) : _data(NULL),
+																												_alloc(alloc),
+																												_size(0),
+																												_capacity(0) {
+					difference_type range = last - first;
+					_size = _capacity = static_cast<size_type>(range);
+					_data = _alloc.allocate(_capacity);
+
+					iterator iter = first;
+					for (size_type i = 0; i < _size; i++) {
+						_alloc.construct(_data + i, *iter++);
+					}
 			}
 
 			~vector() {
@@ -122,22 +139,48 @@ namespace ft {
 				return *this;
 			}
 
-			// template <class InputIterator>
-			// void assign(InputIterator first, InputIterator last) {
+			template <class iterator>
+			void assign(iterator first, iterator last,
+			typename ft::enable_if<!ft::is_integral<iterator>::value, iterator>::type* = 0) {
+				// std::cout << "inside assign(Iterator first, Iterator last)" << std::endl;
 				
-			// }
+				if (first > last) {
+					this->clear();
+					_capacity = 0;
+					throw std::length_error("Error: ft::vector::assign");
+				}
+
+				difference_type range = last - first;
+				// std::cout << "iterator range = " << range << std::endl;
+				if (static_cast<size_type>(range) > _capacity) {
+					this->reserve(range);
+				}
+
+				// size_type index = 0;
+				// std::cout << "index = " << index << std::endl;
+				// for (iterator i = first; i != last; i++) {
+				// 	_alloc.construct(_data + index, *i);
+				// }
+
+				iterator iter = first;
+				_size = static_cast<size_type>(range);
+				for (size_type i = 0; i < _size; i++) {
+					_alloc.construct(_data + i, *iter++);
+				}
+			}
 
 			void assign(size_type n, const value_type& val) {
 				this->clear();
-				// if (n > _capacity) {
-				// 	this->reserve(n);
-				// }
-				// _size = n;
-				this->insert(this->begin(), n, val);
-				// for (size_type i = 0; i < _size; i++) {
-				// 	_alloc.construct(_data + i, val);
-				// }
-				
+				if (n > 0) {
+					if (n > _capacity) {
+						this->reserve(n);
+					}
+					_size = n;
+					for (size_type i = 0; i < _size; i++) {
+						_alloc.construct(_data + i, val);
+					}
+				}
+				// this->insert(this->begin(), n, val);
 			}
 
 			allocator_type get_allocator() const { return _alloc; }
@@ -425,10 +468,10 @@ namespace ft {
 			}
 
 		private:
-			pointer			_data;
-			allocator_type	_alloc;
-			size_type		_size;
-			size_type		_capacity;
+			pointer           _data;
+			allocator_type    _alloc;
+			size_type         _size;
+			size_type         _capacity;
 	};
 
 	/**
