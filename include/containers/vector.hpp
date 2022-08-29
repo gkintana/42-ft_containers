@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/29 18:39:41 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/30 00:04:14 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,23 +96,14 @@ namespace ft {
 																												_alloc(alloc),
 																												_size(0),
 																												_capacity(0) {
-					difference_type range = last - first;
-					_size = _capacity = static_cast<size_type>(range);
-					_data = _alloc.allocate(_capacity);
+				difference_type range = last - first;
+				_size = _capacity = static_cast<size_type>(range);
+				_data = _alloc.allocate(_capacity);
 
-					iterator iter = first;
-					for (size_type i = 0; i < _size; i++) {
-						_alloc.construct(_data + i, *iter++);
-					}
-			}
-
-			~vector() {
-				// for (size_type i = 0; i < _size; i++) {
-				// 	_alloc.destroy(_data + i);
-				// }
-				this->clear();
-				_alloc.deallocate(_data, _capacity);
-				_capacity = 0;
+				iterator iter = first;
+				for (size_type i = 0; i < _size; i++) {
+					_alloc.construct(_data + i, *iter++);
+				}
 			}
 
 			vector(const vector& x) : _data(NULL),
@@ -137,6 +128,12 @@ namespace ft {
 					}
 				}
 				return *this;
+			}
+
+			~vector() {
+				this->clear();
+				_alloc.deallocate(_data, _capacity);
+				_capacity = 0;
 			}
 
 			template <class iterator>
@@ -477,7 +474,49 @@ namespace ft {
 	/**
 	** Non-Member Functions
 	*/
+	
+	template < class T, class Allocator >
+	bool operator==(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+		if (lhs.size() == rhs.size()) {
+			for (ft::iterator<T> iter = lhs.begin(); iter != lhs.end(); iter++) {
+				if (lhs.begin() + iter != rhs.begin() + iter) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 
+	template < class T, class Allocator >
+	bool operator!=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+		return lhs != rhs ? true : false;
+	}
+
+	template < class T, class Allocator >
+	bool operator<(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+		// lexographical compare
+	}
+
+	template < class T, class Allocator >
+	bool operator<=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+		return lhs <= rhs ? true : false;
+	}
+
+	template < class T, class Allocator >
+	bool operator>(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+		return lhs > rhs ? true : false;
+	}
+
+	template < class T, class Allocator >
+	bool operator>=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+		return lhs >= rhs ? true : false;
+	}
+
+	template < class T, class Allocator >
+	void swap(ft::vector<T, Allocator>&lhs, ft::vector<T, Allocator>&rhs) {
+		lhs.swap(rhs);
+	}
 }
 
 #endif
