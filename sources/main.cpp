@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/29 18:37:49 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/30 15:59:51 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,22 @@ int main() {
 		// for (NAMESPACE::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
 		// 	std::cout << ' ' << *it;
 		// std::cout << '\n';
+	}
+
+	/*-----------------------------------------------------------------------*/
+
+	std::cout << GREEN "vector reverse_iterator test" DEFAULT << std::endl;
+	{
+		NAMESPACE::vector<int> vec;
+		pushValues(vec, 20);
+
+		std::cout << "rbegin value = " << *vec.rbegin() << std::endl;
+		std::cout << "rend value = " << *vec.rend() << std::endl;
+
+		for (NAMESPACE::vector<int>::reverse_iterator i = vec.rbegin(); i != vec.rend(); i++) {
+			std::cout << *i << " ";
+		}
+		std::cout << std::endl;
 	}
 
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/30 10:20:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:33:25 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <sstream>
 
 #include <vector>
-// #include <iterator>
+#include <iterator>
 #include <type_traits.hpp>
 #include <iterator_traits.hpp>
 #include <iterator.hpp>
@@ -50,7 +50,6 @@ namespace ft {
 	class vector {
 
 		public:
-
 			typedef T                                           value_type;
 			typedef Allocator                                   allocator_type;
 			typedef typename allocator_type::reference          reference;
@@ -61,10 +60,8 @@ namespace ft {
 			typedef typename allocator_type::const_pointer      const_pointer;
 			typedef ft::iterator<value_type>                    iterator;
 			typedef ft::iterator<const value_type>              const_iterator;
-			// typedef implementation-defined						iterator;
-			// typedef implementation-defined						const_iterator;
-			// typedef std::reverse_iterator<iterator>				reverse_iterator;
-			// typedef std::reverse_iterator<const_iterator>		const_reverse_iterator;
+			typedef ft::reverse_iterator<iterator>				reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 			/**
 			** Member Functions
@@ -246,13 +243,13 @@ namespace ft {
 
 			const_iterator end() const { return const_iterator(_data + _size); }
 
-			// reverse_iterator rbegin() {}
+			reverse_iterator rbegin() { return reverse_iterator(this->end()); }
 
-			// const_reverse_iterator rbegin() {}
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(this->end()); }
 
-			// reverse_iterator rend() {}
+			reverse_iterator rend() { return reverse_iterator(this->begin()); }
 
-			// const_reverse_iterator rend() {}
+			const_reverse_iterator rend() const { return const_reverse_iterator(this->begin()); }
 
 
 			/**
@@ -349,7 +346,7 @@ namespace ft {
 					// REMINDER: revise _capacity for macos
 					this->reserve(std::max(_capacity * 2, _size + n));
 				}
-				
+
 				allocator_type temp_alloc;
 				pointer temp_data = temp_alloc.allocate(_size);
 				for (size_type i = 0; i < _size; i++) {
@@ -362,7 +359,7 @@ namespace ft {
 				for (size_type i = offset; i < range; i++) {
 					_alloc.construct(_data + i, val);
 				}
-				
+
 				for (size_type i = 0; i < _size; i++) {
 					temp_alloc.destroy(temp_data + i);
 				}
