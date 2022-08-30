@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/30 18:33:25 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/30 23:16:06 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 
 #include <vector>
 #include <iterator>
+#include <algorithm>
+
 #include <type_traits.hpp>
 #include <iterator_traits.hpp>
 #include <iterator.hpp>
 #include <reverse_iterator.hpp>
+#include <utils.hpp>
 
 // https://en.cppreference.com/w/cpp/container/vector
 // https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
@@ -73,27 +76,27 @@ namespace ft {
 			** get_allocator	returns the associated allocator
 			*/
 
-			explicit vector(const allocator_type &alloc = allocator_type()) :	_data(NULL),
-																				_alloc(alloc),
-																				_size(0),
-																				_capacity(0) {}
+			explicit vector(const allocator_type &alloc = allocator_type()) : _data(NULL),
+			                                                                  _alloc(alloc),
+			                                                                  _size(0),
+			                                                                  _capacity(0) {}
 
 			explicit vector(size_type n, const value_type &val = value_type(), 
-							const allocator_type &alloc = allocator_type()) :	_alloc(alloc),
-																				_size(n),
-																				_capacity(n) {
+			                const allocator_type &alloc = allocator_type()) : _alloc(alloc),
+			                                                                  _size(n),
+			                                                                  _capacity(n) {
 				_data = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++) {
 					_alloc.construct(_data + i, val);
 				}
 			}
 
-			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-			        typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = 0) : _data(NULL),
-																												_alloc(alloc),
-																												_size(0),
-																												_capacity(0) {
+			template < class Iterator >
+			vector(Iterator first, Iterator last, const allocator_type& alloc = allocator_type(),
+			       typename ft::enable_if<!ft::is_integral<Iterator>::value, Iterator>::type* = 0) : _data(NULL),
+			                                                                                         _alloc(alloc),
+			                                                                                         _size(0),
+			                                                                                         _capacity(0) {
 				difference_type range = last - first;
 				_size = _capacity = static_cast<size_type>(range);
 				_data = _alloc.allocate(_capacity);
@@ -106,8 +109,8 @@ namespace ft {
 
 			vector(const vector& x) : _data(NULL),
 			                          _alloc(x._alloc),
-									  _size(0),
-									  _capacity(0) {
+			                          _size(0),
+			                          _capacity(0) {
 				*this = x;
 			}
 
@@ -134,15 +137,15 @@ namespace ft {
 				_capacity = 0;
 			}
 
-			template <class iterator>
-			void assign(iterator first, iterator last,
-			typename ft::enable_if<!ft::is_integral<iterator>::value, iterator>::type* = 0) {
+			template < class Iterator >
+			void assign(Iterator first, Iterator last,
+			            typename ft::enable_if<!ft::is_integral<Iterator>::value, Iterator>::type* = 0) {
 				// std::cout << "inside assign(Iterator first, Iterator last)" << std::endl;
 				
 				if (first > last) {
 					this->clear();
 					_capacity = 0;
-					throw std::length_error("Error: ft::vector::assign");
+					throw std::length_error("ft::vector::assign");
 				}
 
 				difference_type range = last - first;
@@ -164,15 +167,16 @@ namespace ft {
 				}
 			}
 
-			void assign(size_type n, const value_type& val) {
+			void assign(size_type n, const value_type& value) {
 				this->clear();
 				if (n > 0) {
 					if (n > _capacity) {
 						this->reserve(n);
 					}
+
 					_size = n;
 					for (size_type i = 0; i < _size; i++) {
-						_alloc.construct(_data + i, val);
+						_alloc.construct(_data + i, value);
 					}
 				}
 				// this->insert(this->begin(), n, val);
@@ -274,20 +278,19 @@ namespace ft {
 				if (new_cap > this->max_size()) {
 					throw std::length_error("ft::vector::reserve");
 				} else if (_capacity < new_cap) {
-					allocator_type _temp_alloc;
-					pointer _temp_data = _temp_alloc.allocate(new_cap);
+					allocator_type temp_alloc;
+					pointer temp_data = temp_alloc.allocate(new_cap);
 
 					for (size_type i = 0; i < _size; i++) {
-						_temp_alloc.construct(_temp_data + i, *(_data + i));
+						temp_alloc.construct(temp_data + i, *(_data + i));
 						_alloc.destroy(_data + i);
 					}
 					// for (size_type i = 0; i < _size; i++) {
 					// 	_alloc.destroy(_data + i);
 					// }
 					_alloc.deallocate(_data, _capacity);
-
-					_data = _temp_data;
-					_alloc = _temp_alloc;
+					_data = temp_data;
+					_alloc = temp_alloc;
 					_capacity = new_cap;
 				}
 			}
@@ -367,10 +370,12 @@ namespace ft {
 				_size += n;
 			}
 
-			// template <class InputIterator>
-			// void insert(iterator position, InputIterator first, InputIterator last) {
-				
-			// }
+			template < class Iterator >
+			void insert(iterator position, Iterator first, Iterator last,
+			            typename ft::enable_if<!ft::is_integral<Iterator>::value, Iterator>::type* = 0) {
+				std::cout << "inside void insert(iterator position, Iterator first, Iterator last)" << std::endl;
+				(void)position, (void)first, (void)last;
+			}
 
 			iterator erase(iterator pos) {
 				// std::cout << "ft::vector.size() = " << this->end() - this->begin() << std::endl;
@@ -493,8 +498,7 @@ namespace ft {
 
 	template < class T, class Allocator >
 	bool operator<(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
-		// lexographical compare
-		(void)lhs, (void)rhs;
+		return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template < class T, class Allocator >
