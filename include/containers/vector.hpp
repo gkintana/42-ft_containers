@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/30 00:04:14 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/30 10:20:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <type_traits.hpp>
 #include <iterator_traits.hpp>
 #include <iterator.hpp>
+#include <reverse_iterator.hpp>
 
 // https://en.cppreference.com/w/cpp/container/vector
 // https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
@@ -496,6 +497,7 @@ namespace ft {
 	template < class T, class Allocator >
 	bool operator<(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
 		// lexographical compare
+		(void)lhs, (void)rhs;
 	}
 
 	template < class T, class Allocator >
