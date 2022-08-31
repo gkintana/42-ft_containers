@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 23:55:18 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/30 18:14:53 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/31 11:05:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <iterator_traits.hpp>
 #include <iterator.hpp>
+
+#include <iterator>
 
 namespace ft {
 
@@ -86,7 +88,7 @@ namespace ft {
 			reverse_iterator operator--(int) {
 				reverse_iterator temp(*this);
 				++m_current;
-				return *this;
+				return temp;
 			}
 
 		private:

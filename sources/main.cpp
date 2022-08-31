@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/30 15:59:51 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/31 18:47:23 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,12 +245,45 @@ int main() {
 		pushValues(vec, 20);
 
 		std::cout << "rbegin value = " << *vec.rbegin() << std::endl;
-		std::cout << "rend value = " << *vec.rend() << std::endl;
+		std::cout << "rend value = " << *(vec.rend() - 1)<< std::endl;
 
 		for (NAMESPACE::vector<int>::reverse_iterator i = vec.rbegin(); i != vec.rend(); i++) {
 			std::cout << *i << " ";
 		}
 		std::cout << std::endl;
+		for (NAMESPACE::vector<int>::reverse_iterator i = vec.rend() - 1; i != vec.rbegin() - 1; i--) {
+			std::cout << *i << " ";
+		}
+		std::cout << std::endl;
+
+
+
+		NAMESPACE::vector<std::string> vec2;
+		vec2.push_back("Hello");
+		vec2.push_back("World");
+		vec2.push_back("!");
+		vec2.push_back("Hello");
+		vec2.push_back("World");
+		vec2.push_back("!");
+		for (NAMESPACE::vector<std::string>::reverse_iterator i = vec2.rend() - 1; i > vec2.rbegin() - 1; i--) {
+			std::cout << *i << " ";
+		}
+		std::cout << std::endl;
+		for (NAMESPACE::vector<std::string>::iterator i = vec2.begin(); i != vec2.end(); i++) {
+			std::cout << *i << " ";
+		}
+		std::cout << std::endl;
+		std::cout << vec2.size() << std::endl;
+		std::cout << vec2.capacity() << std::endl;
+	}
+
+	{
+		NAMESPACE::vector<char> ft_vec;
+		// std::vector<char> std_vec;
+		// testVectors(ft_vec, std_vec);
+		printInfo(ft_vec, true);
+		std::cout << ft_vec.max_size() << std::endl;
+		
 	}
 
 	return 0;
