@@ -6,12 +6,13 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 12:39:42 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/31 18:23:23 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/08/31 19:19:30 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <sstream>
+#include <cfloat>
 // #include <cstring>
 
 #include <vector>
@@ -75,8 +76,8 @@ void checkMaxSize(ft::vector<FT> &ft, std::vector<STD> &std) {
 }
 #endif
 
-template < class FT, class STD >
-void checkContent(ft::vector<FT> &ft, std::vector<STD> &std) {
+template < class T >
+void checkContent(ft::vector<T> &ft, std::vector<T> &std) {
 	std::stringstream ft_ss, std_ss;
 	for (size_t i = 0; i < ft.size(); i++) {
 		ft_ss << ft[i] << " ";
@@ -90,14 +91,25 @@ void checkContent(ft::vector<FT> &ft, std::vector<STD> &std) {
 	}
 }
 
-template < class FT, class STD >
-void testVectors(ft::vector<FT> &ft, std::vector<STD> &std) {
+template < class T >
+void testVectors(ft::vector<T> &lhs, ft::vector<T> &rhs) {
+	checkContent(lhs, rhs);
+	checkEmpty(lhs, rhs);
+	checkSize(lhs, rhs);
+	checkCapacity(lhs, rhs);
+	checkMaxSize(lhs, rhs);
+}
+
+template < class T >
+void testVectors(ft::vector<T> &ft, std::vector<T> &std) {
 	checkContent(ft, std);
 	checkEmpty(ft, std);
 	checkSize(ft, std);
 	checkCapacity(ft, std);
 	checkMaxSize(ft, std);
 }
+
+
 
 int main() {
 	std::cout << "Default Constructor Tests: ";
@@ -175,8 +187,18 @@ int main() {
 		testVectors(ft_vec, std_vec);
 	}
 	{
-		ft::vector<int> ft_vec(21, 42);
-		std::vector<int> std_vec(21, 42);
+		ft::vector<int> ft_vec(10, INT_MIN);
+		std::vector<int> std_vec(10, INT_MIN);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<int> ft_vec(10, 0);
+		std::vector<int> std_vec(10, 0);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<int> ft_vec(10, INT_MAX);
+		std::vector<int> std_vec(10, INT_MAX);
 		testVectors(ft_vec, std_vec);
 	}
 	{
@@ -195,8 +217,18 @@ int main() {
 		testVectors(ft_vec, std_vec);
 	}
 	{
-		ft::vector<long> ft_vec(21, 42);
-		std::vector<long> std_vec(21, 42);
+		ft::vector<long> ft_vec(10, LONG_MIN);
+		std::vector<long> std_vec(10, LONG_MIN);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<long> ft_vec(10, 0);
+		std::vector<long> std_vec(10, 0);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<long> ft_vec(10, LONG_MAX);
+		std::vector<long> std_vec(10, LONG_MAX);
 		testVectors(ft_vec, std_vec);
 	}
 	{
@@ -235,8 +267,18 @@ int main() {
 		testVectors(ft_vec, std_vec);
 	}
 	{
-		ft::vector<float> ft_vec(21, 42424242424242424242.123123123123123123123123123123123123123123123123f);
-		std::vector<float> std_vec(21, 42424242424242424242.123123123123123123123123123123123123123123123123f);
+		ft::vector<float> ft_vec(10, FLT_MIN);
+		std::vector<float> std_vec(10, FLT_MIN);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<float> ft_vec(10, 0);
+		std::vector<float> std_vec(10, 0);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<float> ft_vec(10, FLT_MAX);
+		std::vector<float> std_vec(10, FLT_MAX);
 		testVectors(ft_vec, std_vec);
 	}
 	{
@@ -250,19 +292,29 @@ int main() {
 	}
 	// double vector tests
 	{
-		ft::vector<float> ft_vec(0, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
-		std::vector<float> std_vec(0, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
+		ft::vector<double> ft_vec(0, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
+		std::vector<double> std_vec(0, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
 		testVectors(ft_vec, std_vec);
 	}
 	{
-		ft::vector<float> ft_vec(21, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
-		std::vector<float> std_vec(21, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
+		ft::vector<double> ft_vec(10, DBL_MIN);
+		std::vector<double> std_vec(10, DBL_MIN);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<double> ft_vec(10, 0);
+		std::vector<double> std_vec(10, 0);
+		testVectors(ft_vec, std_vec);
+	}
+	{
+		ft::vector<double> ft_vec(10, DBL_MAX);
+		std::vector<double> std_vec(10, DBL_MAX);
 		testVectors(ft_vec, std_vec);
 	}
 	{
 		try {
-			ft::vector<float> ft_vec(-5, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
-			std::vector<float> std_vec(-5, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
+			ft::vector<double> ft_vec(-5, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
+			std::vector<double> std_vec(-5, 42424242424242424242.123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123);
 			std::cout << RED "[KO] " DEFAULT;
 		} catch (std::exception &e) {
 			std::cout << GREEN "[OK] " DEFAULT;
@@ -282,8 +334,17 @@ int main() {
 	/*------------------------------------------------------------------------*/
 
 	std::cout << "Copy Constructor Tests: ";
+	
+	// int vector tests
 	{
-		
+		// ft::vector<int> ft_vec(10, INT_MAX);
+		// std::vector<int> std_vec(10, INT_MAX);
+
+		// ft::vector<int> ft_copy1(ft_vec);
+		// testVectors(ft_vec, ft_copy1);
+
+		// ft::vector<int> ft_copy2(ft_copy1);
+		// ft_copy1 = ft_copy2;		
 	}
 	std::cout << std::endl;
 
