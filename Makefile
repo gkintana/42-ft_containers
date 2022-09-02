@@ -6,7 +6,7 @@
 #    By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/06 17:01:53 by gkintana          #+#    #+#              #
-#    Updated: 2022/08/31 12:45:20 by gkintana         ###   ########.fr        #
+#    Updated: 2022/09/02 17:05:46 by gkintana         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,12 @@ OBJ_DIR		=	objects
 OBJ_FT		=	ft_containers
 OBJ_STD		=	std_containers
 
-SRCS		=	main.cpp \
-				vector_construction.cpp
+SRCS		=	main.cpp
 OBJS_FT		=	$(addprefix $(OBJ_DIR)/$(OBJ_FT)/, $(SRCS:%cpp=%o))
 OBJS_STD	=	$(addprefix $(OBJ_DIR)/$(OBJ_STD)/, $(SRCS:%cpp=%o))
 
 CXX			=	c++
-CPPFLAGS	=	-std=c++98 -g -Wall -Wextra -Werror
+CPPFLAGS	=	-std=c++98 -g3 -Wall -Wextra -Werror
 RM			=	rm -rf
 
 DEFAULT		=	"\033[0m"

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/30 23:16:06 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/02 21:06:19 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,19 @@ namespace ft {
 			                                                                                         _alloc(alloc),
 			                                                                                         _size(0),
 			                                                                                         _capacity(0) {
-				difference_type range = last - first;
+				if (first > last) {
+					throw std::length_error("cannot create std::vector larger than max_size()");
+				}
+				// difference_type range = last - first;
+				difference_type range = 0;
+				for (Iterator temp = first; temp != last; temp++) {
+					range++;
+				}
 				_size = _capacity = static_cast<size_type>(range);
 				_data = _alloc.allocate(_capacity);
 
-				iterator iter = first;
 				for (size_type i = 0; i < _size; i++) {
-					_alloc.construct(_data + i, *iter++);
+					_alloc.construct(_data + i, *first++);
 				}
 			}
 

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/31 18:47:23 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/02 21:05:02 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,20 @@ int main() {
 		std::cout << ft_vec.max_size() << std::endl;
 		
 	}
+
+
+	NAMESPACE::vector<int> vec(5, 10);
+	// std::cout << *vec.begin() << std::endl;
+	// std::cout << *(vec.end() - 1) << std::endl;
+
+	// std::cout << *(vec.rend() - 1) << std::endl;
+	// std::cout << *vec.rbegin() << std::endl;
+	
+
+	// NAMESPACE::vector<int> vec2(vec.begin(), vec.end());
+	try {
+		NAMESPACE::vector<int> vec3(vec.rend(), vec.rbegin());
+	} catch (std::exception &e) {}
 
 	return 0;
 }
