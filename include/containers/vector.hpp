@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/02 21:06:19 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/05 21:35:54 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,17 +286,16 @@ namespace ft {
 				} else if (_capacity < new_cap) {
 					allocator_type temp_alloc;
 					pointer temp_data = temp_alloc.allocate(new_cap);
+					size_type temp_size = _size;
 
 					for (size_type i = 0; i < _size; i++) {
 						temp_alloc.construct(temp_data + i, *(_data + i));
-						_alloc.destroy(_data + i);
 					}
-					// for (size_type i = 0; i < _size; i++) {
-					// 	_alloc.destroy(_data + i);
-					// }
-					_alloc.deallocate(_data, _capacity);
+					this->~vector();
+
 					_data = temp_data;
 					_alloc = temp_alloc;
+					_size = temp_size;
 					_capacity = new_cap;
 				}
 			}
@@ -439,19 +438,18 @@ namespace ft {
 
 			void pop_back()	{ _alloc.destroy(&_data[_size-- - 1]); }
 
-			// REMINDER: revise & add destroy
 			void resize(size_type new_size, value_type value = value_type()) {
 				if (new_size > this->max_size()) {
 					throw std::length_error("ft::vector::resize");
 				} else if (new_size > _capacity) {
 					this->reserve(std::max(_capacity * 2, new_size));
 				}
+
 				for (size_type i = _size; i < new_size; i++) {
-					if (value) {
-						_alloc.construct(_data + i, value);
-					} else {
-						_alloc.construct(_data + i, 0);
-					}
+					_alloc.construct(_data + i, value);
+				}
+				for (size_type i = _size; i > new_size; i--) {
+					_alloc.destroy(_data + i - 1);
 				}
 				_size = new_size;
 			}
