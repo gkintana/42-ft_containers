@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/05 21:35:54 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/10 23:25:23 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,9 +272,9 @@ namespace ft {
 			** reserve			reserves storage
 			*/
 
-			bool empty() { return !_size ? true : false; }
+			bool empty() const { return !_size ? true : false; }
 
-			size_type size() { return _size; }
+			size_type size() const { return _size; }
 
 			size_type max_size() const { return _alloc.max_size(); }
 
@@ -484,20 +484,21 @@ namespace ft {
 	
 	template < class T, class Allocator >
 	bool operator==(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
-		if (lhs.size() == rhs.size()) {
-			for (ft::iterator<T> iter = lhs.begin(); iter != lhs.end(); iter++) {
-				if (lhs.begin() + iter != rhs.begin() + iter) {
-					return false;
-				}
-			}
-			return true;
+		if (lhs.size() != rhs.size()) {
+			return false;
 		}
-		return false;
+
+		for (size_t i = 0; i < lhs.size(); i++) {
+			if (lhs.at(i) != rhs.at(i)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	template < class T, class Allocator >
 	bool operator!=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
-		return lhs != rhs ? true : false;
+		return !(lhs == rhs);
 	}
 
 	template < class T, class Allocator >
@@ -507,17 +508,17 @@ namespace ft {
 
 	template < class T, class Allocator >
 	bool operator<=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
-		return lhs <= rhs ? true : false;
+		return !(rhs < lhs);
 	}
 
 	template < class T, class Allocator >
 	bool operator>(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
-		return lhs > rhs ? true : false;
+		return rhs < lhs;
 	}
 
 	template < class T, class Allocator >
 	bool operator>=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
-		return lhs >= rhs ? true : false;
+		return !(lhs < rhs);
 	}
 
 	template < class T, class Allocator >
