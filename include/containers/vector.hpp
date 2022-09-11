@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/11 13:01:13 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/11 23:14:58 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,8 +378,45 @@ namespace ft {
 			template < class Iterator >
 			void insert(iterator position, Iterator first, Iterator last,
 			            typename ft::enable_if<!ft::is_integral<Iterator>::value, Iterator>::type* = 0) {
-				std::cout << "inside void insert(iterator position, Iterator first, Iterator last)" << std::endl;
-				(void)position, (void)first, (void)last;
+				// std::cout << "inside void insert(iterator position, Iterator first, Iterator last)" << std::endl;
+
+				difference_type offset = position - this->begin();
+				        //   old_value = offset - range,
+				        //   new_size = _size + n;
+				size_type n = 0;
+				difference_type range = offset;
+				for (Iterator temp = first; temp != last; temp++) {
+					range++;
+					n++;
+				}
+				size_type old_value = offset - static_cast<size_type>(range),
+				          new_size = _size + n;
+
+				if (_size + n >= _capacity) {
+					// REMINDER: revise _capacity for macos
+					this->reserve(std::max(_capacity * 2, _size + n));
+				}
+
+				allocator_type temp_alloc;
+				pointer temp_data = temp_alloc.allocate(_size);
+				for (size_type i = 0; i < _size; i++) {
+					temp_alloc.construct(temp_data + i, *(_data + i));
+				}
+
+				for (size_type i = static_cast<size_type>(range); i < new_size; i++) {
+					_alloc.construct(_data + i, *(temp_data + i + old_value));
+				}
+				for (size_type i = offset; i < static_cast<size_type>(range); i++) {
+					_alloc.construct(_data + i, *first++);
+				}
+
+				for (size_type i = 0; i < _size; i++) {
+					temp_alloc.destroy(temp_data + i);
+				}
+				temp_alloc.deallocate(temp_data, _size);
+				_size += n;
+
+				// (void)position, (void)first, (void)last;
 			}
 
 			iterator erase(iterator pos) {
