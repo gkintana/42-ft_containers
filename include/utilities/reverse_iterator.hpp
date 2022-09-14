@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 23:55:18 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/31 11:05:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:14:38 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iterator_traits.hpp>
 #include <iterator.hpp>
 
-#include <iterator>
+// #include <iterator>
 
 namespace ft {
 
@@ -38,6 +38,13 @@ namespace ft {
 			reverse_iterator() : m_current(NULL) {}
 
 			explicit reverse_iterator(iterator_type x) : m_current(x) {}
+
+			// ~reverse_iterator() {}
+
+			reverse_iterator(const reverse_iterator &value) : m_current(NULL) {
+				// if (this != value)
+				*this = value;
+			}
 
 			reverse_iterator& operator=(const reverse_iterator &value) {
 				m_current = value.base();

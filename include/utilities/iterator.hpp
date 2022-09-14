@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 22:42:27 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/31 14:09:32 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:14:13 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define ITERATOR_HPP
 
 // #include <iterator_traits.hpp>
+// #include <iterator>
 
 namespace ft {
 
@@ -38,6 +39,11 @@ namespace ft {
 			iterator() : m_ptr(NULL) {}
 
 			iterator(pointer ptr) : m_ptr(ptr) {}
+
+			iterator(const iterator &value) : m_ptr(NULL) {
+				// if (this != value)
+				*this = value;
+			}
 
 			// ~iterator() {}
 
