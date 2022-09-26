@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 12:33:20 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/26 23:45:28 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/27 00:01:54 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,13 @@ namespace ft {
 	}
 
 	template <class T1, class T2>
-	inline bool operator>(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs) {
+	inline bool operator>=(const ft::pair<T1, T2> &lhs, const ft::pair<T1, T2> &rhs) {
 		return !(lhs < rhs);
+	}
+
+	template <class T1, class T2>
+	ft::pair<T1, T2> make_pair(T1 lhs, T2 rhs) {
+		return ft::pair<T1, T2>(lhs, rhs);
 	}
 
 }
