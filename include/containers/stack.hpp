@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:55 by gkintana          #+#    #+#             */
-/*   Updated: 2022/08/22 22:16:44 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:30:28 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,49 +23,48 @@ namespace ft {
 	class stack {
 
 		public:
-			typedef Container									container_type;
-			typedef typename container_type::value_type			value_type;
-			typedef typename container_type::size_type			size_type;
-			typedef typename container_type::reference			reference;
-			typedef typename container_type::const_reference	const_reference;
+			typedef Container                                   container_type;
+			typedef typename container_type::value_type         value_type;
+			typedef typename container_type::size_type          size_type;
+			typedef typename container_type::reference          reference;
+			typedef typename container_type::const_reference    const_reference;
 
-			stack() : _ft_vector() {}
+			stack() : container() {}
 
 			/**
 			** Element Access
 			**
-			** top	accesses the top element
+			** top    accesses the top element
 			*/
 
-			reference top() { return _ft_vector.back(); }
+			reference top() { return container.back(); }
+
+			const reference top() const { return container.back(); }
 
 			/**
 			** Capacity
 			**
-			** empty	checks whether the underlying container is empty
-			** size		returns the number of elements
+			** empty    checks whether the underlying container is empty
+			** size     returns the number of elements
 			*/
 
-			bool empty() { return _ft_vector.empty(); }
+			bool empty() const { return container.empty(); }
 
-			size_type size() { return _ft_vector.size(); }
+			size_type size() const { return container.size(); }
 
 			/**
 			** Modifiers
 			**
-			** push		inserts element at the top
-			** pop		removes the top element
+			** push    inserts element at the top
+			** pop     removes the top element
 			*/
 
-			void push(const value_type &_value) { _ft_vector.push_back(_value); }
+			void push(const value_type &value) { container.push_back(value); }
 
-			void pop() { _ft_vector.pop_back(); }
-
-		private:
-
+			void pop() { container.pop_back(); }
 
 		protected:
-			container_type	_ft_vector;
+			container_type    container;
 
 	};
 
@@ -73,6 +72,35 @@ namespace ft {
 	** Non-Member Functions
 	*/
 
+	template <class T, class Container>
+	inline bool operator==(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+		return lhs.container == rhs.container;
+	}
+
+	template <class T, class Container>
+	inline bool operator!=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+		return !(lhs == rhs);
+	}
+
+	template <class T, class Container>
+	inline bool operator<(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+		return lhs.container < rhs.container;
+	}
+
+	template <class T, class Container>
+	inline bool operator<=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+		return !(rhs < lhs);
+	}
+
+	template <class T, class Container>
+	inline bool operator>(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+		return rhs < lhs;
+	}
+
+	template <class T, class Container>
+	inline bool operator>=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+		return !(lhs < rhs);
+	}
 
 }
 
