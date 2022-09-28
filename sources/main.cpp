@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/27 00:06:09 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/28 23:35:53 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,7 @@ int main() {
 	} catch (std::exception &e) {}
 
 
-
+	// simple pair test
 	NAMESPACE::pair <std::string,double> product1;                     // default constructor
 	NAMESPACE::pair <std::string,double> product2 ("tomatoes",2.30);   // value init
 	NAMESPACE::pair <std::string,double> product3 (product2);          // copy constructor
@@ -316,6 +316,28 @@ int main() {
 	std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
 	std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
 	std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
+
+
+	// simple stack test
+	NAMESPACE::stack<int> s;
+
+	std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
+	std::cout << "stack::top() = " << s.top() << std::endl;
+	for(size_t i = 0; i < 100; i++) {
+		if (i && !(i % 20)) {
+			std::cout << "stack::top() = " << s.top() << std::endl;
+		}
+		s.push(i + 1);
+	}
+	std::cout << "stack::top() = " << s.top() << std::endl;
+	std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
+	std::cout << "stack::size() = " << s.size() << std::endl;
+
+	for(size_t i = 0; i < 100; i++) {
+		s.pop();
+	}
+	std::cout << "stack::size() = " << s.size() << std::endl;
+	std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
 
 	return 0;
 }

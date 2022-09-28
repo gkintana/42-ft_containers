@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:55 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/27 15:30:28 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/28 23:26:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,94 +14,94 @@
 #define STACK_HPP
 
 #include <vector.hpp>
-
-#include <stack>
+// #include <stack>
 
 namespace ft {
 
-	template < class T, class Container = ft::vector<T> >
-	class stack {
+template < class T, class Container = ft::vector<T> >
+class stack {
 
-		public:
-			typedef Container                                   container_type;
-			typedef typename container_type::value_type         value_type;
-			typedef typename container_type::size_type          size_type;
-			typedef typename container_type::reference          reference;
-			typedef typename container_type::const_reference    const_reference;
+	public:
+		typedef Container                                   container_type;
+		typedef typename container_type::value_type         value_type;
+		typedef typename container_type::size_type          size_type;
+		typedef typename container_type::reference          reference;
+		typedef typename container_type::const_reference    const_reference;
 
-			stack() : container() {}
+	protected:
+		container_type    container;
 
-			/**
-			** Element Access
-			**
-			** top    accesses the top element
-			*/
+	public:
+		explicit stack(const container_type& cont = container_type()) : container(cont) {}
 
-			reference top() { return container.back(); }
+		/**
+		** Element Access
+		**
+		** top    accesses the top element
+		*/
 
-			const reference top() const { return container.back(); }
+		reference top() { return container.back(); }
 
-			/**
-			** Capacity
-			**
-			** empty    checks whether the underlying container is empty
-			** size     returns the number of elements
-			*/
+		const reference top() const { return container.back(); }
 
-			bool empty() const { return container.empty(); }
+		/**
+		** Capacity
+		**
+		** empty    checks whether the underlying container is empty
+		** size     returns the number of elements
+		*/
 
-			size_type size() const { return container.size(); }
+		bool empty() const { return container.empty(); }
 
-			/**
-			** Modifiers
-			**
-			** push    inserts element at the top
-			** pop     removes the top element
-			*/
+		size_type size() const { return container.size(); }
 
-			void push(const value_type &value) { container.push_back(value); }
+		/**
+		** Modifiers
+		**
+		** push    inserts element at the top
+		** pop     removes the top element
+		*/
 
-			void pop() { container.pop_back(); }
+		void push(const value_type &value) { container.push_back(value); }
 
-		protected:
-			container_type    container;
+		void pop() { container.pop_back(); }
 
-	};
+};
 
-	/*
-	** Non-Member Functions
-	*/
+/**
+** Non-Member Functions
+*/
 
-	template <class T, class Container>
-	inline bool operator==(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-		return lhs.container == rhs.container;
-	}
-
-	template <class T, class Container>
-	inline bool operator!=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-		return !(lhs == rhs);
-	}
-
-	template <class T, class Container>
-	inline bool operator<(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-		return lhs.container < rhs.container;
-	}
-
-	template <class T, class Container>
-	inline bool operator<=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-		return !(rhs < lhs);
-	}
-
-	template <class T, class Container>
-	inline bool operator>(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-		return rhs < lhs;
-	}
-
-	template <class T, class Container>
-	inline bool operator>=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-		return !(lhs < rhs);
-	}
-
+template <class T, class Container>
+inline bool operator==(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+	return lhs.container == rhs.container;
 }
 
-#endif
+template <class T, class Container>
+inline bool operator!=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+	return !(lhs == rhs);
+}
+
+template <class T, class Container>
+inline bool operator<(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+	return lhs.container < rhs.container;
+}
+
+template <class T, class Container>
+inline bool operator<=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+	return !(rhs < lhs);
+}
+
+template <class T, class Container>
+inline bool operator>(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+	return rhs < lhs;
+}
+
+template <class T, class Container>
+inline bool operator>=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+	return !(lhs < rhs);
+}
+
+}    // namespace ft
+
+#endif    // STACK_HPP
