@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/11 23:14:58 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/09/28 22:28:03 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include <iterator_traits.hpp>
 #include <iterator.hpp>
 #include <reverse_iterator.hpp>
-#include <utils.hpp>
+#include <lexicographical_compare.hpp>
 
 // https://en.cppreference.com/w/cpp/container/vector
 // https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
