@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator.hpp                                       :+:      :+:    :+:   */
+/*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 22:42:27 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/01 00:18:15 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/02 00:06:38 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,18 @@
 
 #include "iterator_traits.hpp"
 
-#define FT_ITERATOR typename ft::iterator<ft::random_access_iterator_tag, T>
-
 namespace ft {
-
-template <class Category, class T, class Distance = std::ptrdiff_t,
-          class Pointer = T*, class Reference = T&>
-struct iterator {
-	typedef T            value_type;
-	typedef Pointer      pointer;
-	typedef Reference    reference;
-	typedef Distance     difference_type;
-	typedef Category     iterator_category;
-};
 
 template <class T>
 class vector_iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
 
 	public:
-		typedef FT_ITERATOR::value_type           value_type;
-		typedef FT_ITERATOR::pointer              pointer;
-		typedef FT_ITERATOR::reference            reference;
-		typedef FT_ITERATOR::difference_type      difference_type;
-		typedef FT_ITERATOR::iterator_category    iterator_category;
+		typedef ft::iterator<ft::random_access_iterator_tag, T>    traits_type;
+		typedef typename traits_type::value_type                   value_type;
+		typedef typename traits_type::pointer                      pointer;
+		typedef typename traits_type::reference                    reference;
+		typedef typename traits_type::difference_type              difference_type;
+		typedef typename traits_type::iterator_category            iterator_category;
 
 	private:
 		pointer	m_ptr;
