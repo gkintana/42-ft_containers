@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/02 23:32:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/03 00:27:56 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ class red_black_tree {
 		typedef std::size_t              size_type;
 		typedef tree_node<value_type>    node_type;
 		typedef node_type*               node_pointer;
-		typedef const node_type*         const_node_pointer;
+		typedef const node_pointer       const_node_pointer;
 		typedef typename REBIND_NODE     node_allocator;
 		// add iterators
 
