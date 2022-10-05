@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 22:42:27 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/02 00:06:38 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:11:56 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,26 @@
 namespace ft {
 
 template <class T>
-class vector_iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
+class vector_iterator : public ft::iterator<std::random_access_iterator_tag, T> {
 
 	public:
-		typedef ft::iterator<ft::random_access_iterator_tag, T>    traits_type;
-		typedef typename traits_type::value_type                   value_type;
-		typedef typename traits_type::pointer                      pointer;
-		typedef typename traits_type::reference                    reference;
-		typedef typename traits_type::difference_type              difference_type;
-		typedef typename traits_type::iterator_category            iterator_category;
+		typedef ft::iterator<std::random_access_iterator_tag, T>    traits_type;
+		typedef typename traits_type::value_type                    value_type;
+		typedef typename traits_type::pointer                       pointer;
+		typedef typename traits_type::reference                     reference;
+		typedef typename traits_type::difference_type               difference_type;
+		typedef typename traits_type::iterator_category             iterator_category;
 
 	private:
 		pointer	m_ptr;
 
 	public:
-		vector_iterator() : m_ptr(NULL) {}
+		vector_iterator() : m_ptr() {}
 
 		vector_iterator(pointer ptr) : m_ptr(ptr) {}
 
-		vector_iterator(const vector_iterator &value) : m_ptr(NULL) {
-			// if (this != value)
-			*this = value;
-		}
+		template <class U>
+		vector_iterator(const vector_iterator<U> &value) : m_ptr(value.base()) {}
 
 		~vector_iterator() {}
 
@@ -94,35 +92,65 @@ class vector_iterator : public ft::iterator<ft::random_access_iterator_tag, T> {
 
 };
 
-template <class Iterator>
-inline bool operator==(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
-	return lhs.base() == rhs.base();
+template <class Iter1, class Iter2>
+inline bool operator==(const vector_iterator<Iter1> &x, const vector_iterator<Iter2> &y) {
+	return x.base() == y.base();
 }
 
-template <class Iterator>
-inline bool operator!=(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
-	return lhs.base() != rhs.base();
+template <class Iter1, class Iter2>
+inline bool operator!=(const vector_iterator<Iter1> &x, const vector_iterator<Iter2> &y) {
+	return x.base() != y.base();
 }
 
-template <class Iterator>
-inline bool operator<(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
-	return lhs.base() < rhs.base();
+template <class Iter1, class Iter2>
+inline bool operator<(const vector_iterator<Iter1> &x, const vector_iterator<Iter2> &y) {
+	return x.base() < y.base();
 }
 
-template <class Iterator>
-inline bool operator<=(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
-	return lhs.base() <= rhs.base();
+template <class Iter1, class Iter2>
+inline bool operator<=(const vector_iterator<Iter1> &x, const vector_iterator<Iter2> &y) {
+	return x.base() <= y.base();
 }
 
-template <class Iterator>
-inline bool operator>(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
-	return lhs.base() > rhs.base();
+template <class Iter1, class Iter2>
+inline bool operator>(const vector_iterator<Iter1> &x, const vector_iterator<Iter2> &y) {
+	return x.base() > y.base();
 }
 
-template <class Iterator>
-inline bool operator>=(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
-	return lhs.base() >= rhs.base();
+template <class Iter1, class Iter2>
+inline bool operator>=(const vector_iterator<Iter1> &x, const vector_iterator<Iter2> &y) {
+	return x.base() >= y.base();
 }
+
+// template <class Iterator>
+// inline bool operator==(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
+// 	return lhs.base() == rhs.base();
+// }
+
+// template <class Iterator>
+// inline bool operator!=(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
+// 	return lhs.base() != rhs.base();
+// }
+
+// template <class Iterator>
+// inline bool operator<(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
+// 	return lhs.base() < rhs.base();
+// }
+
+// template <class Iterator>
+// inline bool operator<=(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
+// 	return lhs.base() <= rhs.base();
+// }
+
+// template <class Iterator>
+// inline bool operator>(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
+// 	return lhs.base() > rhs.base();
+// }
+
+// template <class Iterator>
+// inline bool operator>=(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
+// 	return lhs.base() >= rhs.base();
+// }
 
 template <class Iterator>
 inline typename vector_iterator<Iterator>::difference_type

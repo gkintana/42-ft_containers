@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 23:55:18 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/02 00:11:45 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/05 21:47:19 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,20 @@ class reverse_iterator : public ft::iterator<typename ft::iterator_traits<Iterat
 		typedef typename traits_type::pointer            pointer;
 		typedef typename traits_type::reference          reference;
 		typedef typename traits_type::difference_type    difference_type;
+		// typedef std::bidirectional_iterator_tag          iterator_category;
 
 	private:
 		iterator_type    m_current;
 
 	public:
-		reverse_iterator() : m_current(NULL) {}
+		reverse_iterator() : m_current() {}
 
 		explicit reverse_iterator(iterator_type x) : m_current(x) {}
 
 		// ~reverse_iterator() {}
 
-		reverse_iterator(const reverse_iterator &value) : m_current(NULL) {
-			// if (this != value)
-			*this = value;
-		}
+		template <class T>
+		reverse_iterator(const reverse_iterator<T> &value) : m_current(value.base()) {}
 
 		reverse_iterator& operator=(const reverse_iterator &value) {
 			m_current = value.base();

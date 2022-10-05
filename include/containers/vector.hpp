@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/02 00:17:26 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:12:26 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,18 @@ namespace ft {
 			void assign(Iterator first, Iterator last,
 			            typename ft::enable_if<!ft::is_integral<Iterator>::value, Iterator>::type* = 0) {
 				// std::cout << "inside assign(Iterator first, Iterator last)" << std::endl;
-				
+
 				if (first > last) {
 					this->clear();
 					_capacity = 0;
 					throw std::length_error("ft::vector::assign");
 				}
 
-				difference_type range = last - first;
+				// difference_type range = last - first;
+				difference_type range = 0;
+				for (Iterator temp = first; temp != last; temp++) {
+					range++;
+				}
 				// std::cout << "iterator range = " << range << std::endl;
 				if (static_cast<size_type>(range) > _capacity) {
 					this->reserve(range);
@@ -166,7 +170,7 @@ namespace ft {
 				// 	_alloc.construct(_data + index, *i);
 				// }
 
-				iterator iter = first;
+				Iterator iter = first;
 				_size = static_cast<size_type>(range);
 				for (size_type i = 0; i < _size; i++) {
 					_alloc.construct(_data + i, *iter++);
@@ -278,7 +282,7 @@ namespace ft {
 
 			size_type max_size() const { return _alloc.max_size(); }
 
-			size_type capacity() { return _capacity; }
+			size_type capacity() const { return _capacity; }
 
 			void reserve(size_type new_cap) {
 				if (new_cap > this->max_size()) {
@@ -519,8 +523,8 @@ namespace ft {
 	** Non-Member Functions
 	*/
 	
-	template < class T, class Allocator >
-	bool operator==(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+	template <class T, class Allocator>
+	bool operator==(const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs) {
 		if (lhs.size() != rhs.size()) {
 			return false;
 		}
@@ -533,33 +537,33 @@ namespace ft {
 		return true;
 	}
 
-	template < class T, class Allocator >
-	bool operator!=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+	template <class T, class Allocator>
+	bool operator!=(const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs) {
 		return !(lhs == rhs);
 	}
 
-	template < class T, class Allocator >
-	bool operator<(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+	template <class T, class Allocator>
+	bool operator<(const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs) {
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	template < class T, class Allocator >
-	bool operator<=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+	template <class T, class Allocator>
+	bool operator<=(const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs) {
 		return !(rhs < lhs);
 	}
 
-	template < class T, class Allocator >
-	bool operator>(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+	template <class T, class Allocator>
+	bool operator>(const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs) {
 		return rhs < lhs;
 	}
 
-	template < class T, class Allocator >
-	bool operator>=(const ft::vector<T, Allocator>&lhs, const ft::vector<T, Allocator>&rhs) {
+	template <class T, class Allocator>
+	bool operator>=(const ft::vector<T, Allocator> &lhs, const ft::vector<T, Allocator> &rhs) {
 		return !(lhs < rhs);
 	}
 
-	template < class T, class Allocator >
-	void swap(ft::vector<T, Allocator>&lhs, ft::vector<T, Allocator>&rhs) {
+	template <class T, class Allocator>
+	void swap(ft::vector<T, Allocator> &lhs, ft::vector<T, Allocator> &rhs) {
 		lhs.swap(rhs);
 	}
 }
