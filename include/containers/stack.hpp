@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:55 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/28 23:26:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:10:16 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define STACK_HPP
 
 #include <vector.hpp>
-// #include <stack>
 
 namespace ft {
 
@@ -66,6 +65,14 @@ class stack {
 
 		void pop() { container.pop_back(); }
 
+		friend bool operator==(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+			return lhs.container == rhs.container;
+		}
+
+		friend bool operator<(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
+			return lhs.container < rhs.container;
+		}
+
 };
 
 /**
@@ -73,18 +80,8 @@ class stack {
 */
 
 template <class T, class Container>
-inline bool operator==(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-	return lhs.container == rhs.container;
-}
-
-template <class T, class Container>
 inline bool operator!=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
 	return !(lhs == rhs);
-}
-
-template <class T, class Container>
-inline bool operator<(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs) {
-	return lhs.container < rhs.container;
 }
 
 template <class T, class Container>

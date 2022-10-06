@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 22:42:27 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/05 22:11:56 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:18:01 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,24 @@ operator-(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> 
 	return lhs.base() - rhs.base();
 }
 
-template <class Iterator>
+template <class Iterator, class I2>
 inline typename vector_iterator<Iterator>::difference_type
-operator+(const vector_iterator<Iterator> &lhs, const vector_iterator<Iterator> &rhs) {
-	return lhs.base() + rhs.base();
+operator-(const vector_iterator<Iterator> &lhs, const vector_iterator<I2> &rhs) {
+	return lhs.base() - rhs.base();
 }
+
+template <class Iterator>
+inline vector_iterator<Iterator>
+operator+(typename vector_iterator<Iterator>::difference_type n, const vector_iterator<Iterator> &it) {
+	return vector_iterator<Iterator>(it.base() + n);
+}
+
+// template <class Iterator>
+// inline vector_iterator<Iterator>
+// operator+(std::size_t lhs, const vector_iterator<Iterator> &rhs) {
+// 	rhs += lhs;
+// 	return rhs.base();
+// }
 
 }    // namespace ft
 

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 23:55:18 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/05 21:47:19 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:50:02 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ class reverse_iterator : public ft::iterator<typename ft::iterator_traits<Iterat
 
 		pointer operator->() const { return &this->operator*(); }
 
-		reference operator[](difference_type n) const { return *(m_current + n); };
+		reference operator[](difference_type n) const { return *(*this + n); };
 
 		reverse_iterator operator+(difference_type n) const { return reverse_iterator(m_current - n); }
 
@@ -129,10 +129,16 @@ inline bool operator>=(const reverse_iterator<Iter1> &x, const reverse_iterator<
 	return x.base() <= y.base();
 }
 
-// template <class Iter1, class Iter2>
-// inline
-// operator-(const reverse_iterator<Iter1> &x, const reverse_iterator<Iter2> &y) {
-// 	return y.base() - x.base();
+template <class Iter1, class Iter2>
+inline typename reverse_iterator<Iter1>::difference_type
+operator-(const reverse_iterator<Iter1> &x, const reverse_iterator<Iter2> &y) {
+	return y.base() - x.base();
+}
+
+// template <class Iterator>
+// inline typename reverse_iterator<Iterator>::difference_type
+// operator+(const reverse_iterator<Iterator> &x, const reverse_iterator<Iterator> &y) {
+// 	return x.base() + y.base();
 // }
 
 template <class Iterator>
