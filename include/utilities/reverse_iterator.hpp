@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 23:55:18 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/06 17:50:02 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/07 23:45:53 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ class reverse_iterator : public ft::iterator<typename ft::iterator_traits<Iterat
 		template <class T>
 		reverse_iterator(const reverse_iterator<T> &value) : m_current(value.base()) {}
 
-		reverse_iterator& operator=(const reverse_iterator &value) {
-			m_current = value.base();
-			return *this;
-		}
+		// reverse_iterator& operator=(const reverse_iterator &value) {
+		// 	m_current = value.base();
+		// 	return *this;
+		// }
 
 		iterator_type base() const { return m_current; }
 

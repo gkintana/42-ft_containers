@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/05 22:12:26 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/07 23:39:47 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 #include <iterator>
 #include <algorithm>
 
-#include "type_traits.hpp"
-#include "iterator_traits.hpp"
-#include "vector_iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "lexicographical_compare.hpp"
+#include "../utilities/type_traits.hpp"
+#include "../utilities/iterator_traits.hpp"
+#include "../utilities/vector_iterator.hpp"
+#include "../utilities/reverse_iterator.hpp"
+#include "../utilities/lexicographical_compare.hpp"
 
 // https://en.cppreference.com/w/cpp/container/vector
 // https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
@@ -330,7 +330,9 @@ namespace ft {
 				difference_type offset = position - this->begin();
 				// std::cout << "offset = " << offset << std::endl;
 				if (offset >= 0) {
-					if (_size == _capacity) {
+					if (!_capacity) {
+						this->reserve(1);
+					} else if (_size == _capacity) {
 						this->reserve(_capacity * 2);
 					}
 
