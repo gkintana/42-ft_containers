@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/09/28 23:35:53 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/08 20:51:07 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stack.hpp>
 
 #include <pair.hpp>
+#include "avl_tree.hpp"
 
 #define DEFAULT		"\033[0m"
 #define RED			"\033[1;31m"
@@ -48,296 +49,301 @@ void printInfo(NAMESPACE::vector<T> &container, bool printContent) {
 }
 
 int main() {
-	std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> v1;
-		printInfo(v1, true);
-		std::cout << "empty = " << std::boolalpha << v1.empty() << std::endl
-			      << "max size = " << v1.max_size() << std::endl;
+	// std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> v1;
+	// 	printInfo(v1, true);
+	// 	std::cout << "empty = " << std::boolalpha << v1.empty() << std::endl
+	// 		      << "max size = " << v1.max_size() << std::endl;
 
-		NAMESPACE::vector<int> v2(5, 42);
-		printInfo(v2, true);
-		std::cout << "empty = " << std::boolalpha << v2.empty() << std::endl
-				  << "max size = " << v2.max_size() << std::endl;
-	}
+	// 	NAMESPACE::vector<int> v2(5, 42);
+	// 	printInfo(v2, true);
+	// 	std::cout << "empty = " << std::boolalpha << v2.empty() << std::endl
+	// 			  << "max size = " << v2.max_size() << std::endl;
+	// }
 
-	/*-----------------------------------------------------------------------*/
+	// /*-----------------------------------------------------------------------*/
 
-	std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> vec(5, 5);
-		printInfo(vec, true);
+	// std::cout << GREEN "vector construction tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> vec(5, 5);
+	// 	printInfo(vec, true);
 
-		NAMESPACE::vector<int> vec_copy = vec;
-		printInfo(vec_copy, true);
+	// 	NAMESPACE::vector<int> vec_copy = vec;
+	// 	printInfo(vec_copy, true);
 
-		NAMESPACE::vector<int> vec_copy2;
-		printInfo(vec_copy2, true);
-		vec_copy2 = vec;
-		printInfo(vec_copy2, true);
-		vec_copy2 = vec_copy;
-		printInfo(vec_copy2, true);
+	// 	NAMESPACE::vector<int> vec_copy2;
+	// 	printInfo(vec_copy2, true);
+	// 	vec_copy2 = vec;
+	// 	printInfo(vec_copy2, true);
+	// 	vec_copy2 = vec_copy;
+	// 	printInfo(vec_copy2, true);
 
-		NAMESPACE::vector<int> vec_copy3(vec_copy2);
-		printInfo(vec_copy3, true);
-		pushValues(vec_copy3, 5);
+	// 	NAMESPACE::vector<int> vec_copy3(vec_copy2);
+	// 	printInfo(vec_copy3, true);
+	// 	pushValues(vec_copy3, 5);
 
-		vec_copy2 = vec_copy3;
-		printInfo(vec_copy2, true);
-	}
+	// 	vec_copy2 = vec_copy3;
+	// 	printInfo(vec_copy2, true);
+	// }
 
-	/*-----------------------------------------------------------------------*/
+	// /*-----------------------------------------------------------------------*/
 	
-	std::cout << GREEN "vector::push_back tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> test_push_back;
+	// std::cout << GREEN "vector::push_back tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> test_push_back;
 
-		printInfo(test_push_back, true);
-		pushValues(test_push_back, 5);
-		printInfo(test_push_back, true);
-	}
+	// 	printInfo(test_push_back, true);
+	// 	pushValues(test_push_back, 5);
+	// 	printInfo(test_push_back, true);
+	// }
 
-	/*-----------------------------------------------------------------------*/
+	// /*-----------------------------------------------------------------------*/
 
-	std::cout << GREEN "vector::pop_back tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> test_pop_back;
+	// std::cout << GREEN "vector::pop_back tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> test_pop_back;
 
-		pushValues(test_pop_back, 5);
-		printInfo(test_pop_back, true);
-		for (size_t i = test_pop_back.size(); i > 0; i--) {
-			test_pop_back.pop_back();
-		}
-		printInfo(test_pop_back, true);
-	}
+	// 	pushValues(test_pop_back, 5);
+	// 	printInfo(test_pop_back, true);
+	// 	for (size_t i = test_pop_back.size(); i > 0; i--) {
+	// 		test_pop_back.pop_back();
+	// 	}
+	// 	printInfo(test_pop_back, true);
+	// }
 
-	/*-----------------------------------------------------------------------*/
+	// /*-----------------------------------------------------------------------*/
 
-	std::cout << GREEN "vector::at tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> test_at;
+	// std::cout << GREEN "vector::at tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> test_at;
 
-		pushValues(test_at, 9);
-		printInfo(test_at, true);
-		std::cout << YELLOW "printing values at each position" DEFAULT << std::endl;
-		for (size_t i = 0; i < test_at.size(); i++) {
-			std::cout << "at(" << i << ") = " << test_at.at(i) << std::endl;
-		}
+	// 	pushValues(test_at, 9);
+	// 	printInfo(test_at, true);
+	// 	std::cout << YELLOW "printing values at each position" DEFAULT << std::endl;
+	// 	for (size_t i = 0; i < test_at.size(); i++) {
+	// 		std::cout << "at(" << i << ") = " << test_at.at(i) << std::endl;
+	// 	}
 
-		try {
+	// 	try {
 			
-		} catch (std::exception &e) {
+	// 	} catch (std::exception &e) {
 			
-		}
-	}
+	// 	}
+	// }
 	
-	/*-----------------------------------------------------------------------*/
+	// /*-----------------------------------------------------------------------*/
 
-	std::cout << GREEN "vector::insert tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> insert_int;
+	// std::cout << GREEN "vector::insert tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> insert_int;
 
-		// pushValues(insert_int, 6);
-		pushValues(insert_int, 16);
-		// pushValues(insert_int, 17);
-		printInfo(insert_int, true);
-		insert_int.insert(insert_int.begin() + 3, 30);
-		printInfo(insert_int, true);
-
-
-		NAMESPACE::vector<std::string> insert_str;
-
-		insert_str.push_back("Hello");
-		insert_str.push_back("World");
-		insert_str.push_back("!");
-		printInfo(insert_str, true);
-		// insert_str.insert(insert_str.begin() - 1, "QWEWQE");
-		insert_str.insert(insert_str.begin() + 3, "QWEWQE");
-		// insert_str.insert(insert_str.begin() + 100, "QWEWQE");
-		printInfo(insert_str, true);
-	}
-
-	/*-----------------------------------------------------------------------*/
-
-	std::cout << GREEN "vector::insert range tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> insert_int;
-
-		pushValues(insert_int, 8);
-		// pushValues(insert_int, 6);
-		// pushValues(insert_int, 16);
-		// pushValues(insert_int, 17);
-		printInfo(insert_int, true);
-		insert_int.insert(insert_int.begin() + 3, 3, 42);
-		// insert_int.insert(insert_int.begin() + 3, 12, 42);
-		// insert_int.insert(insert_int.begin() + 3, 1, 42);
-		// insert_int.insert(insert_int.begin() + 3, 0, 42);
-		printInfo(insert_int, true);
-	}
-
-	/*-----------------------------------------------------------------------*/
-
-	std::cout << GREEN "vector::assign tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> vec(10, 10);
-		printInfo(vec, true);
-
-		vec.assign(10, 2);
-		vec.assign(5, 2);
-		printInfo(vec, true);
-	}
-
-	/*-----------------------------------------------------------------------*/
-
-	std::cout << GREEN "vector::assign iterator tests" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> vec(5, 5);
-		printInfo(vec, true);
-		NAMESPACE::vector<int> vec_copy(vec);
-
-		NAMESPACE::vector<int> vec2;
-		pushValues(vec2, 10);
-		printInfo(vec2, true);
-
-		NAMESPACE::vector<int>::iterator first = vec2.begin();
-		NAMESPACE::vector<int>::iterator last = vec2.end();
-		vec2.assign(first, last);
-		printInfo(vec2, true);
-
-		// first = vec_copy.begin() + 4;
-		// last = vec_copy.end() - 2;
-
-		first = vec_copy.begin() + 5;
-		last = vec_copy.end() - 5;
-		try {
-			vec.assign(first, last);
-			printInfo(vec, true);
-		} catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
-		}
-	}
-
-	/*-----------------------------------------------------------------------*/
-
-	std::cout << GREEN "vector iterator constructor test" DEFAULT << std::endl;
-	{
-		// constructors used in the same order as described above:
-		// NAMESPACE::vector<int> first;                                // empty vector of ints
-		NAMESPACE::vector<int> second (4,100);                       // four ints with value 100
-		NAMESPACE::vector<int> third (second.begin(),second.end());  // iterating through second
-		printInfo(third, true);
-
-		// NAMESPACE::vector<int> fourth (third);                       // a copy of third
-
-		// // the iterator constructor can also be used to construct from arrays:
-		// int myints[] = {16,2,77,29};
-		// NAMESPACE::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
-
-		// std::cout << "The contents of fifth are:";
-		// for (NAMESPACE::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
-		// 	std::cout << ' ' << *it;
-		// std::cout << '\n';
-	}
-
-	/*-----------------------------------------------------------------------*/
-
-	std::cout << GREEN "vector reverse_iterator test" DEFAULT << std::endl;
-	{
-		NAMESPACE::vector<int> vec;
-		pushValues(vec, 20);
-
-		std::cout << "rbegin value = " << *vec.rbegin() << std::endl;
-		std::cout << "rend value = " << *(vec.rend() - 1)<< std::endl;
-
-		for (NAMESPACE::vector<int>::reverse_iterator i = vec.rbegin(); i != vec.rend(); i++) {
-			std::cout << *i << " ";
-		}
-		std::cout << std::endl;
-		for (NAMESPACE::vector<int>::reverse_iterator i = vec.rend() - 1; i != vec.rbegin() - 1; i--) {
-			std::cout << *i << " ";
-		}
-		std::cout << std::endl;
+	// 	// pushValues(insert_int, 6);
+	// 	pushValues(insert_int, 16);
+	// 	// pushValues(insert_int, 17);
+	// 	printInfo(insert_int, true);
+	// 	insert_int.insert(insert_int.begin() + 3, 30);
+	// 	printInfo(insert_int, true);
 
 
+	// 	NAMESPACE::vector<std::string> insert_str;
 
-		NAMESPACE::vector<std::string> vec2;
-		vec2.push_back("Hello");
-		vec2.push_back("World");
-		vec2.push_back("!");
-		vec2.push_back("Hello");
-		vec2.push_back("World");
-		vec2.push_back("!");
-		for (NAMESPACE::vector<std::string>::reverse_iterator i = vec2.rend() - 1; i > vec2.rbegin() - 1; i--) {
-			std::cout << *i << " ";
-		}
-		std::cout << std::endl;
-		for (NAMESPACE::vector<std::string>::iterator i = vec2.begin(); i != vec2.end(); i++) {
-			std::cout << *i << " ";
-		}
-		std::cout << std::endl;
-		std::cout << vec2.size() << std::endl;
-		std::cout << vec2.capacity() << std::endl;
-	}
+	// 	insert_str.push_back("Hello");
+	// 	insert_str.push_back("World");
+	// 	insert_str.push_back("!");
+	// 	printInfo(insert_str, true);
+	// 	// insert_str.insert(insert_str.begin() - 1, "QWEWQE");
+	// 	insert_str.insert(insert_str.begin() + 3, "QWEWQE");
+	// 	// insert_str.insert(insert_str.begin() + 100, "QWEWQE");
+	// 	printInfo(insert_str, true);
+	// }
 
-	{
-		NAMESPACE::vector<char> ft_vec;
-		// std::vector<char> std_vec;
-		// testVectors(ft_vec, std_vec);
-		printInfo(ft_vec, true);
-		std::cout << ft_vec.max_size() << std::endl;
+	// /*-----------------------------------------------------------------------*/
+
+	// std::cout << GREEN "vector::insert range tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> insert_int;
+
+	// 	pushValues(insert_int, 8);
+	// 	// pushValues(insert_int, 6);
+	// 	// pushValues(insert_int, 16);
+	// 	// pushValues(insert_int, 17);
+	// 	printInfo(insert_int, true);
+	// 	insert_int.insert(insert_int.begin() + 3, 3, 42);
+	// 	// insert_int.insert(insert_int.begin() + 3, 12, 42);
+	// 	// insert_int.insert(insert_int.begin() + 3, 1, 42);
+	// 	// insert_int.insert(insert_int.begin() + 3, 0, 42);
+	// 	printInfo(insert_int, true);
+	// }
+
+	// /*-----------------------------------------------------------------------*/
+
+	// std::cout << GREEN "vector::assign tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> vec(10, 10);
+	// 	printInfo(vec, true);
+
+	// 	vec.assign(10, 2);
+	// 	vec.assign(5, 2);
+	// 	printInfo(vec, true);
+	// }
+
+	// /*-----------------------------------------------------------------------*/
+
+	// std::cout << GREEN "vector::assign iterator tests" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> vec(5, 5);
+	// 	printInfo(vec, true);
+	// 	NAMESPACE::vector<int> vec_copy(vec);
+
+	// 	NAMESPACE::vector<int> vec2;
+	// 	pushValues(vec2, 10);
+	// 	printInfo(vec2, true);
+
+	// 	NAMESPACE::vector<int>::iterator first = vec2.begin();
+	// 	NAMESPACE::vector<int>::iterator last = vec2.end();
+	// 	vec2.assign(first, last);
+	// 	printInfo(vec2, true);
+
+	// 	// first = vec_copy.begin() + 4;
+	// 	// last = vec_copy.end() - 2;
+
+	// 	first = vec_copy.begin() + 5;
+	// 	last = vec_copy.end() - 5;
+	// 	try {
+	// 		vec.assign(first, last);
+	// 		printInfo(vec, true);
+	// 	} catch (std::exception &e) {
+	// 		std::cerr << e.what() << std::endl;
+	// 	}
+	// }
+
+	// /*-----------------------------------------------------------------------*/
+
+	// std::cout << GREEN "vector iterator constructor test" DEFAULT << std::endl;
+	// {
+	// 	// constructors used in the same order as described above:
+	// 	// NAMESPACE::vector<int> first;                                // empty vector of ints
+	// 	NAMESPACE::vector<int> second (4,100);                       // four ints with value 100
+	// 	NAMESPACE::vector<int> third (second.begin(),second.end());  // iterating through second
+	// 	printInfo(third, true);
+
+	// 	// NAMESPACE::vector<int> fourth (third);                       // a copy of third
+
+	// 	// // the iterator constructor can also be used to construct from arrays:
+	// 	// int myints[] = {16,2,77,29};
+	// 	// NAMESPACE::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+
+	// 	// std::cout << "The contents of fifth are:";
+	// 	// for (NAMESPACE::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+	// 	// 	std::cout << ' ' << *it;
+	// 	// std::cout << '\n';
+	// }
+
+	// /*-----------------------------------------------------------------------*/
+
+	// std::cout << GREEN "vector reverse_iterator test" DEFAULT << std::endl;
+	// {
+	// 	NAMESPACE::vector<int> vec;
+	// 	pushValues(vec, 20);
+
+	// 	std::cout << "rbegin value = " << *vec.rbegin() << std::endl;
+	// 	std::cout << "rend value = " << *(vec.rend() - 1)<< std::endl;
+
+	// 	for (NAMESPACE::vector<int>::reverse_iterator i = vec.rbegin(); i != vec.rend(); i++) {
+	// 		std::cout << *i << " ";
+	// 	}
+	// 	std::cout << std::endl;
+	// 	for (NAMESPACE::vector<int>::reverse_iterator i = vec.rend() - 1; i != vec.rbegin() - 1; i--) {
+	// 		std::cout << *i << " ";
+	// 	}
+	// 	std::cout << std::endl;
+
+
+
+	// 	NAMESPACE::vector<std::string> vec2;
+	// 	vec2.push_back("Hello");
+	// 	vec2.push_back("World");
+	// 	vec2.push_back("!");
+	// 	vec2.push_back("Hello");
+	// 	vec2.push_back("World");
+	// 	vec2.push_back("!");
+	// 	for (NAMESPACE::vector<std::string>::reverse_iterator i = vec2.rend() - 1; i > vec2.rbegin() - 1; i--) {
+	// 		std::cout << *i << " ";
+	// 	}
+	// 	std::cout << std::endl;
+	// 	for (NAMESPACE::vector<std::string>::iterator i = vec2.begin(); i != vec2.end(); i++) {
+	// 		std::cout << *i << " ";
+	// 	}
+	// 	std::cout << std::endl;
+	// 	std::cout << vec2.size() << std::endl;
+	// 	std::cout << vec2.capacity() << std::endl;
+	// }
+
+	// {
+	// 	NAMESPACE::vector<char> ft_vec;
+	// 	// std::vector<char> std_vec;
+	// 	// testVectors(ft_vec, std_vec);
+	// 	printInfo(ft_vec, true);
+	// 	std::cout << ft_vec.max_size() << std::endl;
 		
-	}
+	// }
 
 
-	NAMESPACE::vector<int> vec(5, 10);
-	// std::cout << *vec.begin() << std::endl;
-	// std::cout << *(vec.end() - 1) << std::endl;
+	// NAMESPACE::vector<int> vec(5, 10);
+	// // std::cout << *vec.begin() << std::endl;
+	// // std::cout << *(vec.end() - 1) << std::endl;
 
-	// std::cout << *(vec.rend() - 1) << std::endl;
-	// std::cout << *vec.rbegin() << std::endl;
+	// // std::cout << *(vec.rend() - 1) << std::endl;
+	// // std::cout << *vec.rbegin() << std::endl;
 	
 
-	// NAMESPACE::vector<int> vec2(vec.begin(), vec.end());
-	try {
-		NAMESPACE::vector<int> vec3(vec.rend(), vec.rbegin());
-	} catch (std::exception &e) {}
+	// // NAMESPACE::vector<int> vec2(vec.begin(), vec.end());
+	// try {
+	// 	NAMESPACE::vector<int> vec3(vec.rend(), vec.rbegin());
+	// } catch (std::exception &e) {}
 
 
-	// simple pair test
-	NAMESPACE::pair <std::string,double> product1;                     // default constructor
-	NAMESPACE::pair <std::string,double> product2 ("tomatoes",2.30);   // value init
-	NAMESPACE::pair <std::string,double> product3 (product2);          // copy constructor
+	// // simple pair test
+	// NAMESPACE::pair <std::string,double> product1;                     // default constructor
+	// NAMESPACE::pair <std::string,double> product2 ("tomatoes",2.30);   // value init
+	// NAMESPACE::pair <std::string,double> product3 (product2);          // copy constructor
 
-	product1 = NAMESPACE::make_pair(std::string("lightbulbs"),0.99);   // using make_pair (move)
+	// product1 = NAMESPACE::make_pair(std::string("lightbulbs"),0.99);   // using make_pair (move)
 
-	product2.first = "shoes";                  // the type of first is string
-	product2.second = 39.90;                   // the type of second is double
+	// product2.first = "shoes";                  // the type of first is string
+	// product2.second = 39.90;                   // the type of second is double
 
-	std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
-	std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
-	std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
+	// std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
+	// std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
+	// std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
 
 
-	// simple stack test
-	NAMESPACE::stack<int> s;
+	// // simple stack test
+	// NAMESPACE::stack<int> s;
 
-	std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
-	std::cout << "stack::top() = " << s.top() << std::endl;
-	for(size_t i = 0; i < 100; i++) {
-		if (i && !(i % 20)) {
-			std::cout << "stack::top() = " << s.top() << std::endl;
-		}
-		s.push(i + 1);
-	}
-	std::cout << "stack::top() = " << s.top() << std::endl;
-	std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
-	std::cout << "stack::size() = " << s.size() << std::endl;
+	// std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
+	// std::cout << "stack::top() = " << s.top() << std::endl;
+	// for(size_t i = 0; i < 100; i++) {
+	// 	if (i && !(i % 20)) {
+	// 		std::cout << "stack::top() = " << s.top() << std::endl;
+	// 	}
+	// 	s.push(i + 1);
+	// }
+	// std::cout << "stack::top() = " << s.top() << std::endl;
+	// std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
+	// std::cout << "stack::size() = " << s.size() << std::endl;
 
-	for(size_t i = 0; i < 100; i++) {
-		s.pop();
-	}
-	std::cout << "stack::size() = " << s.size() << std::endl;
-	std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
+	// for(size_t i = 0; i < 100; i++) {
+	// 	s.pop();
+	// }
+	// std::cout << "stack::size() = " << s.size() << std::endl;
+	// std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
+
+	ft::avl_tree<int, std::string> avl;
+	std::cout << avl.size() << std::endl;
+	std::cout << avl.max_size() << std::endl;
+	std::cout << std::boolalpha <<avl.empty() << std::endl;
 
 	return 0;
 }

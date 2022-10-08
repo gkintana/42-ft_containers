@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   red_black_tree.hpp                                 :+:      :+:    :+:   */
+/*   avl_tree.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/05 00:03:10 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/08 23:54:20 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 // https://www.youtube.com/watch?v=vRwi_UcZGjU
 
 #include <map>
+#include "pair.hpp"
 
 namespace ft {
 
@@ -46,21 +47,28 @@ struct tree_node {
 	~tree_node() {}
 };
 
-template < class T, class Compare, class Allocator = std::allocator<T> >
+template < class Key, class T, class Compare = std::less<Key>,
+           class Allocator = std::allocator< ft::pair<const Key, T> > >
 class avl_tree {
 
 	public:
-		typedef T                        value_type;
-		typedef Compare                  value_compare;
-		typedef Allocator                allocator_type;
-		typedef std::ptrdiff_t           difference_type;
-		typedef std::size_t              size_type;
+		typedef Key                                      key_type;
+		typedef T                                        mapped_type;
+		typedef ft::pair<const key_type, mapped_type>    value_type;
+		typedef Compare                                  value_compare;
+		typedef Allocator                                allocator_type;
+		// typedef typename allocator_type::pointer         pointer;
+		// typedef typename allocator_type::const_pointer   const_pointer;
+		// typedef typename allocator_type::reference       reference;
+		// typedef typename allocator_type::const_reference const_reference;
+		// typedef std::ptrdiff_t                           difference_type;
+		typedef std::size_t                              size_type;
 		// add iterators
 
 	private:
-		typedef tree_node<value_type>    node_type;
-		typedef node_type*               pointer;
-		typedef const pointer            const_pointer;
+		typedef tree_node<mapped_type>    node_type;
+		typedef node_type*                pointer;
+		typedef const pointer             const_pointer;
 
 		pointer m_root;
 		// pointer m_node;
@@ -68,32 +76,65 @@ class avl_tree {
 		size_type m_size;
 
 	public:
-		avl_tree(const value_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
+		avl_tree(const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type()) {
+			(void)comp;
+			(void)alloc;
 
-		avl_tree &operator=(const avl_tree &x);
+			m_root = NULL;
+			m_size = 0;
+		}
 
-		~avl_tree();
+		avl_tree &operator=(const avl_tree &x) {
+			(void)x;
+		}
 
-		iterator begin();
-		const_iterator begin() const;
-		iterator end();
-		const_iterator end() const;
+		~avl_tree() {}
 
-		bool empty() const { return !m_size; }
-		size_type size() const { return m_size; }
-		size_type max_size() const { return m_alloc.max_size(); }
+		// iterator begin();
+		// const_iterator begin() const;
+		// iterator end();
+		// const_iterator end() const;
+
+		bool empty() const {
+			return !m_size;
+		}
+
+		size_type size() const {
+			return m_size;
+		}
+
+		size_type max_size() const {
+			return m_alloc.max_size();
+		}
+
+		void swap(avl_tree &x) {
+			pointer temp_root = m_root;
+			size_type temp_size = m_size;
+
+			m_root = x.m_root;
+			m_size = x.m_size;
+
+			x.m_root = temp_root;
+			x.m_size = temp_size;
+		}
+
+		// pointer insert(pointer node, int key) {}
 
 	private:
 		pointer createNode(value_type value) {
-			pointer node = m_alloc.allocate(sizeof(tree_node));
-			m_alloc.construct(node, tree_node(value));
+			pointer node = m_alloc.allocate(sizeof(node_type));
+			m_alloc.construct(node, node_type(value));
 			m_size++;
 			return node;
 		}
 
-		size_type getHeight(pointer node) { return (!node) ? 0 : node->height; }
+		size_type getHeight(pointer node) {
+			return (!node) ? 0 : node->height;
+		}
 
-		size_type checkBalanceFactor(pointer node) { return (!node) ? 0 : getHeight(node->left) - getHeight(node->right); }
+		size_type checkBalanceFactor(pointer node) {
+			return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
+		}
 
 		pointer getMininum(pointer node) {
 			pointer min = node;
@@ -111,18 +152,30 @@ class avl_tree {
 			return max;
 		}
 
-		pointer rotateLeft(pointer sub_root) {
-			pointer left_node = sub_root->left,
-			        right_node = sub_root->right;
+		pointer leftRotate(pointer node) {
+			pointer x = node->right,
+			        y = x->left;
 
-			left_node->right = sub_root;
-			sub_root->left = right_node;
+			x->left = node;
+			node->right = y;
 
-			sub_root->height = std::max(getHeight(sub_root->left), getHeight(sub_root->right)) + 1;
-			left_node->height = std::max(getHeight(left_node->left), getHeight(left_node->right)) + 1;
-
-			return left_node;
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+			return x;
 		}
+
+		pointer rightRotate(pointer node) {
+			pointer x = node->left,
+			        y = x->right;
+
+			x->right = node;
+			node->left = y;
+
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+			return x;
+		}
+
 };
 
 }    // namespace ft
