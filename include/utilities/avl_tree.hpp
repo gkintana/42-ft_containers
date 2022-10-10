@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/08 23:54:20 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:16:05 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,33 +52,28 @@ template < class Key, class T, class Compare = std::less<Key>,
 class avl_tree {
 
 	public:
-		typedef Key                                      key_type;
-		typedef T                                        mapped_type;
-		typedef ft::pair<const key_type, mapped_type>    value_type;
-		typedef Compare                                  value_compare;
-		typedef Allocator                                allocator_type;
-		// typedef typename allocator_type::pointer         pointer;
-		// typedef typename allocator_type::const_pointer   const_pointer;
-		// typedef typename allocator_type::reference       reference;
-		// typedef typename allocator_type::const_reference const_reference;
-		// typedef std::ptrdiff_t                           difference_type;
-		typedef std::size_t                              size_type;
+		typedef Key                                                           key_type;
+		typedef T                                                             mapped_type;
+		typedef ft::pair<const key_type, mapped_type>                         value_type;
+		typedef Compare                                                       value_compare;
+		typedef Allocator                                                     allocator_base;
+		typedef tree_node<mapped_type>                                        node_type;
+		typedef node_type*                                                    pointer;
+		typedef const pointer                                                 const_pointer;
+		typedef typename allocator_base::template rebind<node_type>::other    allocator_type;
+		typedef std::size_t                                                   size_type;
 		// add iterators
 
 	private:
-		typedef tree_node<mapped_type>    node_type;
-		typedef node_type*                pointer;
-		typedef const pointer             const_pointer;
-
 		pointer m_root;
 		// pointer m_node;
 		allocator_type m_alloc;
 		size_type m_size;
 
 	public:
-		avl_tree(const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type()) {
+		avl_tree(const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type()) : m_alloc(alloc) {
 			(void)comp;
-			(void)alloc;
+			// (void)alloc;
 
 			m_root = NULL;
 			m_size = 0;
@@ -118,11 +113,42 @@ class avl_tree {
 			x.m_size = temp_size;
 		}
 
-		// pointer insert(pointer node, int key) {}
+		pointer insertNode(pointer node, mapped_type value) {
+			if (!node) {
+				return createNode(value);
+			} else if (value < node->value) {
+				node->left = insertNode(node->left, value);
+			} else if (value > node->value) {
+				node->right = insertNode(node->right, value);
+			}
+
+			int balance = checkBalanceFactor(node);
+			if (balance > 1) {
+				if (value > node->right->value) {
+					node->left = leftRotate(node->left);
+				}
+				return rightRotate(node);
+			} else if (balance < -1) {
+				if (value < node->right->value) {
+					node->right = rightRotate(node->right);
+				}
+				return leftRotate(node);
+			}
+
+			return node;
+		}
+
+		void printPreOrder(pointer node) {
+			if (node != NULL) {
+				std::cout << node->value << std::endl;
+				printPreOrder(node->left);
+				printPreOrder(node->right);
+			}
+		}
 
 	private:
-		pointer createNode(value_type value) {
-			pointer node = m_alloc.allocate(sizeof(node_type));
+		pointer createNode(mapped_type value) {
+			pointer node = m_alloc.allocate(1 * sizeof(node_type));
 			m_alloc.construct(node, node_type(value));
 			m_size++;
 			return node;
@@ -180,4 +206,4 @@ class avl_tree {
 
 }    // namespace ft
 
-#endif    // RED_BLACK_TREE_HPP
+#endif    // AVL_TREE_HPP

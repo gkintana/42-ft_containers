@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/08 20:51:07 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:17:09 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,10 +341,18 @@ int main() {
 	// std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
 
 	ft::avl_tree<int, std::string> avl;
-	std::cout << avl.size() << std::endl;
-	std::cout << avl.max_size() << std::endl;
-	std::cout << std::boolalpha <<avl.empty() << std::endl;
+	ft::avl_tree<int, std::string>::pointer ptr = NULL;
 
+	ft::avl_tree<int, std::string>::pointer root = avl.insertNode(ptr, "Hello");
+	avl.insertNode(root, "World");
+	avl.insertNode(root, "!");
+	avl.insertNode(root, "123");
+	std::cout << "size = " <<  avl.size() << std::endl;
+	std::cout << "max size = " << avl.max_size() << std::endl;
+	std::cout << "empty = " << std::boolalpha << avl.empty() << std::endl;
+
+	std::cout << "Printing AVL Contents (Pre Order Traversal)" << std::endl;
+	avl.printPreOrder(root);
 	return 0;
 }
 
