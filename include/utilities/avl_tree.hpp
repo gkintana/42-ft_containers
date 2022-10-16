@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/10 18:16:05 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/17 00:25:16 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,57 @@ class avl_tree {
 				node->right = insertNode(node->right, value);
 			}
 
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+
+			int balance = checkBalanceFactor(node);
+			if (balance > 1) {
+				if (value > node->right->value) {
+					node->left = leftRotate(node->left);
+				}
+				return rightRotate(node);
+			} else if (balance < -1) {
+				if (value < node->right->value) {
+					node->right = rightRotate(node->right);
+				}
+				return leftRotate(node);
+			}
+
+			return node;
+		}
+
+		pointer deleteNode(pointer node, mapped_type value) {
+			if (!node) {
+				return node;
+			} else if (value < node->value) {
+				node->left = deleteNode(node->left, value);
+			} else if (value > node->value) {
+				node->right = deleteNode(node->right, value);
+			} else {
+				if (!(node->left) || !(node->right)) {
+					pointer temp = node->left ? node->left : node->right;
+					if (!temp) {
+						temp = node;
+						node = NULL;
+					} else {
+						*node = *temp;
+					}
+					// m_alloc.destroy(&temp->value);
+					m_alloc.deallocate(temp, 1 * sizeof(node_type));
+					m_size--;
+					// free(temp);
+				} else {
+					pointer temp = getMinimum(node->right);
+					node->value = temp->value;
+					node->right = deleteNode(node->right, temp->value);
+				}
+			}
+
+			if (!node) {
+				return node;
+			}
+
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+
 			int balance = checkBalanceFactor(node);
 			if (balance > 1) {
 				if (value > node->right->value) {
@@ -162,7 +213,7 @@ class avl_tree {
 			return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
 		}
 
-		pointer getMininum(pointer node) {
+		pointer getMinimum(pointer node) {
 			pointer min = node;
 			while (min->left) {
 				min = min->left;

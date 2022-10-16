@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/03 00:28:45 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/17 00:20:25 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,45 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		typedef typename traits_type::iterator_category             iterator_category;
 		typedef tree_node<value_type>                               node_type;
 		typedef node_type*                                          node_pointer;
-		typedef const node_pointer                                  const_node_pointer;
+		// typedef const node_pointer                                  const_node_pointer;
 
 	private:
-		node_pointer m_ptr;
+		node_pointer m_node;
 
 	public:
-		tree_iterator() : node() {}
+		tree_iterator() : m_node() {}
+
+		tree_iterator(pointer node) : m_node(node) {}
+
 		~tree_iterator() {}
+
+		reference operator*() const {
+			return *m_node->value;
+		}
+
+		pointer operator->() const {
+			return m_node->value;
+		}
+
+		tree_iterator &operator++() {
+			if (m_node->right) {
+				m_node = m_node->right;
+				while (m_node->left) {
+					m_node = m_node->left;
+				}
+			} else {
+				node_pointer temp;
+				do {
+					temp = m_node;
+					m_node = m_node->parent;
+					if (node && node->left == temp) {
+						break;
+					}
+				} while (node->parent);
+			}
+			return *this;
+		}
+
 
 };
 

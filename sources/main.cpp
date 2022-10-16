@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/10 18:17:09 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/17 00:22:13 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,19 +340,26 @@ int main() {
 	// std::cout << "stack::size() = " << s.size() << std::endl;
 	// std::cout << "stack::empty() = " << std::boolalpha << s.empty() << std::endl;
 
-	ft::avl_tree<int, std::string> avl;
-	ft::avl_tree<int, std::string>::pointer ptr = NULL;
-
-	ft::avl_tree<int, std::string>::pointer root = avl.insertNode(ptr, "Hello");
-	avl.insertNode(root, "World");
-	avl.insertNode(root, "!");
-	avl.insertNode(root, "123");
+	ft::avl_tree<int, int> avl;
+	ft::avl_tree<int, int>::pointer root = NULL;
+	root = avl.insertNode(root, 10);
+	root = avl.insertNode(root, 20);
+	root = avl.insertNode(root, 30);
+	root = avl.insertNode(root, 40);
+	root = avl.insertNode(root, 50);
+	root = avl.insertNode(root, 25);
 	std::cout << "size = " <<  avl.size() << std::endl;
 	std::cout << "max size = " << avl.max_size() << std::endl;
 	std::cout << "empty = " << std::boolalpha << avl.empty() << std::endl;
-
+	// root = avl.deleteNode(root, 10);
+	// root = avl.deleteNode(root, 20);
+	// root = avl.deleteNode(root, 30);
+	// root = avl.deleteNode(root, 40);
+	// root = avl.deleteNode(root, 50);
+	// root = avl.deleteNode(root, 25);
 	std::cout << "Printing AVL Contents (Pre Order Traversal)" << std::endl;
 	avl.printPreOrder(root);
+	std::cout << "size = " << avl.size() << std::endl;
 	return 0;
 }
 
