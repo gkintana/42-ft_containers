@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/17 00:22:13 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/23 23:37:03 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,6 +360,25 @@ int main() {
 	std::cout << "Printing AVL Contents (Pre Order Traversal)" << std::endl;
 	avl.printPreOrder(root);
 	std::cout << "size = " << avl.size() << std::endl;
+
+	ft::avl_tree<int, int>::iterator it = avl.begin();
+	std::cout << "ft::map::begin()->key = " << it->first << std::endl;
+	std::cout << "ft::map::begin()->value = " << it->second << std::endl;
+
+	std::map<int, int> m;
+	// m.insert(std::pair<int, int>(2, 20));
+	// m.insert(std::pair<int, int>(5, 50));
+	// m.insert(std::pair<int, int>(3, 30));
+	// m.insert(std::pair<int, int>(6, 25));
+	// m.insert(std::pair<int, int>(4, 40));
+	// m.insert(std::pair<int, int>(1, 10));
+	std::map<int, int>::iterator m_iter;
+	for (m_iter = m.begin(); m_iter != m.end(); m_iter++) {
+		std::cout << "Iterator Key = " << m_iter->first << std::endl;
+		std::cout << "Iterator Value = " << m_iter->second << std::endl;
+	}
+	// std::map<char, std::string> ms;
+	// ms.insert();
 	return 0;
 }
 

@@ -6,16 +6,31 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/17 00:20:25 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/23 23:28:01 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TREE_ITERATOR_HPP
 #define TREE_ITERATOR_HPP
 
-#include "red_black_tree.hpp"
-
 namespace ft {
+
+template <class T>
+struct tree_node {
+	typedef T              value_type;
+	typedef tree_node*     pointer;
+	typedef std::size_t    size_type;
+
+	value_type    value;
+	pointer       parent;
+	pointer       left;
+	pointer       right;
+	size_type     height;
+
+	tree_node(value_type data) : value(data), parent(0), left(0), right(0), height(1) {}
+
+	~tree_node() {}
+};
 
 template <class T>
 class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
@@ -37,16 +52,16 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 	public:
 		tree_iterator() : m_node() {}
 
-		tree_iterator(pointer node) : m_node(node) {}
+		tree_iterator(node_pointer node) : m_node(node) {}
 
 		~tree_iterator() {}
 
 		reference operator*() const {
-			return *m_node->value;
+			return m_node->value;
 		}
 
 		pointer operator->() const {
-			return m_node->value;
+			return &m_node->value;
 		}
 
 		tree_iterator &operator++() {
@@ -60,10 +75,10 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 				do {
 					temp = m_node;
 					m_node = m_node->parent;
-					if (node && node->left == temp) {
+					if (m_node && m_node->left == temp) {
 						break;
 					}
-				} while (node->parent);
+				} while (m_node->parent);
 			}
 			return *this;
 		}

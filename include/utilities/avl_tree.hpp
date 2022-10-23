@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/17 00:25:16 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/23 23:29:04 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,26 @@
 
 #include <map>
 #include "pair.hpp"
+#include "tree_iterator.hpp"
 
 namespace ft {
 
-template <class T>
-struct tree_node {
-	typedef T              value_type;
-	typedef tree_node*     pointer;
-	typedef std::size_t    size_type;
+// template <class T>
+// struct tree_node {
+// 	typedef T              value_type;
+// 	typedef tree_node*     pointer;
+// 	typedef std::size_t    size_type;
 
-	value_type    value;
-	pointer       parent;
-	pointer       left;
-	pointer       right;
-	size_type     height;
+// 	value_type    value;
+// 	pointer       parent;
+// 	pointer       left;
+// 	pointer       right;
+// 	size_type     height;
 
-	tree_node(value_type data) : value(data), parent(0), left(0), right(0), height(1) {}
+// 	tree_node(value_type data) : value(data), parent(0), left(0), right(0), height(1) {}
 
-	~tree_node() {}
-};
+// 	~tree_node() {}
+// };
 
 template < class Key, class T, class Compare = std::less<Key>,
            class Allocator = std::allocator< ft::pair<const Key, T> > >
@@ -63,6 +64,7 @@ class avl_tree {
 		typedef typename allocator_base::template rebind<node_type>::other    allocator_type;
 		typedef std::size_t                                                   size_type;
 		// add iterators
+		typedef tree_iterator<mapped_type>                                    iterator;
 
 	private:
 		pointer m_root;
@@ -85,7 +87,9 @@ class avl_tree {
 
 		~avl_tree() {}
 
-		// iterator begin();
+		iterator begin() {
+			return iterator(getMinimum(m_root));
+		}
 		// const_iterator begin() const;
 		// iterator end();
 		// const_iterator end() const;
