@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/23 23:29:04 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/26 00:14:56 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,21 @@ class avl_tree {
 		typedef const pointer                                                 const_pointer;
 		typedef typename allocator_base::template rebind<node_type>::other    allocator_type;
 		typedef std::size_t                                                   size_type;
-		// add iterators
 		typedef tree_iterator<mapped_type>                                    iterator;
 
 	private:
+		value_compare m_comp;
+		allocator_type m_alloc;
 		pointer m_root;
 		// pointer m_node;
-		allocator_type m_alloc;
 		size_type m_size;
 
 	public:
-		avl_tree(const value_compare &comp = value_compare(), const allocator_type &alloc = allocator_type()) : m_alloc(alloc) {
-			(void)comp;
-			// (void)alloc;
-
-			m_root = NULL;
-			m_size = 0;
-		}
+		avl_tree(const value_compare &comp = value_compare(),
+		         const allocator_type &alloc = allocator_type()) : m_comp(comp),
+				                                                   m_alloc(alloc),
+				                                                   m_root(0),
+																   m_size(0) {}
 
 		avl_tree &operator=(const avl_tree &x) {
 			(void)x;
@@ -219,19 +217,19 @@ class avl_tree {
 
 		pointer getMinimum(pointer node) {
 			pointer min = node;
-			while (min->left) {
+			while (min && min->left) {
 				min = min->left;
 			}
 			return min;
 		}
 
-		pointer getMaximum(pointer node) {
-			pointer max = node;
-			while (max->right) {
-				max = max->right;
-			}
-			return max;
-		}
+		// pointer getMaximum(pointer node) {
+		// 	pointer max = node;
+		// 	while (max->right) {
+		// 		max = max->right;
+		// 	}
+		// 	return max;
+		// }
 
 		pointer leftRotate(pointer node) {
 			pointer x = node->right,

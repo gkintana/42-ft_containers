@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/23 23:37:03 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/26 00:10:01 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 #include <pair.hpp>
 #include "avl_tree.hpp"
+#include "map.hpp"
 
 #define DEFAULT		"\033[0m"
 #define RED			"\033[1;31m"
@@ -362,8 +363,8 @@ int main() {
 	std::cout << "size = " << avl.size() << std::endl;
 
 	ft::avl_tree<int, int>::iterator it = avl.begin();
-	std::cout << "ft::map::begin()->key = " << it->first << std::endl;
-	std::cout << "ft::map::begin()->value = " << it->second << std::endl;
+	// std::cout << "ft::map::begin()->key = " << it->first << std::endl;
+	// std::cout << "ft::map::begin()->value = " << it->second << std::endl;
 
 	std::map<int, int> m;
 	// m.insert(std::pair<int, int>(2, 20));
@@ -379,6 +380,16 @@ int main() {
 	}
 	// std::map<char, std::string> ms;
 	// ms.insert();
+
+	NAMESPACE::map<int, int> test_map;
+
+	std::cout << "Empty: " << test_map.empty() << std::endl
+	          << "Size: " << test_map.size() << std::endl
+			  << "Max Size: " << test_map.max_size() << std::endl;
+
+	NAMESPACE::map<int, int>::iterator i = test_map.begin();
+	(void)i;
+
 	return 0;
 }
 
