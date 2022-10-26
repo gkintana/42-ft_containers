@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/26 00:14:56 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/27 00:02:15 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ class avl_tree {
 		value_compare m_comp;
 		allocator_type m_alloc;
 		pointer m_root;
-		// pointer m_node;
 		size_type m_size;
 
 	public:
@@ -83,7 +82,11 @@ class avl_tree {
 			(void)x;
 		}
 
-		~avl_tree() {}
+		~avl_tree() {
+			while (m_size) {
+				m_root = deleteNode(m_root, m_root->value);
+			}
+		}
 
 		iterator begin() {
 			return iterator(getMinimum(m_root));
@@ -105,12 +108,18 @@ class avl_tree {
 		}
 
 		void swap(avl_tree &x) {
+			value_compare temp_comp = m_comp;
+			allocator_type temp_alloc = m_alloc;
 			pointer temp_root = m_root;
 			size_type temp_size = m_size;
 
+			m_comp = x.m_comp;
+			m_alloc = x.m_alloc;
 			m_root = x.m_root;
 			m_size = x.m_size;
 
+			x.m_comp = temp_comp;
+			x.m_alloc = temp_alloc;
 			x.m_root = temp_root;
 			x.m_size = temp_size;
 		}
@@ -128,18 +137,20 @@ class avl_tree {
 
 			int balance = checkBalanceFactor(node);
 			if (balance > 1) {
-				if (value > node->right->value) {
+				if (value > node->left->value) {
 					node->left = leftRotate(node->left);
 				}
-				return rightRotate(node);
+				m_root = rightRotate(node);
+				return m_root;
 			} else if (balance < -1) {
 				if (value < node->right->value) {
 					node->right = rightRotate(node->right);
 				}
-				return leftRotate(node);
+				m_root = leftRotate(node);
+				return m_root;
 			}
-
-			return node;
+			m_root = node;
+			return m_root;
 		}
 
 		pointer deleteNode(pointer node, mapped_type value) {
@@ -177,18 +188,33 @@ class avl_tree {
 
 			int balance = checkBalanceFactor(node);
 			if (balance > 1) {
-				if (value > node->right->value) {
+				// std::cout << "value = " << value << std::endl;
+				// std::cout << "node->value = " << node->value << std::endl;
+				// if (value > node->right->value) {
+				if (checkBalanceFactor(node->left) < 0) {
 					node->left = leftRotate(node->left);
 				}
 				return rightRotate(node);
 			} else if (balance < -1) {
-				if (value < node->right->value) {
+				if (checkBalanceFactor(node->right) > 0) {
 					node->right = rightRotate(node->right);
 				}
 				return leftRotate(node);
 			}
 
 			return node;
+		}
+
+		pointer search(pointer node, mapped_type value) {
+			if (!node) {
+				return NULL;
+			} else if (value < node->value) {
+				return search(node->left, value);
+			} else if (value > node->value) {
+				return search(node->right, value);
+			} else {
+				return node;
+			}
 		}
 
 		void printPreOrder(pointer node) {

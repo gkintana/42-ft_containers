@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/26 00:10:01 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/10/27 00:04:16 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,6 +349,13 @@ int main() {
 	root = avl.insertNode(root, 40);
 	root = avl.insertNode(root, 50);
 	root = avl.insertNode(root, 25);
+
+	ft::avl_tree<int, int>::pointer node = avl.search(root, 30);
+	std::cout << "node->value = " << node->value << std::endl;
+	std::cout << "node->parent = " << node->parent << std::endl;
+	std::cout << "node->left = " << node->left->value << std::endl;
+	std::cout << "node->right = " << node->right->value << std::endl;
+
 	std::cout << "size = " <<  avl.size() << std::endl;
 	std::cout << "max size = " << avl.max_size() << std::endl;
 	std::cout << "empty = " << std::boolalpha << avl.empty() << std::endl;
