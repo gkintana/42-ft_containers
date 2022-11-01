@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/27 00:04:16 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:30:25 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <vector.hpp>
 #include <stack.hpp>
 
-#include <pair.hpp>
+#include "pair.hpp"
 #include "avl_tree.hpp"
 #include "map.hpp"
 
@@ -343,18 +343,19 @@ int main() {
 
 	ft::avl_tree<int, int> avl;
 	ft::avl_tree<int, int>::pointer root = NULL;
-	root = avl.insertNode(root, 10);
-	root = avl.insertNode(root, 20);
-	root = avl.insertNode(root, 30);
-	root = avl.insertNode(root, 40);
-	root = avl.insertNode(root, 50);
-	root = avl.insertNode(root, 25);
+	ft::pair<int, int> res = ft::pair<int, int>(1, 10);
+	root = avl.insertNode(root, res);
+	// root = avl.insertNode(root, 20);
+	// root = avl.insertNode(root, 30);
+	// root = avl.insertNode(root, 40);
+	// root = avl.insertNode(root, 50);
+	// root = avl.insertNode(root, 25);
 
-	ft::avl_tree<int, int>::pointer node = avl.search(root, 30);
-	std::cout << "node->value = " << node->value << std::endl;
-	std::cout << "node->parent = " << node->parent << std::endl;
-	std::cout << "node->left = " << node->left->value << std::endl;
-	std::cout << "node->right = " << node->right->value << std::endl;
+	// ft::avl_tree<int, int>::pointer node = avl.search(root, 30);
+	// std::cout << "node->value = " << node->value << std::endl;
+	// std::cout << "node->parent = " << node->parent << std::endl;
+	// std::cout << "node->left = " << node->left->value << std::endl;
+	// std::cout << "node->right = " << node->right->value << std::endl;
 
 	std::cout << "size = " <<  avl.size() << std::endl;
 	std::cout << "max size = " << avl.max_size() << std::endl;
@@ -370,8 +371,8 @@ int main() {
 	std::cout << "size = " << avl.size() << std::endl;
 
 	ft::avl_tree<int, int>::iterator it = avl.begin();
-	// std::cout << "ft::map::begin()->key = " << it->first << std::endl;
-	// std::cout << "ft::map::begin()->value = " << it->second << std::endl;
+	std::cout << "ft::map::begin()->key = " << it->first << std::endl;
+	std::cout << "ft::map::begin()->value = " << it->second << std::endl;
 
 	std::map<int, int> m;
 	// m.insert(std::pair<int, int>(2, 20));

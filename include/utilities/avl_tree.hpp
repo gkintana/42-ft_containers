@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/27 00:02:15 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/01 23:54:11 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,16 @@ class avl_tree {
 	public:
 		typedef Key                                                           key_type;
 		typedef T                                                             mapped_type;
-		typedef ft::pair<const key_type, mapped_type>                         value_type;
+		// typedef ft::pair<const key_type, mapped_type>                               value_type;
+		typedef ft::pair<key_type, mapped_type>                               value_type;
 		typedef Compare                                                       value_compare;
 		typedef Allocator                                                     allocator_base;
-		typedef tree_node<mapped_type>                                        node_type;
+		typedef tree_node<value_type>                                        node_type;
 		typedef node_type*                                                    pointer;
 		typedef const pointer                                                 const_pointer;
 		typedef typename allocator_base::template rebind<node_type>::other    allocator_type;
 		typedef std::size_t                                                   size_type;
-		typedef tree_iterator<mapped_type>                                    iterator;
+		typedef tree_iterator<value_type>                                     iterator;
 
 	private:
 		value_compare m_comp;
@@ -124,9 +125,10 @@ class avl_tree {
 			x.m_size = temp_size;
 		}
 
-		pointer insertNode(pointer node, mapped_type value) {
+		pointer insertNode(pointer node, value_type value) {
 			if (!node) {
-				return createNode(value);
+				m_root = createNode(value);
+				return m_root;
 			} else if (value < node->value) {
 				node->left = insertNode(node->left, value);
 			} else if (value > node->value) {
@@ -153,7 +155,7 @@ class avl_tree {
 			return m_root;
 		}
 
-		pointer deleteNode(pointer node, mapped_type value) {
+		pointer deleteNode(pointer node, value_type value) {
 			if (!node) {
 				return node;
 			} else if (value < node->value) {
@@ -219,14 +221,14 @@ class avl_tree {
 
 		void printPreOrder(pointer node) {
 			if (node != NULL) {
-				std::cout << node->value << std::endl;
+				// std::cout << node->value << std::endl;
 				printPreOrder(node->left);
 				printPreOrder(node->right);
 			}
 		}
 
 	private:
-		pointer createNode(mapped_type value) {
+		pointer createNode(value_type value) {
 			pointer node = m_alloc.allocate(1 * sizeof(node_type));
 			m_alloc.construct(node, node_type(value));
 			m_size++;
