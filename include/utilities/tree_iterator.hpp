@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/25 23:16:13 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:49:21 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,17 @@ struct tree_node {
 	pointer       right;
 	size_type     height;
 
-	tree_node(value_type data) : value(data), parent(0), left(0), right(0), height(1) {}
+	tree_node(value_type val) : value(val),
+	                            parent(0),
+	                            left(0),
+	                            right(0),
+	                            height(1) {}
+
+	tree_node(value_type val, pointer par) : value(val),
+	                                         parent(par),
+	                                         left(0),
+	                                         right(0),
+	                                         height(1) {}
 
 	~tree_node() {}
 };

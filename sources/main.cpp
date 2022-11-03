@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/01 23:30:25 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/03 22:48:56 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,13 +343,18 @@ int main() {
 
 	ft::avl_tree<int, int> avl;
 	ft::avl_tree<int, int>::pointer root = NULL;
-	ft::pair<int, int> res = ft::pair<int, int>(1, 10);
-	root = avl.insertNode(root, res);
-	// root = avl.insertNode(root, 20);
-	// root = avl.insertNode(root, 30);
-	// root = avl.insertNode(root, 40);
-	// root = avl.insertNode(root, 50);
-	// root = avl.insertNode(root, 25);
+	root = avl.insertNode(root, ft::pair<int, int>(2, 20));
+	root = avl.insertNode(root, ft::pair<int, int>(1, 10));
+	root = avl.insertNode(root, ft::pair<int, int>(3, 30));
+	root = avl.insertNode(root, ft::pair<int, int>(5, 50));
+	root = avl.insertNode(root, ft::pair<int, int>(4, 40));
+	root = avl.insertNode(root, ft::pair<int, int>(6, 25));
+	ft::avl_tree<int, int>::iterator it = avl.begin();
+	for (size_t i = 0; i < avl.size(); i++) {
+		std::cout << "Key = " << it->first << std::endl;
+		std::cout << "Value = " << it->second << std::endl;
+		++it;
+	}
 
 	// ft::avl_tree<int, int>::pointer node = avl.search(root, 30);
 	// std::cout << "node->value = " << node->value << std::endl;
@@ -368,11 +373,13 @@ int main() {
 	// root = avl.deleteNode(root, 25);
 	std::cout << "Printing AVL Contents (Pre Order Traversal)" << std::endl;
 	avl.printPreOrder(root);
+	std::cout << "Printing AVL Contents (In Order Traversal)" << std::endl;
+	avl.printInOrder(root);
 	std::cout << "size = " << avl.size() << std::endl;
 
-	ft::avl_tree<int, int>::iterator it = avl.begin();
-	std::cout << "ft::map::begin()->key = " << it->first << std::endl;
-	std::cout << "ft::map::begin()->value = " << it->second << std::endl;
+	// ft::avl_tree<int, int>::iterator it = avl.begin();
+	// std::cout << "ft::map::begin()->key = " << it->first << std::endl;
+	// std::cout << "ft::map::begin()->value = " << it->second << std::endl;
 
 	std::map<int, int> m;
 	// m.insert(std::pair<int, int>(2, 20));
