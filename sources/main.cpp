@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/07 23:04:12 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/07 23:30:24 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,8 +354,21 @@ int main() {
 		std::cout << "Key = " << it->first << std::endl;
 		std::cout << "Value = " << it->second << std::endl;
 		++it;
+		// it++;
 	}
 
+	// std::cout << "Decrement" << std::endl;
+	// std::cout << "Key = " << it->first << std::endl;
+	// std::cout << "Value = " << it->second << std::endl;
+
+	std::cout << "--------------- Decrement ---------------" << std::endl;
+	it = avl.end();
+	for (size_t i = avl.size(); i > 0; i--) {
+		std::cout << "Key = " << it->first << std::endl;
+		std::cout << "Value = " << it->second << std::endl;
+		// --it;
+		it--;
+	}
 	// ft::avl_tree<int, int>::pointer node = avl.search(root, 30);
 	// std::cout << "node->value = " << node->value << std::endl;
 	// std::cout << "node->parent = " << node->parent << std::endl;
