@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/03 22:46:54 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/07 22:35:20 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,18 +125,14 @@ class avl_tree {
 			x.m_size = temp_size;
 		}
 
-		pointer insertNode(pointer node, value_type value) {
+		pointer insertNode(pointer node, pointer parent, value_type value) {
 			if (!node) {
-				m_root = createNode(m_root, value);
-				return m_root;
+				return m_root = createNode(parent, value);
 			} else if (value < node->value) {
-				node->left = insertNode(node->left, value);
+				node->left = insertNode(node->left, node, value);
 			} else if (value > node->value) {
-				node->right = insertNode(node->right, value);
+				node->right = insertNode(node->right, node, value);
 			}
-
-			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-
 			int balance = checkBalanceFactor(node);
 			if (balance > 1) {
 				if (value > node->left->value) {
@@ -151,9 +147,38 @@ class avl_tree {
 				m_root = leftRotate(node);
 				return m_root;
 			}
-			m_root = node;
-			return m_root;
+			return m_root = node;
 		}
+
+		// pointer insertNode(pointer node, value_type value) {
+		// 	if (!node) {
+		// 		return m_root = createNode(m_root, value);
+		// 		// return m_root;
+		// 	} else if (value < node->value) {
+		// 		node->left = insertNode(node->left, value);
+		// 	} else if (value > node->value) {
+		// 		node->right = insertNode(node->right, value);
+		// 	}
+
+		// 	node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+
+		// 	int balance = checkBalanceFactor(node);
+		// 	if (balance > 1) {
+		// 		if (value > node->left->value) {
+		// 			node->left = leftRotate(node->left);
+		// 		}
+		// 		m_root = rightRotate(node);
+		// 		return m_root;
+		// 	} else if (balance < -1) {
+		// 		if (value < node->right->value) {
+		// 			node->right = rightRotate(node->right);
+		// 		}
+		// 		m_root = leftRotate(node);
+		// 		return m_root;
+		// 	}
+		// 	m_root = node;
+		// 	return m_root;
+		// }
 
 		pointer deleteNode(pointer node, value_type value) {
 			if (!node) {

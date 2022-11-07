@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/03 22:48:56 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/07 23:04:12 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,12 +343,12 @@ int main() {
 
 	ft::avl_tree<int, int> avl;
 	ft::avl_tree<int, int>::pointer root = NULL;
-	root = avl.insertNode(root, ft::pair<int, int>(2, 20));
-	root = avl.insertNode(root, ft::pair<int, int>(1, 10));
-	root = avl.insertNode(root, ft::pair<int, int>(3, 30));
-	root = avl.insertNode(root, ft::pair<int, int>(5, 50));
-	root = avl.insertNode(root, ft::pair<int, int>(4, 40));
-	root = avl.insertNode(root, ft::pair<int, int>(6, 25));
+	root = avl.insertNode(root, NULL, ft::pair<int, int>(2, 20));
+	root = avl.insertNode(root, NULL, ft::pair<int, int>(1, 10));
+	root = avl.insertNode(root, NULL, ft::pair<int, int>(3, 30));
+	root = avl.insertNode(root, NULL, ft::pair<int, int>(6, 25));
+	root = avl.insertNode(root, NULL, ft::pair<int, int>(5, 50));
+	root = avl.insertNode(root, NULL, ft::pair<int, int>(4, 40));
 	ft::avl_tree<int, int>::iterator it = avl.begin();
 	for (size_t i = 0; i < avl.size(); i++) {
 		std::cout << "Key = " << it->first << std::endl;
