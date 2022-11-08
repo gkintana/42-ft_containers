@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/26 00:15:17 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/08 23:08:57 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <map>
 
 #include "pair.hpp"
+#include "avl_tree.hpp"
 #include "tree_iterator.hpp"
 
 namespace ft {
@@ -33,11 +34,13 @@ class map {
 		typedef Allocator                                   allocator_type;
 		typedef typename allocator_type::reference          reference;
 		typedef typename allocator_type::const_reference    const_reference;
-		typedef typename allocator_type::pointer            pointer;
-		typedef typename allocator_type::const_pointer      const_pointer;
+		// typedef typename allocator_type::pointer            pointer;
+		// typedef typename allocator_type::const_pointer      const_pointer;
 		typedef typename allocator_type::size_type          size_type;
 		typedef typename allocator_type::difference_type    difference_type;
 
+		typedef tree_node<value_type>                       node_type;
+		typedef node_type*                                  pointer;
 		typedef avl_tree<key_type, mapped_type,
 		                 key_compare, allocator_type>       tree_type;
 		typedef typename tree_type::iterator                iterator;
@@ -53,14 +56,15 @@ class map {
 		tree_type         m_tree;
 		key_compare       m_comp;
 		allocator_type    m_alloc;
+		pointer      m_root;
 		// size_type         m_size;
-		// red_black_tree    tree;
 
 	public:
 
 	explicit map(const key_compare &comp = key_compare(),
 	             const allocator_type &alloc = allocator_type()) : m_comp(comp),
-				                                                   m_alloc(alloc) {}
+	                                                               m_alloc(alloc),
+	                                                               m_root(0) {}
 
 	template < class InputIterator >
 	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
@@ -78,8 +82,12 @@ class map {
 	iterator begin() {
 		return m_tree.begin();
 	}
+
 	// const_iterator begin() const { return tree.begin(); }
-	// iterator end() { return tree.end(); }
+
+	iterator end() {
+		return m_tree.end();
+	}
 	// const_iterator end() const { return tree.end(); }
 	// reverse_iterator rbegin() { return tree.rbegin(); }
 	// const_reverse_iterator rbegin() const { return tree.rbegin(); }
@@ -103,7 +111,11 @@ class map {
 	// const mapped_type &at(const key_type &k) const;
 
 
-	// pair<iterator, bool> insert(const value_type &val);
+	ft::pair<iterator, bool> insert(const value_type val) {
+		m_root = m_tree.insertNode(m_root, NULL, val);
+
+		return ft::pair<iterator, bool>(NULL, false);
+	}
 	// iterator insert(iterator position, const value_type &val);
 	// template < class InputIterator >
 	// void insert(InputIterator first, InputIterator last);

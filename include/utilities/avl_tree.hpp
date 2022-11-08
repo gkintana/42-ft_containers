@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/07 23:29:02 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/08 23:26:17 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ class avl_tree {
 	public:
 		typedef Key                                                           key_type;
 		typedef T                                                             mapped_type;
-		// typedef ft::pair<const key_type, mapped_type>                               value_type;
-		typedef ft::pair<key_type, mapped_type>                               value_type;
+		typedef ft::pair<const key_type, mapped_type>                         value_type;
 		typedef Compare                                                       value_compare;
 		typedef Allocator                                                     allocator_base;
 		typedef tree_node<value_type>                                         node_type;
@@ -84,9 +83,12 @@ class avl_tree {
 		}
 
 		~avl_tree() {
-			while (m_size) {
-				m_root = deleteNode(m_root, m_root->value);
-			}
+			// while (m_size) {
+			// 	m_root = deleteNode(m_root, m_root->value);
+			// }
+			free_all(m_root);
+			// m_alloc.destroy(m_root);
+			// m_alloc.deallocate(m_root, 1 * sizeof(node_type));
 		}
 
 		iterator begin() {
@@ -318,6 +320,15 @@ class avl_tree {
 			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
 			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
 			return x;
+		}
+
+		void free_all(pointer node) {
+			if (node != NULL) {
+				free_all(node->left);
+				free_all(node->right);
+				m_alloc.destroy(node);
+				m_alloc.deallocate(node, 1 * sizeof(node_type));
+			}
 		}
 
 };

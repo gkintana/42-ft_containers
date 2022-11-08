@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/07 23:30:24 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/08 22:53:47 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -415,8 +415,24 @@ int main() {
 	          << "Size: " << test_map.size() << std::endl
 			  << "Max Size: " << test_map.max_size() << std::endl;
 
-	NAMESPACE::map<int, int>::iterator i = test_map.begin();
-	(void)i;
+	test_map.insert(NAMESPACE::pair<int, int>(2, 20));
+	test_map.insert(NAMESPACE::pair<int, int>(1, 10));
+	test_map.insert(NAMESPACE::pair<int, int>(3, 30));
+	test_map.insert(NAMESPACE::pair<int, int>(6, 25));
+	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
+	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
+
+	NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
+	// for (NAMESPACE::map<int, int>::iterator it = test_map.begin(); it != test_map.end(); it++) {
+		std::cout << "Iterator Key = " << it_map->first << std::endl;
+		std::cout << "Iterator Value = " << it_map->second << std::endl;
+	// }
+
+	std::cout << "Empty: " << test_map.empty() << std::endl
+	          << "Size: " << test_map.size() << std::endl
+			  << "Max Size: " << test_map.max_size() << std::endl;
+
+	// (void)i;
 
 	return 0;
 }
