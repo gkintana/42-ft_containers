@@ -6,12 +6,14 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/07 23:30:00 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/10 23:46:30 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TREE_ITERATOR_HPP
 #define TREE_ITERATOR_HPP
+
+// https://stackoverflow.com/questions/9597817/c-avl-tree-iterator-will-not-increment-properly
 
 namespace ft {
 
@@ -74,6 +76,10 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 			return &m_node->value;
 		}
 
+		node_pointer base() const {
+			return m_node;
+		}
+
 		tree_iterator &operator++() {
 			if (m_node->right) {
 				m_node = m_node->right;
@@ -81,14 +87,19 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 					m_node = m_node->left;
 				}
 			} else {
-				node_pointer temp;
-				do {
-					temp = m_node;
+				while (m_node->parent && m_node == m_node->parent->right) {
 					m_node = m_node->parent;
-					if (m_node && m_node->left == temp) {
-						break;
-					}
-				} while (m_node->parent);
+				}
+				m_node = m_node->parent;
+
+				// node_pointer temp;
+				// do {
+				// 	temp = m_node;
+				// 	m_node = m_node->parent;
+				// 	if (m_node && m_node->left == temp) {
+				// 		break;
+				// 	}
+				// } while (m_node->parent);
 			}
 			return *this;
 		}
@@ -113,8 +124,8 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 					if (m_node && m_node->right == temp) {
 						break;
 					}
-				// } while (m_node->parent && m_node == m_node->parent->left);
-				} while (m_node->parent);
+				} while (m_node->parent && m_node == m_node->parent->left);
+				// } while (m_node->parent);
 			}
 			return *this;
 		}
@@ -126,6 +137,16 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		}
 
 };
+
+template <class T>
+bool operator==(const tree_iterator<T> &lhs, const tree_iterator<T> &rhs) {
+	return lhs.base() == rhs.base();
+}
+
+template <class T>
+bool operator!=(const tree_iterator<T> &lhs, const tree_iterator<T> &rhs) {
+	return !(lhs == rhs);
+}
 
 }    // namespace ft
 

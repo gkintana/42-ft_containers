@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/08 23:26:17 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/10 23:27:56 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ class avl_tree {
 		}
 		// const_iterator begin() const;
 		iterator end() {
-			return iterator(getMaximum(m_root));
+			return iterator(NULL);
 		}
 		// const_iterator end() const;
 
@@ -290,13 +290,13 @@ class avl_tree {
 			return min;
 		}
 
-		pointer getMaximum(pointer node) {
-			pointer max = node;
-			while (max->right) {
-				max = max->right;
-			}
-			return max;
-		}
+		// pointer getMaximum(pointer node) {
+		// 	pointer max = node;
+		// 	while (max->right) {
+		// 		max = max->right;
+		// 	}
+		// 	return max;
+		// }
 
 		pointer leftRotate(pointer node) {
 			pointer x = node->right,
