@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/10/07 23:39:47 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/10 23:05:53 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,73 @@
 // https://medium.com/@sidbhasin82/c-templates-what-is-std-enable-if-and-how-to-use-it-fd76d3abbabe
 
 namespace ft {
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename ft::input_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename ft::output_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename ft::forward_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename ft::bidirectional_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename ft::random_access_iterator_tag) {
+		if (first > last) {
+			throw std::length_error("cannot create std::vector larger than max_size()");
+		}
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename std::input_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename std::output_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename std::forward_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename std::bidirectional_iterator_tag) {
+		(void)first;
+		(void)last;
+	}
+
+	template <class Iter>
+	void iterator_validity(Iter first, Iter last, typename std::random_access_iterator_tag) {
+		if (first > last) {
+			throw std::length_error("cannot create std::vector larger than max_size()");
+		}
+	}
+
+	template <class Iter>
+	void check_range(Iter first, Iter last) {
+		iterator_validity(first, last, typename ft::iterator_traits<Iter>::iterator_category());
+	}
 
 	template < class T, class Allocator = std::allocator<T> >
 	class vector {
@@ -97,9 +164,10 @@ namespace ft {
 			                                                                                         _alloc(alloc),
 			                                                                                         _size(0),
 			                                                                                         _capacity(0) {
-				if (first > last) {
-					throw std::length_error("cannot create std::vector larger than max_size()");
-				}
+				// if (first > last) {
+				// 	throw std::length_error("cannot create std::vector larger than max_size()");
+				// }
+				ft::check_range(first, last);
 				// difference_type range = last - first;
 				difference_type range = 0;
 				for (Iterator temp = first; temp != last; temp++) {
@@ -148,11 +216,12 @@ namespace ft {
 			            typename ft::enable_if<!ft::is_integral<Iterator>::value, Iterator>::type* = 0) {
 				// std::cout << "inside assign(Iterator first, Iterator last)" << std::endl;
 
-				if (first > last) {
-					this->clear();
-					_capacity = 0;
-					throw std::length_error("ft::vector::assign");
-				}
+				// if (first > last) {
+				// 	this->clear();
+				// 	_capacity = 0;
+				// 	throw std::length_error("ft::vector::assign");
+				// }
+				ft::check_range(first, last);
 
 				// difference_type range = last - first;
 				difference_type range = 0;
