@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/21 21:46:34 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:22:27 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ class map {
 		typedef node_type*                                  pointer;
 		typedef avl_tree<key_type, mapped_type,
 		                 key_compare, allocator_type>       tree_type;
-		typedef tree_iterator<value_type, tree_type>    iterator;
+		typedef tree_iterator<value_type, tree_type>        iterator;
 		// typedef implementation-defined                   iterator;
 		// typedef implementation-defined                   const_iterator;
-		// typedef std::reverse_iterator<iterator>          reverse_iterator;
+		typedef ft::reverse_iterator<iterator>              reverse_iterator;
 		// typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
 
 		// typedef unspecified                              node_type;              // C++17
@@ -56,7 +56,7 @@ class map {
 		tree_type         m_tree;
 		key_compare       m_comp;
 		allocator_type    m_alloc;
-		pointer      m_root;
+		pointer           m_root;
 		// size_type         m_size;
 
 	public:
@@ -66,13 +66,13 @@ class map {
 	                                                               m_alloc(alloc),
 	                                                               m_root(0) {}
 
-	template < class InputIterator >
-	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
-	    const allocator_type &alloc = allocator_type());
+	// template < class InputIterator >
+	// map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
+	//     const allocator_type &alloc = allocator_type());
 
-	map(const map &x);
+	// map(const map &x);
 
-	map &operator=(const map &x);
+	// map &operator=(const map &x);
 
 	~map() {
 		// m_tree.~avl_tree();
@@ -81,20 +81,27 @@ class map {
 
 
 	iterator begin() {
-		// return m_tree.begin();
 		return iterator(m_tree.getMinimum(m_root), m_tree);
 	}
 
 	// const_iterator begin() const { return tree.begin(); }
 
 	iterator end() {
-		// return m_tree.end();
 		return iterator(NULL, m_tree);
 	}
+
 	// const_iterator end() const { return tree.end(); }
-	// reverse_iterator rbegin() { return tree.rbegin(); }
+
+	reverse_iterator rbegin() {
+		return reverse_iterator(this->end());
+	}
+
 	// const_reverse_iterator rbegin() const { return tree.rbegin(); }
-	// reverse_iterator rend() { return tree.rend(); }
+
+	reverse_iterator rend() {
+		return reverse_iterator(this->begin());
+	}
+
 	// const_reverse_iterator rend() const { return tree.rend(); }
 
 	bool empty() const {
@@ -109,14 +116,8 @@ class map {
 		return m_tree.max_size();
 	}
 
-
 	// mapped_type &at(const key_type &k);
 	// const mapped_type &at(const key_type &k) const;
-
-
-	// void insert(const value_type val) {
-	// 	m_root = m_tree.insertNode(m_root, NULL, val);
-	// }
 
 	ft::pair<iterator, bool> insert(const value_type val) {
 		m_root = m_tree.insertNode(m_root, NULL, val);
@@ -131,10 +132,16 @@ class map {
 	// size_type erase(const key_type &k);
 	// void erase(iterator first, iterator last);
 
-	// void swap(map &x);
-	// void clear();
+	void swap(map &x) {
+		m_tree.swap(x);
+	}
 
-	// key_compare key_comp() const;
+	// void clear() {}
+
+	key_compare key_comp() const {
+		return m_comp;
+	}
+
 	// value_compare value_comp() const;
 
 
@@ -148,8 +155,9 @@ class map {
 	allocator_type get_allocator() const {
 		return m_alloc.get_allocator();
 	}
+
 };
 
-}
+}    // namespace ft
 
-#endif
+#endif    // MAP_HPP

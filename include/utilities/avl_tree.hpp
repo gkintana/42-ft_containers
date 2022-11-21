@@ -6,12 +6,12 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/21 21:51:32 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:20:54 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RED_BLACK_TREE_HPP
-#define RED_BLACK_TREE_HPP
+#ifndef AVL_TREE_HPP
+#define AVL_TREE_HPP
 
 // https://github.com/llvm/llvm-project/tree/main/libcxx
 // https://github.com/gcc-mirror/gcc/tree/master/libstdc%2B%2B-v3/include/bits
@@ -315,6 +315,7 @@ class avl_tree {
 				free_all(node->right);
 				m_alloc.destroy(node);
 				m_alloc.deallocate(node, 1 * sizeof(node_type));
+				m_size--;
 			}
 		}
 
@@ -330,9 +331,9 @@ class avl_tree {
 			return (!node) ? 0 : node->height;
 		}
 
-		size_type checkBalanceFactor(pointer node) {
-			return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
-		}
+		// size_type checkBalanceFactor(pointer node) {
+		// 	return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
+		// }
 
 		// pointer getMaximum(pointer node) {
 		// 	pointer max = node;
@@ -403,29 +404,29 @@ class avl_tree {
 			return RRRotate(node);
 		}
 
-		pointer leftRotate(pointer node) {
-			pointer x = node->right,
-			        y = x->left;
+		// pointer leftRotate(pointer node) {
+		// 	pointer x = node->right,
+		// 	        y = x->left;
 
-			x->left = node;
-			node->right = y;
+		// 	x->left = node;
+		// 	node->right = y;
 
-			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
-			return x;
-		}
+		// 	node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+		// 	x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+		// 	return x;
+		// }
 
-		pointer rightRotate(pointer node) {
-			pointer x = node->left,
-			        y = x->right;
+		// pointer rightRotate(pointer node) {
+		// 	pointer x = node->left,
+		// 	        y = x->right;
 
-			x->right = node;
-			node->left = y;
+		// 	x->right = node;
+		// 	node->left = y;
 
-			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
-			return x;
-		}
+		// 	node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+		// 	x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+		// 	return x;
+		// }
 
 };
 

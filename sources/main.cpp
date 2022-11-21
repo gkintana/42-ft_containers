@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/21 21:48:06 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:25:01 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,6 +432,19 @@ int main() {
 
 	std::cout << "---------- DECREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::iterator it_map = --test_map.end(); it_map != test_map.begin(); it_map--) {
+		std::cout << "Iterator Key = " << it_map->first << std::endl;
+		std::cout << "Iterator Value = " << it_map->second << std::endl;
+	}
+
+
+    std::cout << "---------- REVERSE INCREMENT ----------" << std::endl;
+	for (NAMESPACE::map<int, int>::reverse_iterator it_map = test_map.rbegin(); it_map != test_map.rend(); it_map++) {
+		std::cout << "Iterator Key = " << it_map->first << std::endl;
+		std::cout << "Iterator Value = " << it_map->second << std::endl;
+	}
+
+	std::cout << "---------- REVERSE DECREMENT ----------" << std::endl;
+	for (NAMESPACE::map<int, int>::reverse_iterator it_map = --test_map.rend(); it_map != test_map.rbegin(); it_map--) {
 		std::cout << "Iterator Key = " << it_map->first << std::endl;
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}
