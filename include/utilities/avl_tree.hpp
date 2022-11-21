@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/21 13:20:38 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:51:32 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ class avl_tree {
 		typedef const pointer                                                 const_pointer;
 		typedef typename allocator_base::template rebind<node_type>::other    allocator_type;
 		typedef std::size_t                                                   size_type;
-		typedef tree_iterator<value_type>                                     iterator;
+		// typedef tree_iterator<value_type>                                     iterator;
 
 	private:
 		value_compare m_comp;
@@ -86,19 +86,23 @@ class avl_tree {
 			// while (m_size) {
 			// 	m_root = deleteNode(m_root, m_root->value);
 			// }
-			free_all(m_root);
+			// free_all(m_root);
 			// m_alloc.destroy(m_root);
 			// m_alloc.deallocate(m_root, 1 * sizeof(node_type));
 		}
 
-		iterator begin() {
-			return iterator(getMinimum(m_root));
-		}
+		// iterator begin() {
+		// 	return iterator(getMinimum(m_root));
+		// }
 		// const_iterator begin() const;
-		iterator end() {
-			return iterator(NULL);
-		}
+		// iterator end() {
+		// 	return iterator(NULL);
+		// }
 		// const_iterator end() const;
+
+		pointer getRoot() {
+			return m_root;
+		}
 
 		bool empty() const {
 			return !m_size;
@@ -289,11 +293,28 @@ class avl_tree {
 				printInOrder(node->left);
 				std::cout << "Key = " << node->value.first
 				          << "\t\tValue = " << node->value.second;
-				if (node) {
-					std::cout << "\tParent = " << (node->parent == 0 ? NULL : node->parent->value.first);
+				if (node && node->parent) {
+					std::cout << "\tParent = " << node->parent->value.first;
 				}
 				std::cout << std::endl;
 				printInOrder(node->right);
+			}
+		}
+
+		pointer getMinimum(pointer node) {
+			pointer min = node;
+			while (min && min->left) {
+				min = min->left;
+			}
+			return min;
+		}
+
+		void free_all(pointer node) {
+			if (node != NULL) {
+				free_all(node->left);
+				free_all(node->right);
+				m_alloc.destroy(node);
+				m_alloc.deallocate(node, 1 * sizeof(node_type));
 			}
 		}
 
@@ -311,14 +332,6 @@ class avl_tree {
 
 		size_type checkBalanceFactor(pointer node) {
 			return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
-		}
-
-		pointer getMinimum(pointer node) {
-			pointer min = node;
-			while (min && min->left) {
-				min = min->left;
-			}
-			return min;
 		}
 
 		// pointer getMaximum(pointer node) {
@@ -412,15 +425,6 @@ class avl_tree {
 			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
 			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
 			return x;
-		}
-
-		void free_all(pointer node) {
-			if (node != NULL) {
-				free_all(node->left);
-				free_all(node->right);
-				m_alloc.destroy(node);
-				m_alloc.deallocate(node, 1 * sizeof(node_type));
-			}
 		}
 
 };

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/08 23:08:57 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:46:34 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class map {
 		typedef node_type*                                  pointer;
 		typedef avl_tree<key_type, mapped_type,
 		                 key_compare, allocator_type>       tree_type;
-		typedef typename tree_type::iterator                iterator;
+		typedef tree_iterator<value_type, tree_type>    iterator;
 		// typedef implementation-defined                   iterator;
 		// typedef implementation-defined                   const_iterator;
 		// typedef std::reverse_iterator<iterator>          reverse_iterator;
@@ -75,18 +75,21 @@ class map {
 	map &operator=(const map &x);
 
 	~map() {
-		
+		// m_tree.~avl_tree();
+		m_tree.free_all(m_root);
 	}
 
 
 	iterator begin() {
-		return m_tree.begin();
+		// return m_tree.begin();
+		return iterator(m_tree.getMinimum(m_root), m_tree);
 	}
 
 	// const_iterator begin() const { return tree.begin(); }
 
 	iterator end() {
-		return m_tree.end();
+		// return m_tree.end();
+		return iterator(NULL, m_tree);
 	}
 	// const_iterator end() const { return tree.end(); }
 	// reverse_iterator rbegin() { return tree.rbegin(); }
@@ -111,10 +114,14 @@ class map {
 	// const mapped_type &at(const key_type &k) const;
 
 
+	// void insert(const value_type val) {
+	// 	m_root = m_tree.insertNode(m_root, NULL, val);
+	// }
+
 	ft::pair<iterator, bool> insert(const value_type val) {
 		m_root = m_tree.insertNode(m_root, NULL, val);
 
-		return ft::pair<iterator, bool>(NULL, false);
+		return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
 	}
 	// iterator insert(iterator position, const value_type &val);
 	// template < class InputIterator >

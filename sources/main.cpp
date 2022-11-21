@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/10 23:47:52 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:48:06 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,19 +343,19 @@ int main() {
 
 	ft::avl_tree<int, int> avl;
 	ft::avl_tree<int, int>::pointer root = NULL;
-	root = avl.insertNode(root, NULL, ft::pair<int, int>(2, 20));
-	root = avl.insertNode(root, NULL, ft::pair<int, int>(1, 10));
-	root = avl.insertNode(root, NULL, ft::pair<int, int>(3, 30));
-	root = avl.insertNode(root, NULL, ft::pair<int, int>(6, 25));
-	root = avl.insertNode(root, NULL, ft::pair<int, int>(5, 50));
-	root = avl.insertNode(root, NULL, ft::pair<int, int>(4, 40));
-	ft::avl_tree<int, int>::iterator it = avl.begin();
-	for (size_t i = 0; i < avl.size(); i++) {
-		std::cout << "Key = " << it->first << std::endl;
-		std::cout << "Value = " << it->second << std::endl;
-		++it;
-		// it++;
-	}
+	// root = avl.insertNode(root, NULL, ft::pair<int, int>(2, 20));
+	// root = avl.insertNode(root, NULL, ft::pair<int, int>(1, 10));
+	// root = avl.insertNode(root, NULL, ft::pair<int, int>(3, 30));
+	// root = avl.insertNode(root, NULL, ft::pair<int, int>(6, 25));
+	// root = avl.insertNode(root, NULL, ft::pair<int, int>(5, 50));
+	// root = avl.insertNode(root, NULL, ft::pair<int, int>(4, 40));
+	// ft::avl_tree<int, int>::iterator it = avl.begin();
+	// for (size_t i = 0; i < avl.size(); i++) {
+	// 	std::cout << "Key = " << it->first << std::endl;
+	// 	std::cout << "Value = " << it->second << std::endl;
+	// 	++it;
+	// 	// it++;
+	// }
 
 	// std::cout << "Decrement" << std::endl;
 	// std::cout << "Key = " << it->first << std::endl;
@@ -431,7 +431,7 @@ int main() {
 	}
 
 	std::cout << "---------- DECREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::iterator it_map = test_map.end(); it_map != test_map.begin(); it_map--) {
+	for (NAMESPACE::map<int, int>::iterator it_map = --test_map.end(); it_map != test_map.begin(); it_map--) {
 		std::cout << "Iterator Key = " << it_map->first << std::endl;
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}

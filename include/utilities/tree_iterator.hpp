@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/10 23:46:30 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:47:10 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ struct tree_node {
 	~tree_node() {}
 };
 
-template <class T>
+template <class T, class AVL>
 class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 
 	public:
@@ -56,15 +56,17 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		typedef typename traits_type::iterator_category             iterator_category;
 		typedef tree_node<value_type>                               node_type;
 		typedef node_type*                                          node_pointer;
+		typedef AVL                                                 tree_type;
 		// typedef const node_pointer                                  const_node_pointer;
 
 	private:
 		node_pointer m_node;
+		tree_type m_tree;
 
 	public:
 		tree_iterator() : m_node() {}
 
-		tree_iterator(node_pointer node) : m_node(node) {}
+		tree_iterator(node_pointer node, tree_type tree) : m_node(node), m_tree(tree) {}
 
 		~tree_iterator() {}
 
@@ -73,7 +75,9 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		}
 
 		pointer operator->() const {
-			return &m_node->value;
+			// if (m_node)
+				return &m_node->value;
+			// return NULL;
 		}
 
 		node_pointer base() const {
@@ -111,21 +115,20 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		}
 
 		tree_iterator &operator--() {
-			if (m_node->left) {
+			if (!m_node) {
+				m_node = m_tree.getRoot();
+				while (m_node->right)
+					m_node = m_node->right;
+			} else if (m_node->left) {
 				m_node = m_node->left;
 				while (m_node->right) {
 					m_node = m_node->right;
 				}
 			} else {
-				node_pointer temp;
-				do {
-					temp = m_node;
+				while (m_node->parent && m_node == m_node->parent->left) {
 					m_node = m_node->parent;
-					if (m_node && m_node->right == temp) {
-						break;
-					}
-				} while (m_node->parent && m_node == m_node->parent->left);
-				// } while (m_node->parent);
+				}
+				m_node = m_node->parent;
 			}
 			return *this;
 		}
@@ -138,13 +141,13 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 
 };
 
-template <class T>
-bool operator==(const tree_iterator<T> &lhs, const tree_iterator<T> &rhs) {
+template <class T, class AVL>
+bool operator==(const tree_iterator<T, AVL> &lhs, const tree_iterator<T, AVL> &rhs) {
 	return lhs.base() == rhs.base();
 }
 
-template <class T>
-bool operator!=(const tree_iterator<T> &lhs, const tree_iterator<T> &rhs) {
+template <class T, class AVL>
+bool operator!=(const tree_iterator<T, AVL> &lhs, const tree_iterator<T, AVL> &rhs) {
 	return !(lhs == rhs);
 }
 
