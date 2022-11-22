@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/21 22:22:27 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/22 23:37:07 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,9 @@ class map {
 	// template < class InputIterator >
 	// void insert(InputIterator first, InputIterator last);
 
-	// void erase(iteraetor position);
+	void erase(iterator position) {
+		m_tree.deleteNode(position.base(), ft::make_pair(position->first, position->second));
+	}
 	// size_type erase(const key_type &k);
 	// void erase(iterator first, iterator last);
 
