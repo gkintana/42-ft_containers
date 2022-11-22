@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/21 22:20:54 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:46:03 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,87 @@ class avl_tree {
 		// 	m_root = node;
 		// 	return m_root;
 		// }
+
+		pointer rebalance(pointer node) {
+			if (std::abs(static_cast<int>(getHeight(node->left) - getHeight(node->right))) == 2) {
+				if (getHeight(node->left) < getHeight(node->right)) {
+					if (getHeight(node->right->right) > getHeight(node->right->left)) {
+						node = RLRotate(node);
+					} else {
+						node = RRRotate(node);
+					}
+				} else {
+					if (getHeight(node->left->right) > getHeight(node->left->left)) {
+						node = LLRotate(node);
+					} else {
+						node = LRRotate(node);
+					}
+				}
+			}
+			return node;
+		}
+
+		pointer deleteNode(pointer node, value_type value) {
+			if (node != NULL) {
+				if (node->value == value) {
+					if (node->right == NULL && node->left != NULL) {
+						if (node->parent != NULL) {
+							if (node->parent->value < node->value) {
+								node->parent->right = node->left;
+							} else {
+								node->parent->left = node->left;
+							}
+							updateHeight(node->parent);
+						}
+						node->left->parent = node->parent;
+						return node->left = rebalance(node->left);
+					} else if (node->right != NULL && node->left == NULL) {
+						if (node->parent != NULL) {
+							if (node->parent->value < node->value) {
+								node->parent->right = node->right;
+							} else {
+								node->parent->left = node->right;
+							}
+							updateHeight(node->parent);
+						}
+						node->right->parent = node->parent;
+						return node->right = rebalance(node->right);
+					} else if (node->right == NULL && node->left == NULL) {
+						if (node->parent->value < node->value) {
+							node->parent->right = NULL;
+						} else {
+							node->parent->left = NULL;
+						}
+						if (node->parent != NULL) {
+							updateHeight(node->parent);
+						}
+						return node = NULL;
+					} else {
+						pointer temp = node;
+						temp = temp->right;
+						while (temp->left != NULL) {
+							temp = temp->left;
+						}
+						value_type val = temp->value;
+						node->right = deleteNode(node->right, temp->value);
+						node->value = val;
+						node = rebalance(node);
+					}
+				} else if (node->value < value) {
+					node->right = deleteNode(node->right, value);
+					node = rebalance(node);
+				} else if (node->value > value) {
+					node->left = deleteNode(node->left, value);
+					node = rebalance(node);
+				}
+
+				if (node != NULL) {
+					updateHeight(node);
+				}
+			}
+
+			return node;
+		}
 
 		// pointer deleteNode(pointer node, value_type value) {
 		// 	if (!node) {
