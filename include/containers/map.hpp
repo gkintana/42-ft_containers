@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/23 15:35:20 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:39:02 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ class map {
 		return m_tree.max_size();
 	}
 
-	// mapped_type &at(const key_type &k);
+	mapped_type &at(const key_type &k) {
+		return this->find(k)->second;
+	}
+
 	// const mapped_type &at(const key_type &k) const;
 
 	ft::pair<iterator, bool> insert(const value_type val) {
@@ -158,7 +161,9 @@ class map {
 	// value_compare value_comp() const;
 
 
-	// iterator find(const key_type &k);
+	iterator find(const key_type &k) {
+		return iterator(m_tree.search(m_root, k), m_tree);
+	}
 	// const_iterator find(const key_type &k) const;
 	// size_type count(const key_type &k) const;
 	// iterator lower_bound(const key_type &k);
