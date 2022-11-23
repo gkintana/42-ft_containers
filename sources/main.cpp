@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/23 10:11:47 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:37:12 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,6 +453,12 @@ int main() {
 
 	test_map.clear();
 	// test_map.erase(test_map.begin());
+
+	std::cout << "---------- INCREMENT ----------" << std::endl;
+	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
+		std::cout << "Iterator Key = " << it_map->first << std::endl;
+		std::cout << "Iterator Value = " << it_map->second << std::endl;
+	}
 
 	std::cout << "Empty: " << test_map.empty() << std::endl
 	          << "Size: " << test_map.size() << std::endl

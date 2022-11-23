@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/23 10:17:24 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:36:43 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,12 +274,12 @@ class avl_tree {
 							} else {
 								node->parent->left = NULL;
 							}
-							m_alloc.deallocate(node, 1 * sizeof(node_type));
 							updateHeight(node->parent);
 						}
 						// if (node->parent != NULL) {
 						// }
 						m_size--;
+						m_alloc.deallocate(node, 1 * sizeof(node_type));
 						return node = NULL;
 					} else {
 						std::cout << "DELETE ELSE" << std::endl;
