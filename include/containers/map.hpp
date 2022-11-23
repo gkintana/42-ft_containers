@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/22 23:37:07 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/23 09:58:46 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,11 @@ class map {
 		m_tree.swap(x);
 	}
 
-	// void clear() {}
+	void clear() {
+		for (iterator it = this->begin(); it != this->end(); it++) {
+			this->erase(it);
+		}
+	}
 
 	key_compare key_comp() const {
 		return m_comp;

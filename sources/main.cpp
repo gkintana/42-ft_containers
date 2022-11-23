@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/22 22:45:45 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/23 10:11:47 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,6 +451,7 @@ int main() {
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}
 
+	test_map.clear();
 	// test_map.erase(test_map.begin());
 
 	std::cout << "Empty: " << test_map.empty() << std::endl

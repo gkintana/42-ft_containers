@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/22 23:37:23 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/23 10:17:24 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,7 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->left->parent = node->parent;
+						m_size--;
 						return node->left = rebalance(node->left);
 					} else if (node->right != NULL && node->left == NULL) {
 						std::cout << "R != NULL & L == NULL" << std::endl;
@@ -262,19 +263,23 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->right->parent = node->parent;
+						m_size--;
 						return node->right = rebalance(node->right);
 					} else if (node->right == NULL && node->left == NULL) {
 						std::cout << "R == NULL & L == NULL" << std::endl;
 
-						if (node->parent->value < node->value) {
-							node->parent->right = NULL;
-						} else {
-							node->parent->left = NULL;
-						}
 						if (node->parent != NULL) {
+							if (node->parent->value < node->value) {
+								node->parent->right = NULL;
+							} else {
+								node->parent->left = NULL;
+							}
+							m_alloc.deallocate(node, 1 * sizeof(node_type));
 							updateHeight(node->parent);
 						}
-						m_alloc.deallocate(node, 1 * sizeof(node_type));
+						// if (node->parent != NULL) {
+						// }
+						m_size--;
 						return node = NULL;
 					} else {
 						std::cout << "DELETE ELSE" << std::endl;
@@ -311,6 +316,7 @@ class avl_tree {
 				}
 			}
 
+			m_size--;
 			return node;
 		}
 
