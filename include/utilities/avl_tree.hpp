@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/23 17:41:21 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:02:51 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ class avl_tree {
 	private:
 		value_compare m_comp;
 		allocator_type m_alloc;
+		allocator_base m_base;
 		pointer m_root;
 		size_type m_size;
 
@@ -249,7 +250,7 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->left->parent = node->parent;
-						m_size--;
+						// m_size--;
 						return node->left = rebalance(node->left);
 					} else if (node->right != NULL && node->left == NULL) {
 						std::cout << "R != NULL & L == NULL" << std::endl;
@@ -263,7 +264,7 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->right->parent = node->parent;
-						m_size--;
+						// m_size--;
 						return node->right = rebalance(node->right);
 					} else if (node->right == NULL && node->left == NULL) {
 						std::cout << "R == NULL & L == NULL" << std::endl;
@@ -284,24 +285,11 @@ class avl_tree {
 					} else {
 						std::cout << "DELETE ELSE" << std::endl;
 
-						pointer temp = node;
-						temp = temp->right;
-						while (temp->left != NULL) {
-							temp = temp->left;
-						}
-
-						value_type val = temp->value;
-						pointer new_node = createNode(node->parent, val);
-						// m_alloc.deallocate(node, 1 * sizeof(node_type));
-						new_node->left = node->left;
-						new_node->right = node->right;
-						new_node->height = node->height;
-						new_node->right = deleteNode(new_node->right, temp->value);
-						// node->right = deleteNode(node->right, temp->value);
-						// node->value = val;
-
-						// m_alloc.deallocate(temp, 1 * sizeof(node_type));
-						node = rebalance(new_node);
+						pointer temp = getMinimum(node->right);
+						node->right = deleteNode(node->right, temp->value);
+						m_base.destroy(&node->value);
+						m_base.construct(&node->value, temp->value);
+						node = rebalance(node);
 					}
 				} else if (node->value < value) {
 					node->right = deleteNode(node->right, value);
@@ -316,7 +304,7 @@ class avl_tree {
 				}
 			}
 
-			m_size--;
+			// m_size--;
 			return node;
 		}
 

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/23 18:39:36 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:04:34 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -425,6 +425,9 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
 	test_map.erase(test_map.begin());
+	test_map.erase(++test_map.begin());
+	test_map.erase(++++++test_map.begin());
+	test_map.erase(--test_map.end());
 	// NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
 	std::cout << "---------- INCREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
@@ -451,13 +454,14 @@ int main() {
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}
 
-	if (test_map.find(2) != test_map.end())
-		std::cout << "test_map[2] key = " << test_map.find(2)->first << std::endl;
-		std::cout << "test_map[2] value = " << test_map.find(2)->second << std::endl;
-	// test_map.clear();
-	// test_map.erase(test_map.begin());
+	// if (test_map.find(2) != test_map.end()) {
+	// 	std::cout << "test_map[2] key = " << test_map.find(2)->first << std::endl;
+	// 	std::cout << "test_map[2] value = " << test_map.find(2)->second << std::endl;
+	// }
+	// // test_map.clear();
+	// // test_map.erase(test_map.begin());
 
-	std::cout << "test_map::at(2) = " << test_map.at(2) << std::endl;
+	// std::cout << "test_map::at(2) = " << test_map.at(2) << std::endl;
 
 	std::cout << "---------- INCREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
