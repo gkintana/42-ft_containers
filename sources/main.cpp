@@ -424,10 +424,10 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
-	test_map.erase(test_map.begin());
-	test_map.erase(++test_map.begin());
+	// test_map.erase(test_map.begin());
+	// test_map.erase(++test_map.begin());
 	test_map.erase(++++++test_map.begin());
-	test_map.erase(--test_map.end());
+	// test_map.erase(--test_map.end());
 	// NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
 	std::cout << "---------- INCREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {

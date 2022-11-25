@@ -70,6 +70,8 @@ class avl_tree {
 		allocator_type m_alloc;
 		allocator_base m_base;
 		pointer m_root;
+		pointer m_free;
+		bool dont_free;
 		size_type m_size;
 
 	public:
@@ -77,6 +79,8 @@ class avl_tree {
 		         const allocator_type &alloc = allocator_type()) : m_comp(comp),
 				                                                   m_alloc(alloc),
 				                                                   m_root(0),
+																   m_free(0),
+																   dont_free(false),
 																   m_size(0) {}
 
 		avl_tree &operator=(const avl_tree &x) {
@@ -240,7 +244,6 @@ class avl_tree {
 				if (node->value == value) {
 					if (node->right == NULL && node->left != NULL) {
 						std::cout << "R == NULL & L != NULL" << std::endl;
-
 						if (node->parent != NULL) {
 							if (node->parent->value < node->value) {
 								node->parent->right = node->left;
@@ -250,6 +253,7 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->left->parent = node->parent;
+						m_alloc.deallocate(node->parent, 1 * sizeof(node_type));
 						// m_size--;
 						return node->left = rebalance(node->left);
 					} else if (node->right != NULL && node->left == NULL) {
@@ -264,6 +268,7 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->right->parent = node->parent;
+						m_alloc.deallocate(node->parent, 1 * sizeof(node_type));
 						// m_size--;
 						return node->right = rebalance(node->right);
 					} else if (node->right == NULL && node->left == NULL) {
@@ -280,15 +285,33 @@ class avl_tree {
 						// if (node->parent != NULL) {
 						// }
 						m_size--;
-						m_alloc.deallocate(node, 1 * sizeof(node_type));
+
+						if (dont_free == true) {
+							if (m_free != NULL && node != NULL) {
+								m_alloc.deallocate(m_free, 1 * sizeof(node_type));
+								m_free = node;
+							}
+							else if (m_free == NULL && node != NULL)
+								m_free = node;
+							else
+								m_free = NULL;
+						} else
+							m_alloc.deallocate(node, 1 * sizeof(node_type));
 						return node = NULL;
 					} else {
 						std::cout << "DELETE ELSE" << std::endl;
 
 						pointer temp = getMinimum(node->right);
+						dont_free = true;
 						node->right = deleteNode(node->right, temp->value);
 						m_base.destroy(&node->value);
 						m_base.construct(&node->value, temp->value);
+						// free_all(m_free);
+						if (m_free) {
+							m_alloc.deallocate(m_free, 1 * sizeof(node_type));
+							m_free = NULL;
+						}
+						dont_free = false;
 						node = rebalance(node);
 					}
 				} else if (node->value < value) {
