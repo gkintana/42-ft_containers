@@ -425,8 +425,8 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
 	// test_map.erase(test_map.begin());
-	// test_map.erase(++test_map.begin());
-	test_map.erase(++++++test_map.begin());
+	test_map.erase(++test_map.begin());
+	// test_map.erase(++++++test_map.begin());
 	// test_map.erase(--test_map.end());
 	// NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
 	std::cout << "---------- INCREMENT ----------" << std::endl;

@@ -253,9 +253,20 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->left->parent = node->parent;
-						m_alloc.deallocate(node->parent, 1 * sizeof(node_type));
-						// m_size--;
-						return node->left = rebalance(node->left);
+						// pointer t = m_alloc.allocate(1 * sizeof(node_type));
+						// m_alloc.construct(t, node_type(node->value, node->parent));
+						// t->height = node->height;
+						// t->left = rebalance(node->left);
+						pointer new_node = rebalance(node->left);
+						// m_alloc.destroy(node);
+						// m_alloc.deallocate(node, 1 * sizeof(node_type));
+						// node = t->left;
+						// m_alloc.destroy(t);
+						m_alloc.destroy(node);
+						m_alloc.deallocate(node, 1 * sizeof(node_type));
+						m_size--;
+						// return node->left = rebalance(node->left);
+						return new_node;
 					} else if (node->right != NULL && node->left == NULL) {
 						std::cout << "R != NULL & L == NULL" << std::endl;
 
@@ -268,9 +279,12 @@ class avl_tree {
 							updateHeight(node->parent);
 						}
 						node->right->parent = node->parent;
-						m_alloc.deallocate(node->parent, 1 * sizeof(node_type));
-						// m_size--;
-						return node->right = rebalance(node->right);
+						pointer new_node = rebalance(node->left);
+						m_alloc.destroy(node);
+						m_alloc.deallocate(node, 1 * sizeof(node_type));
+						m_size--;
+						return new_node;
+						// return node->right = rebalance(node->right);
 					} else if (node->right == NULL && node->left == NULL) {
 						std::cout << "R == NULL & L == NULL" << std::endl;
 
