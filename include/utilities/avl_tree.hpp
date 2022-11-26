@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/24 19:02:51 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/26 23:40:08 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ class avl_tree {
 		allocator_type m_alloc;
 		allocator_base m_base;
 		pointer m_root;
-		pointer m_free;
-		bool dont_free;
+		// pointer m_free;
+		// bool dont_free;
 		size_type m_size;
 
 	public:
@@ -79,8 +79,8 @@ class avl_tree {
 		         const allocator_type &alloc = allocator_type()) : m_comp(comp),
 				                                                   m_alloc(alloc),
 				                                                   m_root(0),
-																   m_free(0),
-																   dont_free(false),
+																//    m_free(0),
+																//    dont_free(false),
 																   m_size(0) {}
 
 		avl_tree &operator=(const avl_tree &x) {
@@ -162,240 +162,261 @@ class avl_tree {
 		// 	return m_root = node;
 		// }
 
-		pointer insertNode(pointer node, pointer parent, value_type value) {
-			if (node == NULL) {
-				node = createNode(parent, value);
-			} else if (node->value > value) {
-				node->left = insertNode(node->left, node, value);
+		// pointer insertNode(pointer node, pointer parent, value_type value) {
+		// 	if (node == NULL) {
+		// 		node = createNode(parent, value);
+		// 	} else if (node->value > value) {
+		// 		node->left = insertNode(node->left, node, value);
 
-				if (std::abs(static_cast<int>(getHeight(node->left) - getHeight(node->right))) == 2) {
-					if (node->left != NULL && value < node->left->value) {
-						node = LLRotate(node);
-					} else {
-						node = LRRotate(node);
-					}
-				}
-			} else if (node->value < value) {
-				node->right = insertNode(node->right, node, value);
-
-				if (std::abs(static_cast<int>(getHeight(node->left) - getHeight(node->right))) == 2) {
-					if (node->right != NULL && value < node->right->value) {
-						node = RLRotate(node);
-					} else {
-						node = RRRotate(node);
-					}
-				}
-			}
-			updateHeight(node);
-			return m_root = node;
-		}
-
-		// pointer insertNode(pointer node, value_type value) {
-		// 	if (!node) {
-		// 		return m_root = createNode(m_root, value);
-		// 		// return m_root;
-		// 	} else if (value < node->value) {
-		// 		node->left = insertNode(node->left, value);
-		// 	} else if (value > node->value) {
-		// 		node->right = insertNode(node->right, value);
-		// 	}
-
-		// 	node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-
-		// 	int balance = checkBalanceFactor(node);
-		// 	if (balance > 1) {
-		// 		if (value > node->left->value) {
-		// 			node->left = leftRotate(node->left);
+		// 		if (std::abs(static_cast<int>(getHeight(node->left) - getHeight(node->right))) == 2) {
+		// 			if (node->left != NULL && value < node->left->value) {
+		// 				node = LLRotate(node);
+		// 			} else {
+		// 				node = LRRotate(node);
+		// 			}
 		// 		}
-		// 		m_root = rightRotate(node);
-		// 		return m_root;
-		// 	} else if (balance < -1) {
-		// 		if (value < node->right->value) {
-		// 			node->right = rightRotate(node->right);
+		// 	} else if (node->value < value) {
+		// 		node->right = insertNode(node->right, node, value);
+
+		// 		if (std::abs(static_cast<int>(getHeight(node->left) - getHeight(node->right))) == 2) {
+		// 			if (node->right != NULL && value < node->right->value) {
+		// 				node = RLRotate(node);
+		// 			} else {
+		// 				node = RRRotate(node);
+		// 			}
 		// 		}
-		// 		m_root = leftRotate(node);
-		// 		return m_root;
 		// 	}
-		// 	m_root = node;
-		// 	return m_root;
+		// 	updateHeight(node);
+		// 	return m_root = node;
 		// }
 
-		pointer rebalance(pointer node) {
-			if (std::abs(static_cast<int>(getHeight(node->left) - getHeight(node->right))) == 2) {
-				if (getHeight(node->left) < getHeight(node->right)) {
-					if (getHeight(node->right->right) > getHeight(node->right->left)) {
-						node = RLRotate(node);
-					} else {
-						node = RRRotate(node);
-					}
-				} else {
-					if (getHeight(node->left->right) > getHeight(node->left->left)) {
-						node = LLRotate(node);
-					} else {
-						node = LRRotate(node);
-					}
-				}
-			}
-			return node;
-		}
-
-		pointer deleteNode(pointer node, value_type value) {
-			if (node != NULL) {
-				if (node->value == value) {
-					if (node->right == NULL && node->left != NULL) {
-						std::cout << "R == NULL & L != NULL" << std::endl;
-						if (node->parent != NULL) {
-							if (node->parent->value < node->value) {
-								node->parent->right = node->left;
-							} else {
-								node->parent->left = node->left;
-							}
-							updateHeight(node->parent);
-						}
-						node->left->parent = node->parent;
-						// pointer t = m_alloc.allocate(1 * sizeof(node_type));
-						// m_alloc.construct(t, node_type(node->value, node->parent));
-						// t->height = node->height;
-						// t->left = rebalance(node->left);
-						pointer new_node = rebalance(node->left);
-						// m_alloc.destroy(node);
-						// m_alloc.deallocate(node, 1 * sizeof(node_type));
-						// node = t->left;
-						// m_alloc.destroy(t);
-						m_alloc.destroy(node);
-						m_alloc.deallocate(node, 1 * sizeof(node_type));
-						m_size--;
-						// return node->left = rebalance(node->left);
-						return new_node;
-					} else if (node->right != NULL && node->left == NULL) {
-						std::cout << "R != NULL & L == NULL" << std::endl;
-
-						if (node->parent != NULL) {
-							if (node->parent->value < node->value) {
-								node->parent->right = node->right;
-							} else {
-								node->parent->left = node->right;
-							}
-							updateHeight(node->parent);
-						}
-						node->right->parent = node->parent;
-						pointer new_node = rebalance(node->left);
-						m_alloc.destroy(node);
-						m_alloc.deallocate(node, 1 * sizeof(node_type));
-						m_size--;
-						return new_node;
-						// return node->right = rebalance(node->right);
-					} else if (node->right == NULL && node->left == NULL) {
-						std::cout << "R == NULL & L == NULL" << std::endl;
-
-						if (node->parent != NULL) {
-							if (node->parent->value < node->value) {
-								node->parent->right = NULL;
-							} else {
-								node->parent->left = NULL;
-							}
-							updateHeight(node->parent);
-						}
-						// if (node->parent != NULL) {
-						// }
-						m_size--;
-
-						if (dont_free == true) {
-							if (m_free != NULL && node != NULL) {
-								m_alloc.deallocate(m_free, 1 * sizeof(node_type));
-								m_free = node;
-							}
-							else if (m_free == NULL && node != NULL)
-								m_free = node;
-							else
-								m_free = NULL;
-						} else
-							m_alloc.deallocate(node, 1 * sizeof(node_type));
-						return node = NULL;
-					} else {
-						std::cout << "DELETE ELSE" << std::endl;
-
-						pointer temp = getMinimum(node->right);
-						dont_free = true;
-						node->right = deleteNode(node->right, temp->value);
-						m_base.destroy(&node->value);
-						m_base.construct(&node->value, temp->value);
-						// free_all(m_free);
-						if (m_free) {
-							m_alloc.deallocate(m_free, 1 * sizeof(node_type));
-							m_free = NULL;
-						}
-						dont_free = false;
-						node = rebalance(node);
-					}
-				} else if (node->value < value) {
-					node->right = deleteNode(node->right, value);
-					node = rebalance(node);
-				} else if (node->value > value) {
-					node->left = deleteNode(node->left, value);
-					node = rebalance(node);
-				}
-
-				if (node != NULL) {
-					updateHeight(node);
-				}
+		pointer insertNode(pointer node, value_type value) {
+			if (!node) {
+				return m_root = createNode(value);
+				// return m_root;
+			} else if (value < node->value) {
+				node->left = insertNode(node->left, value);
+			} else if (value > node->value) {
+				node->right = insertNode(node->right, value);
 			}
 
-			// m_size--;
-			return node;
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+
+			int balance = checkBalanceFactor(node);
+			if (balance > 1) {
+				if (value > node->left->value) {
+					node->left = leftRotate(node->left);
+				}
+				m_root = rightRotate(node);
+				return m_root;
+			} else if (balance < -1) {
+				if (value < node->right->value) {
+					node->right = rightRotate(node->right);
+				}
+				m_root = leftRotate(node);
+				return m_root;
+			}
+			m_root = node;
+			return m_root;
 		}
 
-		// pointer deleteNode(pointer node, value_type value) {
-		// 	if (!node) {
-		// 		return node;
-		// 	} else if (value < node->value) {
-		// 		node->left = deleteNode(node->left, value);
-		// 	} else if (value > node->value) {
-		// 		node->right = deleteNode(node->right, value);
-		// 	} else {
-		// 		if (!(node->left) || !(node->right)) {
-		// 			pointer temp = node->left ? node->left : node->right;
-		// 			if (!temp) {
-		// 				temp = node;
-		// 				node = NULL;
+		// pointer rebalance(pointer node) {
+		// 	if (std::abs(static_cast<int>(getHeight(node->left) - getHeight(node->right))) == 2) {
+		// 		if (getHeight(node->left) < getHeight(node->right)) {
+		// 			if (getHeight(node->right->right) > getHeight(node->right->left)) {
+		// 				node = RLRotate(node);
 		// 			} else {
-		// 				*node = *temp;
+		// 				node = RRRotate(node);
 		// 			}
-		// 			// m_alloc.destroy(&temp->value);
-		// 			m_alloc.deallocate(temp, 1 * sizeof(node_type));
-		// 			m_size--;
-		// 			// free(temp);
 		// 		} else {
-		// 			pointer temp = getMinimum(node->right);
-		// 			node->value = temp->value;
-		// 			node->right = deleteNode(node->right, temp->value);
+		// 			if (getHeight(node->left->right) > getHeight(node->left->left)) {
+		// 				node = LLRotate(node);
+		// 			} else {
+		// 				node = LRRotate(node);
+		// 			}
 		// 		}
 		// 	}
-
-		// 	if (!node) {
-		// 		return node;
-		// 	}
-
-		// 	node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-
-		// 	int balance = checkBalanceFactor(node);
-		// 	if (balance > 1) {
-		// 		// std::cout << "value = " << value << std::endl;
-		// 		// std::cout << "node->value = " << node->value << std::endl;
-		// 		// if (value > node->right->value) {
-		// 		if (checkBalanceFactor(node->left) < 0) {
-		// 			node->left = leftRotate(node->left);
-		// 		}
-		// 		return rightRotate(node);
-		// 	} else if (balance < -1) {
-		// 		if (checkBalanceFactor(node->right) > 0) {
-		// 			node->right = rightRotate(node->right);
-		// 		}
-		// 		return leftRotate(node);
-		// 	}
-
 		// 	return node;
 		// }
+
+		// pointer deleteNode(pointer node, value_type value) {
+		// 	if (node != NULL) {
+		// 		if (node->value == value) {
+		// 			if (node->right == NULL && node->left != NULL) {
+		// 				std::cout << "R == NULL & L != NULL" << std::endl;
+		// 				if (node->parent != NULL) {
+		// 					if (node->parent->value < node->value) {
+		// 						node->parent->right = node->left;
+		// 					} else {
+		// 						node->parent->left = node->left;
+		// 					}
+		// 					updateHeight(node->parent);
+		// 				}
+		// 				node->left->parent = node->parent;
+		// 				// pointer t = m_alloc.allocate(1 * sizeof(node_type));
+		// 				// m_alloc.construct(t, node_type(node->value, node->parent));
+		// 				// t->height = node->height;
+		// 				// t->left = rebalance(node->left);
+		// 				pointer new_node = rebalance(node->left);
+		// 				// m_alloc.destroy(node);
+		// 				// m_alloc.deallocate(node, 1 * sizeof(node_type));
+		// 				// node = t->left;
+		// 				// m_alloc.destroy(t);
+		// 				m_alloc.destroy(node);
+		// 				m_alloc.deallocate(node, 1 * sizeof(node_type));
+		// 				m_size--;
+		// 				// return node->left = rebalance(node->left);
+		// 				return new_node;
+		// 			} else if (node->right != NULL && node->left == NULL) {
+		// 				std::cout << "R != NULL & L == NULL" << std::endl;
+
+		// 				if (node->parent != NULL) {
+		// 					if (node->parent->value < node->value) {
+		// 						node->parent->right = node->right;
+		// 					} else {
+		// 						node->parent->left = node->right;
+		// 					}
+		// 					updateHeight(node->parent);
+		// 				}
+		// 				node->right->parent = node->parent;
+		// 				pointer new_node = rebalance(node->left);
+		// 				m_alloc.destroy(node);
+		// 				m_alloc.deallocate(node, 1 * sizeof(node_type));
+		// 				m_size--;
+		// 				return new_node;
+		// 				// return node->right = rebalance(node->right);
+		// 			} else if (node->right == NULL && node->left == NULL) {
+		// 				std::cout << "R == NULL & L == NULL" << std::endl;
+
+		// 				if (node->parent != NULL) {
+		// 					if (node->parent->value < node->value) {
+		// 						node->parent->right = NULL;
+		// 					} else {
+		// 						node->parent->left = NULL;
+		// 					}
+		// 					updateHeight(node->parent);
+		// 				}
+		// 				// if (node->parent != NULL) {
+		// 				// }
+		// 				m_size--;
+
+		// 				if (dont_free == true) {
+		// 					if (m_free != NULL && node != NULL) {
+		// 						m_alloc.deallocate(m_free, 1 * sizeof(node_type));
+		// 						m_free = node;
+		// 					}
+		// 					else if (m_free == NULL && node != NULL)
+		// 						m_free = node;
+		// 					else
+		// 						m_free = NULL;
+		// 				} else
+		// 					m_alloc.deallocate(node, 1 * sizeof(node_type));
+		// 				return node = NULL;
+		// 			} else {
+		// 				std::cout << "DELETE ELSE" << std::endl;
+
+		// 				pointer temp = getMinimum(node->right);
+		// 				dont_free = true;
+		// 				node->right = deleteNode(node->right, temp->value);
+		// 				m_base.destroy(&node->value);
+		// 				m_base.construct(&node->value, temp->value);
+		// 				// free_all(m_free);
+		// 				if (m_free) {
+		// 					m_alloc.deallocate(m_free, 1 * sizeof(node_type));
+		// 					m_free = NULL;
+		// 				}
+		// 				dont_free = false;
+		// 				node = rebalance(node);
+		// 			}
+		// 		} else if (node->value < value) {
+		// 			node->right = deleteNode(node->right, value);
+		// 			node = rebalance(node);
+		// 		} else if (node->value > value) {
+		// 			node->left = deleteNode(node->left, value);
+		// 			node = rebalance(node);
+		// 		}
+
+		// 		if (node != NULL) {
+		// 			updateHeight(node);
+		// 		}
+		// 	}
+
+		// 	// m_size--;
+		// 	return node;
+		// }
+
+		pointer deleteNode(pointer node, value_type value) {
+			if (!node) {
+				return node;
+			} else if (value < node->value) {
+				node->left = deleteNode(node->left, value);
+			} else if (value > node->value) {
+				node->right = deleteNode(node->right, value);
+			} else {
+				if (node->left == NULL && node->right == NULL) {
+					return node = freeNode(node);
+				} else if (node->left == NULL && node->right != NULL) {
+					pointer new_node = node->right;
+					node = freeNode(node);
+					return new_node;
+				} else if (node->left != NULL && node->right == NULL) {
+					pointer new_node = node->left;
+					node = freeNode(node);
+					return new_node;
+				} else {
+					pointer temp = getMinimum(node->right);
+					// node->value = temp->value;
+					m_base.destroy(&node->value);
+					m_base.construct(&node->value, temp->value);
+					node->right = deleteNode(node->right, temp->value);
+				}
+				// if (!(node->left) || !(node->right)) {
+				// 	pointer temp = node->left ? node->left : node->right;
+				// 	if (!temp) {
+				// 		temp = node;
+				// 		node = NULL;
+				// 	} else {
+				// 		m_base.destroy(&node->value);
+				// 	m_base.construct(&node->value, temp->value);
+				// 	}
+				// 	// m_alloc.destroy(&temp->value);
+				// 	m_alloc.deallocate(temp, 1 * sizeof(node_type));
+				// 	temp = NULL;
+				// 	m_size--;
+				// 	// free(temp);
+				// } else {
+				// 	pointer temp = getMinimum(node->right);
+				// 	// node->value = temp->value;
+				// 	node->right = deleteNode(node->right, temp->value);
+				// 	m_base.destroy(&node->value);
+				// 	m_base.construct(&node->value, temp->value);
+				// }
+			}
+
+			if (!node) {
+				return node;
+			}
+
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+
+			int balance = checkBalanceFactor(node);
+			if (balance > 1) {
+				// std::cout << "value = " << value << std::endl;
+				// std::cout << "node->value = " << node->value << std::endl;
+				// if (value > node->right->value) {
+				if (checkBalanceFactor(node->left) < 0) {
+					node->left = leftRotate(node->left);
+				}
+				return rightRotate(node);
+			} else if (balance < -1) {
+				if (checkBalanceFactor(node->right) > 0) {
+					node->right = rightRotate(node->right);
+				}
+				return leftRotate(node);
+			}
+
+			return node;
+		}
 
 		pointer search(pointer node, key_type value) {
 			if (!node) {
@@ -423,9 +444,9 @@ class avl_tree {
 				printInOrder(node->left);
 				std::cout << "Key = " << node->value.first
 				          << "\t\tValue = " << node->value.second;
-				if (node && node->parent) {
-					std::cout << "\tParent = " << node->parent->value.first;
-				}
+				// if (node && node->parent) {
+				// 	std::cout << "\tParent = " << node->parent->value.first;
+				// }
 				std::cout << std::endl;
 				printInOrder(node->right);
 			}
@@ -450,9 +471,9 @@ class avl_tree {
 		}
 
 	private:
-		pointer createNode(pointer src, value_type value) {
+		pointer createNode(value_type value) {
 			pointer node = m_alloc.allocate(1 * sizeof(node_type));
-			m_alloc.construct(node, node_type(value, src));
+			m_alloc.construct(node, node_type(value));
 			m_size++;
 			return node;
 		}
@@ -461,17 +482,17 @@ class avl_tree {
 			return (!node) ? 0 : node->height;
 		}
 
-		// size_type checkBalanceFactor(pointer node) {
-		// 	return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
-		// }
+		size_type checkBalanceFactor(pointer node) {
+			return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
+		}
 
-		// pointer getMaximum(pointer node) {
-		// 	pointer max = node;
-		// 	while (max->right) {
-		// 		max = max->right;
-		// 	}
-		// 	return max;
-		// }
+		pointer getMaximum(pointer node) {
+			pointer max = node;
+			while (max->right) {
+				max = max->right;
+			}
+			return max;
+		}
 
 		void updateHeight(pointer node) {
 			if (node != NULL) {
@@ -479,84 +500,90 @@ class avl_tree {
 			}
 		}
 
-		void updateNodeHeights(pointer node) {
-			updateHeight(node->left);
-			updateHeight(node->right);
-			updateHeight(node);
-			updateHeight(node->parent);
-		}
-
-		pointer updateNode(pointer node, pointer temp) {
-			temp->parent = node->parent;
-			node->parent = temp;
-
-			if (temp->parent != NULL && node->value < temp->parent->value) {
-				temp->parent->left = temp;
-			} else if (temp->parent != NULL) {
-				temp->parent->right = temp;
-			}
-			node = temp;
-			updateNodeHeights(node);
-			return node;
-		}
-
-		pointer LLRotate(pointer node) {
-			pointer temp = node->left;
-			node->left = temp->right;
-
-			if (temp->right != NULL) {
-				temp->right->parent = node;
-			}
-			temp->right = node;
-
-			return updateNode(node, temp);
-		}
-
-		pointer RRRotate(pointer node) {
-			pointer temp = node->right;
-			node->right = temp->left;
-
-			if (temp->left != NULL) {
-				temp->left->parent = node;
-			}
-			temp->left = node;
-
-			return updateNode(node, temp);
-		}
-
-		pointer LRRotate(pointer node) {
-			node->left = RRRotate(node->left);
-			return LLRotate(node);
-		}
-
-		pointer RLRotate(pointer node) {
-			node->right = LLRotate(node->right);
-			return RRRotate(node);
-		}
-
-		// pointer leftRotate(pointer node) {
-		// 	pointer x = node->right,
-		// 	        y = x->left;
-
-		// 	x->left = node;
-		// 	node->right = y;
-
-		// 	node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-		// 	x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
-		// 	return x;
+		// void updateNodeHeights(pointer node) {
+		// 	updateHeight(node->left);
+		// 	updateHeight(node->right);
+		// 	updateHeight(node);
+		// 	updateHeight(node->parent);
 		// }
 
-		// pointer rightRotate(pointer node) {
-		// 	pointer x = node->left,
-		// 	        y = x->right;
+		// pointer updateNode(pointer node, pointer temp) {
+		// 	temp->parent = node->parent;
+		// 	node->parent = temp;
 
-		// 	x->right = node;
-		// 	node->left = y;
-
-		// 	node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-		// 	x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
-		// 	return x;
+		// 	if (temp->parent != NULL && node->value < temp->parent->value) {
+		// 		temp->parent->left = temp;
+		// 	} else if (temp->parent != NULL) {
+		// 		temp->parent->right = temp;
+		// 	}
+		// 	node = temp;
+		// 	updateNodeHeights(node);
+		// 	return node;
 		// }
+
+		// pointer LLRotate(pointer node) {
+		// 	pointer temp = node->left;
+		// 	node->left = temp->right;
+
+		// 	if (temp->right != NULL) {
+		// 		temp->right->parent = node;
+		// 	}
+		// 	temp->right = node;
+
+		// 	return updateNode(node, temp);
+		// }
+
+		// pointer RRRotate(pointer node) {
+		// 	pointer temp = node->right;
+		// 	node->right = temp->left;
+
+		// 	if (temp->left != NULL) {
+		// 		temp->left->parent = node;
+		// 	}
+		// 	temp->left = node;
+
+		// 	return updateNode(node, temp);
+		// }
+
+		// pointer LRRotate(pointer node) {
+		// 	node->left = RRRotate(node->left);
+		// 	return LLRotate(node);
+		// }
+
+		// pointer RLRotate(pointer node) {
+		// 	node->right = LLRotate(node->right);
+		// 	return RRRotate(node);
+		// }
+
+		pointer leftRotate(pointer node) {
+			pointer x = node->right,
+			        y = x->left;
+
+			x->left = node;
+			node->right = y;
+
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+			return x;
+		}
+
+		pointer rightRotate(pointer node) {
+			pointer x = node->left,
+			        y = x->right;
+
+			x->right = node;
+			node->left = y;
+
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+			return x;
+		}
+
+		pointer freeNode(pointer node) {
+			m_alloc.destroy(node);
+			m_alloc.deallocate(node, 1 * sizeof(node_type));
+			return node = NULL;
+		}
 
 };
 

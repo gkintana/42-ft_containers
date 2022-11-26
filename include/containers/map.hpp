@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/23 18:39:02 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/26 23:02:36 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,18 +124,18 @@ class map {
 
 	// const mapped_type &at(const key_type &k) const;
 
-	ft::pair<iterator, bool> insert(const value_type val) {
-		m_root = m_tree.insertNode(m_root, NULL, val);
+	// ft::pair<iterator, bool> insert(const value_type val) {
+	// 	m_root = m_tree.insertNode(m_root, NULL, val);
 
-		return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
-	}
-	// iterator insert(iterator position, const value_type &val);
-	// template < class InputIterator >
-	// void insert(InputIterator first, InputIterator last);
+	// 	return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
+	// }
+	// // iterator insert(iterator position, const value_type &val);
+	// // template < class InputIterator >
+	// // void insert(InputIterator first, InputIterator last);
 
-	void erase(iterator position) {
-		m_tree.deleteNode(position.base(), ft::make_pair(position->first, position->second));
-	}
+	// void erase(iterator position) {
+	// 	m_tree.deleteNode(position.base(), ft::make_pair(position->first, position->second));
+	// }
 	// size_type erase(const key_type &k);
 	// void erase(iterator first, iterator last);
 

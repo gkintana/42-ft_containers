@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/21 21:47:10 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/26 23:03:48 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ struct tree_node {
 	typedef std::size_t    size_type;
 
 	value_type    value;
-	pointer       parent;
+	// pointer       parent;
 	pointer       left;
 	pointer       right;
 	size_type     height;
 
 	tree_node(value_type val) : value(val),
-	                            parent(0),
+	                            // parent(0),
 	                            left(0),
 	                            right(0),
 	                            height(1) {}
 
-	tree_node(value_type val, pointer par) : value(val),
-	                                         parent(par),
-	                                         left(0),
-	                                         right(0),
-	                                         height(1) {}
+	// tree_node(value_type val, pointer par) : value(val),
+	//                                          parent(par),
+	//                                          left(0),
+	//                                          right(0),
+	//                                          height(1) {}
 
 	~tree_node() {}
 };

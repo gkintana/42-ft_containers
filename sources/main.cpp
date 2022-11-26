@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/24 19:04:34 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/26 23:41:09 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,12 +343,21 @@ int main() {
 
 	ft::avl_tree<int, int> avl;
 	ft::avl_tree<int, int>::pointer root = NULL;
-	// root = avl.insertNode(root, NULL, ft::pair<int, int>(2, 20));
-	// root = avl.insertNode(root, NULL, ft::pair<int, int>(1, 10));
-	// root = avl.insertNode(root, NULL, ft::pair<int, int>(3, 30));
-	// root = avl.insertNode(root, NULL, ft::pair<int, int>(6, 25));
-	// root = avl.insertNode(root, NULL, ft::pair<int, int>(5, 50));
-	// root = avl.insertNode(root, NULL, ft::pair<int, int>(4, 40));
+	root = avl.insertNode(root, ft::pair<int, int>(2, 20));
+	root = avl.insertNode(root, ft::pair<int, int>(1, 10));
+	root = avl.insertNode(root, ft::pair<int, int>(3, 30));
+	root = avl.insertNode(root, ft::pair<int, int>(6, 25));
+	root = avl.insertNode(root, ft::pair<int, int>(5, 50));
+	root = avl.insertNode(root, ft::pair<int, int>(4, 40));
+
+	// root = avl.insertNode(root, ft::pair<int, int>(5, 5));
+	// root = avl.insertNode(root, ft::pair<int, int>(3, 3));
+	// root = avl.insertNode(root, ft::pair<int, int>(7, 7));
+	// root = avl.insertNode(root, ft::pair<int, int>(10, 10));
+	// root = avl.insertNode(root, ft::pair<int, int>(12, 12));
+	// root = avl.deleteNode(root, ft::pair<int, int>(3, 3));
+	// root = avl.insertNode(root, ft::pair<int, int>(11, 11));
+	// root = avl.insertNode(root, ft::pair<int, int>(13, 13));
 
 	// ft::avl_tree<int, int>::iterator it = avl.begin();
 	// for (size_t i = 0; i < avl.size(); i++) {
@@ -382,7 +391,11 @@ int main() {
 	std::cout << "empty = " << std::boolalpha << avl.empty() << std::endl;
 	// root = avl.deleteNode(root, 10);
 	// root = avl.deleteNode(root, 20);
+	// root = avl.deleteNode(root, ft::pair<int, int>(1, 10));
 	// root = avl.deleteNode(root, ft::pair<int, int>(3, 30));
+	// root = avl.deleteNode(root, ft::pair<int, int>(4, 40));
+	// root = avl.deleteNode(root, ft::pair<int, int>(5, 50));
+	// root = avl.deleteNode(root, ft::pair<int, int>(6, 25));
 	// root = avl.deleteNode(root, 40);
 	// root = avl.deleteNode(root, 50);
 	// root = avl.deleteNode(root, 25);
@@ -392,6 +405,7 @@ int main() {
 	avl.printInOrder(root);
 	std::cout << "size = " << avl.size() << std::endl;
 
+	avl.free_all(root);
 	// ft::avl_tree<int, int>::iterator it = avl.begin();
 	// std::cout << "ft::map::begin()->key = " << it->first << std::endl;
 	// std::cout << "ft::map::begin()->value = " << it->second << std::endl;
@@ -411,67 +425,67 @@ int main() {
 	// std::map<char, std::string> ms;
 	// ms.insert();
 
-	NAMESPACE::map<int, int> test_map;
+	// NAMESPACE::map<int, int> test_map;
 
-	std::cout << "Empty: " << test_map.empty() << std::endl
-	          << "Size: " << test_map.size() << std::endl
-			  << "Max Size: " << test_map.max_size() << std::endl;
+	// std::cout << "Empty: " << test_map.empty() << std::endl
+	//           << "Size: " << test_map.size() << std::endl
+	// 		  << "Max Size: " << test_map.max_size() << std::endl;
 
-	test_map.insert(NAMESPACE::pair<int, int>(2, 20));
-	test_map.insert(NAMESPACE::pair<int, int>(1, 10));
-	test_map.insert(NAMESPACE::pair<int, int>(3, 30));
-	test_map.insert(NAMESPACE::pair<int, int>(6, 25));
-	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
-	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
+	// test_map.insert(NAMESPACE::pair<int, int>(2, 20));
+	// test_map.insert(NAMESPACE::pair<int, int>(1, 10));
+	// test_map.insert(NAMESPACE::pair<int, int>(3, 30));
+	// test_map.insert(NAMESPACE::pair<int, int>(6, 25));
+	// test_map.insert(NAMESPACE::pair<int, int>(5, 50));
+	// test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
-	// test_map.erase(test_map.begin());
-	test_map.erase(++test_map.begin());
-	// test_map.erase(++++++test_map.begin());
-	// test_map.erase(--test_map.end());
-	// NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
-	std::cout << "---------- INCREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
-		std::cout << "Iterator Key = " << it_map->first << std::endl;
-		std::cout << "Iterator Value = " << it_map->second << std::endl;
-	}
-
-	std::cout << "---------- DECREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::iterator it_map = --test_map.end(); it_map != test_map.begin(); it_map--) {
-		std::cout << "Iterator Key = " << it_map->first << std::endl;
-		std::cout << "Iterator Value = " << it_map->second << std::endl;
-	}
-
-
-    std::cout << "---------- REVERSE INCREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::reverse_iterator it_map = test_map.rbegin(); it_map != test_map.rend(); it_map++) {
-		std::cout << "Iterator Key = " << it_map->first << std::endl;
-		std::cout << "Iterator Value = " << it_map->second << std::endl;
-	}
-
-	std::cout << "---------- REVERSE DECREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::reverse_iterator it_map = --test_map.rend(); it_map != test_map.rbegin(); it_map--) {
-		std::cout << "Iterator Key = " << it_map->first << std::endl;
-		std::cout << "Iterator Value = " << it_map->second << std::endl;
-	}
-
-	// if (test_map.find(2) != test_map.end()) {
-	// 	std::cout << "test_map[2] key = " << test_map.find(2)->first << std::endl;
-	// 	std::cout << "test_map[2] value = " << test_map.find(2)->second << std::endl;
-	// }
-	// // test_map.clear();
 	// // test_map.erase(test_map.begin());
+	// test_map.erase(++test_map.begin());
+	// // test_map.erase(++++++test_map.begin());
+	// // test_map.erase(--test_map.end());
+	// // NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
+	// std::cout << "---------- INCREMENT ----------" << std::endl;
+	// for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
+	// 	std::cout << "Iterator Key = " << it_map->first << std::endl;
+	// 	std::cout << "Iterator Value = " << it_map->second << std::endl;
+	// }
 
-	// std::cout << "test_map::at(2) = " << test_map.at(2) << std::endl;
+	// std::cout << "---------- DECREMENT ----------" << std::endl;
+	// for (NAMESPACE::map<int, int>::iterator it_map = --test_map.end(); it_map != test_map.begin(); it_map--) {
+	// 	std::cout << "Iterator Key = " << it_map->first << std::endl;
+	// 	std::cout << "Iterator Value = " << it_map->second << std::endl;
+	// }
 
-	std::cout << "---------- INCREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
-		std::cout << "Iterator Key = " << it_map->first << std::endl;
-		std::cout << "Iterator Value = " << it_map->second << std::endl;
-	}
 
-	std::cout << "Empty: " << test_map.empty() << std::endl
-	          << "Size: " << test_map.size() << std::endl
-			  << "Max Size: " << test_map.max_size() << std::endl;
+    // std::cout << "---------- REVERSE INCREMENT ----------" << std::endl;
+	// for (NAMESPACE::map<int, int>::reverse_iterator it_map = test_map.rbegin(); it_map != test_map.rend(); it_map++) {
+	// 	std::cout << "Iterator Key = " << it_map->first << std::endl;
+	// 	std::cout << "Iterator Value = " << it_map->second << std::endl;
+	// }
+
+	// std::cout << "---------- REVERSE DECREMENT ----------" << std::endl;
+	// for (NAMESPACE::map<int, int>::reverse_iterator it_map = --test_map.rend(); it_map != test_map.rbegin(); it_map--) {
+	// 	std::cout << "Iterator Key = " << it_map->first << std::endl;
+	// 	std::cout << "Iterator Value = " << it_map->second << std::endl;
+	// }
+
+	// // if (test_map.find(2) != test_map.end()) {
+	// // 	std::cout << "test_map[2] key = " << test_map.find(2)->first << std::endl;
+	// // 	std::cout << "test_map[2] value = " << test_map.find(2)->second << std::endl;
+	// // }
+	// // // test_map.clear();
+	// // // test_map.erase(test_map.begin());
+
+	// // std::cout << "test_map::at(2) = " << test_map.at(2) << std::endl;
+
+	// std::cout << "---------- INCREMENT ----------" << std::endl;
+	// for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
+	// 	std::cout << "Iterator Key = " << it_map->first << std::endl;
+	// 	std::cout << "Iterator Value = " << it_map->second << std::endl;
+	// }
+
+	// std::cout << "Empty: " << test_map.empty() << std::endl
+	//           << "Size: " << test_map.size() << std::endl
+	// 		  << "Max Size: " << test_map.max_size() << std::endl;
 
 	// (void)i;
 
