@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/26 23:41:09 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/27 20:44:18 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,7 +366,7 @@ int main() {
 	// 	++it;
 	// 	// it++;
 	// }
-
+	std::cout << "Successor of 1 = " << avl.getNodeSuccessor(root, root->left->left)->value.first << std::endl;
 	// std::cout << "Decrement" << std::endl;
 	// std::cout << "Key = " << it->first << std::endl;
 	// std::cout << "Value = " << it->second << std::endl;
@@ -392,10 +392,12 @@ int main() {
 	// root = avl.deleteNode(root, 10);
 	// root = avl.deleteNode(root, 20);
 	// root = avl.deleteNode(root, ft::pair<int, int>(1, 10));
+	// root = avl.deleteNode(root, ft::pair<int, int>(2, 20));
 	// root = avl.deleteNode(root, ft::pair<int, int>(3, 30));
 	// root = avl.deleteNode(root, ft::pair<int, int>(4, 40));
 	// root = avl.deleteNode(root, ft::pair<int, int>(5, 50));
 	// root = avl.deleteNode(root, ft::pair<int, int>(6, 25));
+	// root = avl.deleteNode(root, ft::pair<int, int>(16, 25));
 	// root = avl.deleteNode(root, 40);
 	// root = avl.deleteNode(root, 50);
 	// root = avl.deleteNode(root, 25);
@@ -425,18 +427,18 @@ int main() {
 	// std::map<char, std::string> ms;
 	// ms.insert();
 
-	// NAMESPACE::map<int, int> test_map;
+	NAMESPACE::map<int, int> test_map;
 
-	// std::cout << "Empty: " << test_map.empty() << std::endl
-	//           << "Size: " << test_map.size() << std::endl
-	// 		  << "Max Size: " << test_map.max_size() << std::endl;
+	std::cout << "Empty: " << test_map.empty() << std::endl
+	          << "Size: " << test_map.size() << std::endl
+			  << "Max Size: " << test_map.max_size() << std::endl;
 
-	// test_map.insert(NAMESPACE::pair<int, int>(2, 20));
-	// test_map.insert(NAMESPACE::pair<int, int>(1, 10));
-	// test_map.insert(NAMESPACE::pair<int, int>(3, 30));
-	// test_map.insert(NAMESPACE::pair<int, int>(6, 25));
-	// test_map.insert(NAMESPACE::pair<int, int>(5, 50));
-	// test_map.insert(NAMESPACE::pair<int, int>(4, 40));
+	test_map.insert(NAMESPACE::pair<int, int>(2, 20));
+	test_map.insert(NAMESPACE::pair<int, int>(1, 10));
+	test_map.insert(NAMESPACE::pair<int, int>(3, 30));
+	test_map.insert(NAMESPACE::pair<int, int>(6, 25));
+	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
+	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
 	// // test_map.erase(test_map.begin());
 	// test_map.erase(++test_map.begin());
@@ -483,9 +485,9 @@ int main() {
 	// 	std::cout << "Iterator Value = " << it_map->second << std::endl;
 	// }
 
-	// std::cout << "Empty: " << test_map.empty() << std::endl
-	//           << "Size: " << test_map.size() << std::endl
-	// 		  << "Max Size: " << test_map.max_size() << std::endl;
+	std::cout << "Empty: " << test_map.empty() << std::endl
+	          << "Size: " << test_map.size() << std::endl
+			  << "Max Size: " << test_map.max_size() << std::endl;
 
 	// (void)i;
 
