@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/27 22:28:45 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/27 23:18:22 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ class avl_tree {
 		allocator_type m_alloc;
 		allocator_base m_base;
 		pointer m_root;
+		pointer m_sentinel;
 		// pointer m_free;
 		// bool dont_free;
 		size_type m_size;
@@ -81,13 +82,20 @@ class avl_tree {
 				                                                   m_root(0),
 																//    m_free(0),
 																//    dont_free(false),
-																   m_size(0) {}
+																   m_size(0) {
+			m_sentinel = m_alloc.allocate(1 * sizeof(node_type));
+			m_alloc.construct(m_sentinel, node_type());
+		}
 
 		avl_tree &operator=(const avl_tree &x) {
 			(void)x;
 		}
 
 		~avl_tree() {
+			// m_alloc.destroy(m_sentinel);
+			// m_alloc.deallocate(m_sentinel, 1 * sizeof(node_type));
+			// m_sentinel = NULL;
+
 			// while (m_size) {
 			// 	m_root = deleteNode(m_root, m_root->value);
 			// }
@@ -107,6 +115,10 @@ class avl_tree {
 
 		pointer getRoot() {
 			return m_root;
+		}
+
+		pointer getSentinel() {
+			return m_sentinel;
 		}
 
 		bool empty() const {
@@ -431,7 +443,9 @@ class avl_tree {
 		}
 
 		pointer getNodeSuccessor(pointer root, pointer node) {
-			if (node->right != NULL) {
+			if (node == m_sentinel) {
+				return NULL;
+			} else if (node->right != NULL) {
 				return getMinimum(node->right);
 			}
 
@@ -446,25 +460,29 @@ class avl_tree {
 					break;
 				}
 			}
+
+			if (successor == NULL) {
+				return m_sentinel;
+			}
 			return successor;
 		}
 
 		pointer getNodePredecessor(pointer root, pointer node) {
-			pointer predecessor = NULL;
-			if (node != NULL) {
-				if (node->left != NULL) {
-					return getMaximum(node->left);
-				}
+			if (node == m_sentinel) {
+				return getMaximum(root);
+			} else if (node->left != NULL) {
+				return getMaximum(node->left);
+			}
 
-				while (root != NULL) {
-					if (node->value > root->value) {
-						predecessor = root;
-						root = root->right;
-					} else if (node->value < root->value) {
-						root = root->left;
-					} else {
-						break;
-					}
+			pointer predecessor = NULL;
+			while (root != NULL) {
+				if (node->value > root->value) {
+					predecessor = root;
+					root = root->right;
+				} else if (node->value < root->value) {
+					root = root->left;
+				} else {
+					break;
 				}
 			}
 			return predecessor;
@@ -500,10 +518,19 @@ class avl_tree {
 			return min;
 		}
 
-		void free_all(pointer node) {
+		void freeSentinelNode() {
+			if (m_sentinel != NULL) {
+				m_alloc.destroy(m_sentinel);
+				m_alloc.deallocate(m_sentinel, 1 * sizeof(node_type));
+				m_sentinel = NULL;
+			}
+		}
+
+		void clear(pointer node) {
+			freeSentinelNode();
 			if (node != NULL) {
-				free_all(node->left);
-				free_all(node->right);
+				clear(node->left);
+				clear(node->right);
 				m_alloc.destroy(node);
 				m_alloc.deallocate(node, 1 * sizeof(node_type));
 				m_size--;
