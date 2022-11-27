@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/26 23:03:48 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/27 22:07:02 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,17 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		}
 
 		tree_iterator &operator++() {
-			if (m_node->right) {
-				m_node = m_node->right;
-				while (m_node->left) {
-					m_node = m_node->left;
-				}
-			} else {
-				while (m_node->parent && m_node == m_node->parent->right) {
-					m_node = m_node->parent;
-				}
-				m_node = m_node->parent;
+			m_node = m_tree.getNodeSuccessor(m_tree.getRoot(), m_node);
+			// if (m_node->right) {
+			// 	m_node = m_node->right;
+			// 	while (m_node->left) {
+			// 		m_node = m_node->left;
+			// 	}
+			// } else {
+			// 	while (m_node->parent && m_node == m_node->parent->right) {
+			// 		m_node = m_node->parent;
+			// 	}
+			// 	m_node = m_node->parent;
 
 				// node_pointer temp;
 				// do {
@@ -104,7 +105,7 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 				// 		break;
 				// 	}
 				// } while (m_node->parent);
-			}
+			// }
 			return *this;
 		}
 
@@ -115,21 +116,22 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		}
 
 		tree_iterator &operator--() {
-			if (!m_node) {
-				m_node = m_tree.getRoot();
-				while (m_node->right)
-					m_node = m_node->right;
-			} else if (m_node->left) {
-				m_node = m_node->left;
-				while (m_node->right) {
-					m_node = m_node->right;
-				}
-			} else {
-				while (m_node->parent && m_node == m_node->parent->left) {
-					m_node = m_node->parent;
-				}
-				m_node = m_node->parent;
-			}
+			m_node = m_tree.getNodePredecessor(m_tree.getRoot(), m_node);
+			// if (!m_node) {
+			// 	m_node = m_tree.getRoot();
+			// 	while (m_node->right)
+			// 		m_node = m_node->right;
+			// } else if (m_node->left) {
+			// 	m_node = m_node->left;
+			// 	while (m_node->right) {
+			// 		m_node = m_node->right;
+			// 	}
+			// } else {
+			// 	while (m_node->parent && m_node == m_node->parent->left) {
+			// 		m_node = m_node->parent;
+			// 	}
+			// 	m_node = m_node->parent;
+			// }
 			return *this;
 		}
 
