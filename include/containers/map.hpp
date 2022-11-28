@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 23:34:51 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/29 00:18:04 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,21 @@ class map {
 
 	// map(const map &x);
 
-	// map &operator=(const map &x);
+	map &operator=(const map &x) {
+		this->clear();
+		if (this != &x) {
+			// m_tree = x.m_tree;
+			m_comp = x.m_comp;
+			m_alloc = x.m_alloc;
+			m_size = x.m_size;
+		}
+
+		/**
+		 * @REMINDER: uncomment once const_iterators are implemented
+		*/
+		// insert(x.begin(), x.end());
+		return *this;
+	}
 
 	~map() {
 		// if (m_tree.empty() == false) {
@@ -146,8 +160,13 @@ class map {
 		return find(val.first);
 	}
 
-	// template < class InputIterator >
-	// void insert(InputIterator first, InputIterator last);
+	template < class InputIterator >
+	void insert(InputIterator first, InputIterator last) {
+		while (first != last) {
+			this->insert(ft::make_pair(first->first, first->second));
+			first++;
+		}
+	}
 
 	void erase(iterator position) {
 		if (position.base() == m_tree.getSentinel()) {

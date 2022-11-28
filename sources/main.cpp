@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 23:32:49 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/29 00:08:54 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,7 +456,7 @@ int main() {
 	// test_map.erase(test_map.begin());
 	// test_map.erase(4);
 	// test_map.erase(test_map.find(5), test_map.end());
-	test_map.erase(test_map.find(2), test_map.find(5));
+	// test_map.erase(test_map.find(2), test_map.find(5));
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
@@ -517,6 +517,21 @@ int main() {
 	          << "Size: " << test_map.size() << std::endl
 			  << "Max Size: " << test_map.max_size() << std::endl;
 
+	NAMESPACE::map<int, int> test2;
+	test2.insert(test_map.begin(), test_map.find(4));
+
+	std::cout << "---------- INCREMENT ----------" << std::endl;
+	for (NAMESPACE::map<int, int>::iterator it_map = test2.begin(); it_map != test2.end(); it_map++) {
+		std::cout << "Iterator Key = " << it_map->first << std::endl;
+		std::cout << "Iterator Value = " << it_map->second << std::endl;
+	}
+
+	test2 = test_map;
+	std::cout << "---------- INCREMENT ----------" << std::endl;
+	for (NAMESPACE::map<int, int>::iterator it_map = test2.begin(); it_map != test2.end(); it_map++) {
+		std::cout << "Iterator Key = " << it_map->first << std::endl;
+		std::cout << "Iterator Value = " << it_map->second << std::endl;
+	}
 	// (void)i;
 
 	return 0;
