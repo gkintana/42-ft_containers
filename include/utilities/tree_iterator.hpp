@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/27 22:48:51 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 10:01:13 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 
 namespace ft {
 
+/**
+ * @brief    parent node will always be NULL, it only exists to ensure that
+ *           ft::map::max_size and std::map::max_size will return the same value.
+*/
 template <class T>
 struct tree_node {
 	typedef T              value_type;
@@ -24,19 +28,19 @@ struct tree_node {
 	typedef std::size_t    size_type;
 
 	value_type    value;
-	// pointer       parent;
+	pointer       parent;
 	pointer       left;
 	pointer       right;
 	size_type     height;
 
 	tree_node() : value(),
-					// parent(0),
+	              parent(0),
 	              left(0),
 	              right(0),
 	              height(0) {}
 
 	tree_node(value_type val) : value(val),
-	                            // parent(0),
+	                            parent(0),
 	                            left(0),
 	                            right(0),
 	                            height(1) {}
