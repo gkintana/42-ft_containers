@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/27 23:13:48 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:58:31 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,10 +444,26 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
-	// // test_map.erase(test_map.begin());
-	// test_map.erase(++test_map.begin());
-	// // test_map.erase(++++++test_map.begin());
-	// // test_map.erase(--test_map.end());
+	// // 1
+	// 2
+	// // 3
+	// // 4
+	// 5
+	// 6
+
+	test_map.erase(test_map.begin());
+	// test_map.erase(test_map.begin());
+	// test_map.erase(test_map.begin());
+	// test_map.erase(test_map.begin());
+	// test_map.erase(test_map.begin());
+	// test_map.erase(test_map.begin());
+	// NAMESPACE::map<int, int>::iterator it = test_map.begin();
+	// std::cout << "Test Map Key = " << (++++++++++++it)->first << std::endl;
+
+	test_map.erase(++test_map.begin());
+	test_map.erase(++test_map.begin());
+	test_map.erase(++++++test_map.begin());
+	test_map.erase(--test_map.end());
 	// // NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
 	std::cout << "---------- INCREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
@@ -461,7 +477,6 @@ int main() {
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}
 
-
     std::cout << "---------- REVERSE INCREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::reverse_iterator it_map = test_map.rbegin(); it_map != test_map.rend(); it_map++) {
 		std::cout << "Iterator Key = " << it_map->first << std::endl;
@@ -469,7 +484,7 @@ int main() {
 	}
 
 	std::cout << "---------- REVERSE DECREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::reverse_iterator it_map = --test_map.rend(); it_map != test_map.rbegin(); it_map--) {
+	for (NAMESPACE::map<int, int>::reverse_iterator it_map = test_map.rend(); it_map != test_map.rbegin(); it_map--) {
 		std::cout << "Iterator Key = " << it_map->first << std::endl;
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}

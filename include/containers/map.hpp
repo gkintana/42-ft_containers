@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/27 23:14:48 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:01:15 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,15 @@ class map {
 		key_compare       m_comp;
 		allocator_type    m_alloc;
 		pointer           m_root;
-		// size_type         m_size;
+		size_type         m_size;
 
 	public:
 
 	explicit map(const key_compare &comp = key_compare(),
 	             const allocator_type &alloc = allocator_type()) : m_comp(comp),
 	                                                               m_alloc(alloc),
-	                                                               m_root(0) {}
+	                                                               m_root(0),
+																   m_size(0) {}
 
 	// template < class InputIterator >
 	// map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
@@ -83,12 +84,18 @@ class map {
 
 
 	iterator begin() {
-		return iterator(m_tree.getMinimum(m_root), m_tree);
+		if (m_tree.getRoot() == NULL) {
+			return iterator(NULL, m_tree);
+		}
+		return iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree);
 	}
 
 	// const_iterator begin() const { return tree.begin(); }
 
 	iterator end() {
+		if (m_tree.getRoot() == NULL) {
+			return iterator(NULL, m_tree);
+		}
 		return iterator(m_tree.getSentinel(), m_tree);
 	}
 
@@ -107,11 +114,11 @@ class map {
 	// const_reverse_iterator rend() const { return tree.rend(); }
 
 	bool empty() const {
-		return m_tree.empty();
+		return m_size == 0;
 	}
 
 	size_type size() const {
-		return m_tree.size();
+		return m_size;
 	}
 
 	size_type max_size() const {
@@ -124,9 +131,11 @@ class map {
 
 	// const mapped_type &at(const key_type &k) const;
 
-	ft::pair<iterator, bool> insert(const value_type val) {
-		m_root = m_tree.insertNode(m_root, val);
-
+	ft::pair<iterator, bool> insert(const value_type value) {
+		// m_root = m_tree.insertNode(m_root, val);
+		// m_tree.insertNode(val);
+		m_tree.updateRoot(m_tree.insertNode(m_tree.getRoot(), value));
+		m_size++;
 		return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
 	}
 	// iterator insert(iterator position, const value_type &val);
@@ -134,7 +143,8 @@ class map {
 	// void insert(InputIterator first, InputIterator last);
 
 	void erase(iterator position) {
-		m_root = m_tree.deleteNode(position.base(), ft::make_pair(position->first, position->second));
+		m_tree.updateRoot(m_tree.deleteNode(m_tree.getRoot(), ft::make_pair(position->first, position->second)));
+		m_size--;
 	}
 	// size_type erase(const key_type &k);
 	// void erase(iterator first, iterator last);
@@ -150,8 +160,8 @@ class map {
 
 		// this->erase(iterator(m_root, m_tree));
 
-		m_tree.clear(m_root);
-		m_root = NULL;
+		m_tree.clear(m_tree.getRoot());
+		// m_tree.getRoot() = NULL;
 	}
 
 	key_compare key_comp() const {

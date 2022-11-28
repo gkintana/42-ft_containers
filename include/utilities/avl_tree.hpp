@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/27 23:18:22 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:00:51 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,10 +202,13 @@ class avl_tree {
 		// 	return m_root = node;
 		// }
 
+		void updateRoot(pointer new_root) {
+			m_root = new_root;
+		}
+
 		pointer insertNode(pointer node, value_type value) {
 			if (!node) {
-				return m_root = createNode(value);
-				// return m_root;
+				return createNode(value);
 			} else if (value < node->value) {
 				node->left = insertNode(node->left, value);
 			} else if (value > node->value) {
@@ -219,17 +222,14 @@ class avl_tree {
 				if (value > node->left->value) {
 					node->left = leftRotate(node->left);
 				}
-				m_root = rightRotate(node);
-				return m_root;
+				return rightRotate(node);
 			} else if (balance < -1) {
 				if (value < node->right->value) {
 					node->right = rightRotate(node->right);
 				}
-				m_root = leftRotate(node);
-				return m_root;
+				return leftRotate(node);
 			}
-			m_root = node;
-			return m_root;
+			return node;
 		}
 
 		// pointer rebalance(pointer node) {
@@ -533,6 +533,7 @@ class avl_tree {
 				clear(node->right);
 				m_alloc.destroy(node);
 				m_alloc.deallocate(node, 1 * sizeof(node_type));
+				node = NULL;
 				m_size--;
 			}
 		}
