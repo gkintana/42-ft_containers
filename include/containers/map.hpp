@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 14:01:15 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:16:11 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,13 @@ class map {
 	// void insert(InputIterator first, InputIterator last);
 
 	void erase(iterator position) {
+		if (position.base() == m_tree.getSentinel()) {
+			// position = iterator(NULL, m_tree);
+			// pointer temp = position.base()->right;
+			std::cout << position.base()->right->value.first << std::endl;
+			// std::cout << "Should segfault here" << std::endl;
+			// m_tree.updateRoot(m_tree.deleteNode(m_tree.getRoot(), ft::make_pair(NULL, NULL)));
+		}
 		m_tree.updateRoot(m_tree.deleteNode(m_tree.getRoot(), ft::make_pair(position->first, position->second)));
 		m_size--;
 	}

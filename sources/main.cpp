@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 13:58:31 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:19:52 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -451,15 +451,17 @@ int main() {
 	// 5
 	// 6
 
-	test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
+	// test_map.erase(test_map.begin());
+
 	// NAMESPACE::map<int, int>::iterator it = test_map.begin();
 	// std::cout << "Test Map Key = " << (++++++++++++it)->first << std::endl;
 
+	test_map.erase(test_map.begin());
 	test_map.erase(++test_map.begin());
 	test_map.erase(++test_map.begin());
 	test_map.erase(++++++test_map.begin());
