@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 17:44:34 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 23:32:49 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,8 +444,8 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
-	NAMESPACE::map<int, int>::iterator i = test_map.insert(++test_map.begin(), NAMESPACE::pair<int, int>(7, 70));
-	std::cout << "Insert Key Return Value = " << i->first << std::endl;
+	// NAMESPACE::map<int, int>::iterator i = test_map.insert(++test_map.begin(), NAMESPACE::pair<int, int>(7, 70));
+	// std::cout << "Insert Key Return Value = " << i->first << std::endl;
 	// // 1
 	// 2
 	// // 3
@@ -454,6 +454,9 @@ int main() {
 	// 6
 
 	// test_map.erase(test_map.begin());
+	// test_map.erase(4);
+	// test_map.erase(test_map.find(5), test_map.end());
+	test_map.erase(test_map.find(2), test_map.find(5));
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());
 	// test_map.erase(test_map.begin());

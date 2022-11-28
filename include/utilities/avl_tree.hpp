@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 16:58:58 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 23:26:56 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ class avl_tree {
 			m_alloc.construct(m_sentinel, node_type());
 		}
 
-		avl_tree &operator=(const avl_tree &x) {
-			(void)x;
-		}
+		// avl_tree &operator=(const avl_tree &x) {
+		// 	(void)x;
+		// }
 
 		~avl_tree() {
 			// m_alloc.destroy(m_sentinel);

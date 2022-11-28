@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 10:01:13 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 23:37:21 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,17 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		tree_iterator() : m_node() {}
 
 		tree_iterator(node_pointer node, tree_type tree) : m_node(node), m_tree(tree) {}
+
+		tree_iterator(const tree_iterator &other) : m_node(other.m_node),
+		                                            m_tree(other.m_tree) {}
+
+		tree_iterator &operator=(const tree_iterator &other) {
+			if (this != &other) {
+				m_node = other.m_node;
+				m_tree = other.m_tree;
+			}
+			return *this;
+		}
 
 		~tree_iterator() {}
 
