@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 17:01:06 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:44:34 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,8 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
+	NAMESPACE::map<int, int>::iterator i = test_map.insert(++test_map.begin(), NAMESPACE::pair<int, int>(7, 70));
+	std::cout << "Insert Key Return Value = " << i->first << std::endl;
 	// // 1
 	// 2
 	// // 3
@@ -467,7 +469,7 @@ int main() {
 	// test_map.erase(++++++test_map.begin());
 	// test_map.erase(--test_map.end());
 
-	test_map.clear();
+	// test_map.clear();
 	// // NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
 	std::cout << "---------- INCREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {
@@ -488,7 +490,7 @@ int main() {
 	}
 
 	std::cout << "---------- REVERSE DECREMENT ----------" << std::endl;
-	for (NAMESPACE::map<int, int>::reverse_iterator it_map = test_map.rend(); it_map != test_map.rbegin(); it_map--) {
+	for (NAMESPACE::map<int, int>::reverse_iterator it_map = --test_map.rend(); it_map != test_map.rbegin(); it_map--) {
 		std::cout << "Iterator Key = " << it_map->first << std::endl;
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}

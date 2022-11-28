@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 17:00:03 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:44:55 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ class map {
 		tree_type         m_tree;
 		key_compare       m_comp;
 		allocator_type    m_alloc;
-		pointer           m_root;
+		// pointer           m_root;
 		size_type         m_size;
 
 	public:
@@ -64,8 +64,8 @@ class map {
 	explicit map(const key_compare &comp = key_compare(),
 	             const allocator_type &alloc = allocator_type()) : m_comp(comp),
 	                                                               m_alloc(alloc),
-	                                                               m_root(0),
-																   m_size(0) {}
+	                                                            //    m_root(0),
+	                                                               m_size(0) {}
 
 	// template < class InputIterator >
 	// map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
@@ -139,7 +139,13 @@ class map {
 		m_size++;
 		return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
 	}
-	// iterator insert(iterator position, const value_type &val);
+
+	iterator insert(iterator position, const value_type &val) {
+		(void)position;
+		insert(val);
+		return find(val.first);
+	}
+
 	// template < class InputIterator >
 	// void insert(InputIterator first, InputIterator last);
 
@@ -182,7 +188,7 @@ class map {
 
 
 	iterator find(const key_type &k) {
-		return iterator(m_tree.search(m_root, k), m_tree);
+		return iterator(m_tree.search(m_tree.getRoot(), k), m_tree);
 	}
 	// const_iterator find(const key_type &k) const;
 	// size_type count(const key_type &k) const;
