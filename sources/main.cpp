@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 14:19:52 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:01:06 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,7 +411,7 @@ int main() {
 	avl.printInOrder(root);
 	std::cout << "size = " << avl.size() << std::endl;
 
-	avl.clear(root);
+	avl.clear(root, true);
 	// ft::avl_tree<int, int>::iterator it = avl.begin();
 	// std::cout << "ft::map::begin()->key = " << it->first << std::endl;
 	// std::cout << "ft::map::begin()->value = " << it->second << std::endl;
@@ -461,11 +461,13 @@ int main() {
 	// NAMESPACE::map<int, int>::iterator it = test_map.begin();
 	// std::cout << "Test Map Key = " << (++++++++++++it)->first << std::endl;
 
-	test_map.erase(test_map.begin());
-	test_map.erase(++test_map.begin());
-	test_map.erase(++test_map.begin());
-	test_map.erase(++++++test_map.begin());
-	test_map.erase(--test_map.end());
+	// test_map.erase(test_map.begin());
+	// test_map.erase(++test_map.begin());
+	// test_map.erase(++test_map.begin());
+	// test_map.erase(++++++test_map.begin());
+	// test_map.erase(--test_map.end());
+
+	test_map.clear();
 	// // NAMESPACE::map<int, int>::iterator it_map = test_map.begin();
 	std::cout << "---------- INCREMENT ----------" << std::endl;
 	for (NAMESPACE::map<int, int>::iterator it_map = test_map.begin(); it_map != test_map.end(); it_map++) {

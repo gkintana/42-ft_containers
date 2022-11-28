@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 14:16:11 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:00:03 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,11 @@ class map {
 	// map &operator=(const map &x);
 
 	~map() {
-		// m_tree.~avl_tree();
-		if (m_tree.empty() == false) {
-			clear();
-		}
+		// if (m_tree.empty() == false) {
+		m_tree.clear(m_tree.getRoot(), true);
+			// m_tree.clear(true);
+		// }
+		// m_tree.freeSentinelNode();
 	}
 
 
@@ -167,7 +168,9 @@ class map {
 
 		// this->erase(iterator(m_root, m_tree));
 
-		m_tree.clear(m_tree.getRoot());
+		// m_tree.clear(false);
+		m_tree.clear(m_tree.getRoot(), false);
+		m_size = 0;
 		// m_tree.getRoot() = NULL;
 	}
 

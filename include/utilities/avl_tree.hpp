@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 14:00:51 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:58:58 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -526,15 +526,17 @@ class avl_tree {
 			}
 		}
 
-		void clear(pointer node) {
-			freeSentinelNode();
+		void clear(pointer node, bool free_sentinel) {
+			if (free_sentinel == true) {
+				freeSentinelNode();
+			}
+
 			if (node != NULL) {
-				clear(node->left);
-				clear(node->right);
+				clear(node->left, false);
+				clear(node->right, false);
 				m_alloc.destroy(node);
 				m_alloc.deallocate(node, 1 * sizeof(node_type));
-				node = NULL;
-				m_size--;
+				m_root = node = NULL;
 			}
 		}
 
