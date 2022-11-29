@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/29 10:17:57 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/29 23:22:29 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,10 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 			return m_node;
 		}
 
+		tree_type getTree() const {
+			return m_tree;
+		}
+
 		tree_iterator &operator++() {
 			m_node = m_tree.getNodeSuccessor(m_tree.getRoot(), m_node);
 			// if (m_node->right) {
@@ -183,15 +187,14 @@ class const_tree_iterator : public ft::iterator<std::bidirectional_iterator_tag,
 	public:
 		typedef ft::iterator<std::bidirectional_iterator_tag, T>    traits_type;
 		typedef typename traits_type::value_type                    value_type;
-		typedef typename traits_type::pointer                       non_const_pointer;
-		typedef typename traits_type::reference                     non_const_reference;
 		typedef typename traits_type::difference_type               difference_type;
 		typedef typename traits_type::iterator_category             iterator_category;
-		typedef const non_const_pointer                             pointer;
-		typedef const non_const_reference                           reference;
+		typedef const value_type*                                   pointer;
+		typedef const value_type&                                   reference;
 		typedef tree_node<value_type>                               node_type;
 		typedef node_type*                                          node_pointer;
 		typedef AVL                                                 tree_type;
+		typedef tree_iterator<value_type, tree_type>				iterator;
 		// typedef const node_pointer                                  const_node_pointer;
 
 	private:
@@ -201,8 +204,11 @@ class const_tree_iterator : public ft::iterator<std::bidirectional_iterator_tag,
 	public:
 		const_tree_iterator() : m_node() {}
 
-		const_tree_iterator(node_pointer node, tree_type tree) : m_node(node),
-		                                                         m_tree(tree) {}
+		const_tree_iterator(const node_pointer node, tree_type tree) : m_node(node),
+		                                                               m_tree(tree) {}
+
+		const_tree_iterator(const iterator &other) : m_node(other.base()),
+		                                             m_tree(other.getTree()) {}
 
 		const_tree_iterator(const const_tree_iterator &other) : m_node(other.m_node),
 		                                                        m_tree(other.m_tree) {}
