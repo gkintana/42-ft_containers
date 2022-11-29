@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/29 00:18:04 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/29 10:10:58 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ class map {
 		typedef avl_tree<key_type, mapped_type,
 		                 key_compare, allocator_type>       tree_type;
 		typedef tree_iterator<value_type, tree_type>        iterator;
+		typedef const_tree_iterator<value_type, tree_type>  const_iterator;
 		// typedef implementation-defined                   iterator;
 		// typedef implementation-defined                   const_iterator;
 		typedef ft::reverse_iterator<iterator>              reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
 		// typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
 
 		// typedef unspecified                              node_type;              // C++17
@@ -81,11 +83,7 @@ class map {
 			m_alloc = x.m_alloc;
 			m_size = x.m_size;
 		}
-
-		/**
-		 * @REMINDER: uncomment once const_iterators are implemented
-		*/
-		// insert(x.begin(), x.end());
+		this->insert(x.begin(), x.end());
 		return *this;
 	}
 
@@ -105,7 +103,12 @@ class map {
 		return iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree);
 	}
 
-	// const_iterator begin() const { return tree.begin(); }
+	const_iterator begin() const {
+		if (m_tree.getRoot() == NULL) {
+			return const_iterator(NULL, m_tree);
+		}
+		return const_iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree);
+	}
 
 	iterator end() {
 		if (m_tree.getRoot() == NULL) {
@@ -114,19 +117,28 @@ class map {
 		return iterator(m_tree.getSentinel(), m_tree);
 	}
 
-	// const_iterator end() const { return tree.end(); }
+	const_iterator end() const {
+		if (m_tree.getRoot() == NULL) {
+			return const_iterator(NULL, m_tree);
+		}
+		return const_iterator(m_tree.getSentinel(), m_tree);
+	}
 
 	reverse_iterator rbegin() {
 		return reverse_iterator(this->end());
 	}
 
-	// const_reverse_iterator rbegin() const { return tree.rbegin(); }
+	const_reverse_iterator rbegin() const {
+		return const_reverse_iterator(this->end());
+	}
 
 	reverse_iterator rend() {
 		return reverse_iterator(this->begin());
 	}
 
-	// const_reverse_iterator rend() const { return tree.rend(); }
+	const_reverse_iterator rend() const {
+		return const_reverse_iterator(this->begin());
+	}
 
 	bool empty() const {
 		return m_size == 0;

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/28 23:26:56 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/29 10:08:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ class avl_tree {
 		// }
 		// const_iterator end() const;
 
-		pointer getRoot() {
+		pointer getRoot() const {
 			return m_root;
 		}
 
-		pointer getSentinel() {
+		pointer getSentinel() const {
 			return m_sentinel;
 		}
 
@@ -510,7 +510,7 @@ class avl_tree {
 			}
 		}
 
-		pointer getMinimum(pointer node) {
+		pointer getMinimum(pointer node) const {
 			pointer min = node;
 			while (min && min->left) {
 				min = min->left;
