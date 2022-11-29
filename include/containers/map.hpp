@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/29 10:10:58 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/29 11:27:16 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 #include <iostream>
 #include <map>
 
-#include "pair.hpp"
-#include "avl_tree.hpp"
-#include "tree_iterator.hpp"
+#include "../utilities/pair.hpp"
+#include "../utilities/avl_tree.hpp"
+#include "../utilities/tree_iterator.hpp"
+#include "../utilities/reverse_iterator.hpp"
 
 namespace ft {
 
@@ -69,11 +70,19 @@ class map {
 	                                                            //    m_root(0),
 	                                                               m_size(0) {}
 
-	// template < class InputIterator >
-	// map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
-	//     const allocator_type &alloc = allocator_type());
+	template < class InputIterator >
+	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
+	    const allocator_type &alloc = allocator_type()) : m_comp(comp),
+	                                                      m_alloc(alloc),
+	                                                      m_size(0) {
+		this->insert(first, last);
+	}
 
-	// map(const map &x);
+	map(const map &x) : m_comp(x.m_comp),
+	                    m_alloc(x.m_alloc),
+						m_size(0) {
+		this->insert(x.begin(), x.end());
+	}
 
 	map &operator=(const map &x) {
 		this->clear();
@@ -81,7 +90,7 @@ class map {
 			// m_tree = x.m_tree;
 			m_comp = x.m_comp;
 			m_alloc = x.m_alloc;
-			m_size = x.m_size;
+			// m_size = x.m_size;
 		}
 		this->insert(x.begin(), x.end());
 		return *this;
@@ -161,8 +170,10 @@ class map {
 	ft::pair<iterator, bool> insert(const value_type value) {
 		// m_root = m_tree.insertNode(m_root, val);
 		// m_tree.insertNode(val);
-		m_tree.updateRoot(m_tree.insertNode(m_tree.getRoot(), value));
-		m_size++;
+		if (this->find(value.first).base() == NULL) {
+			m_tree.updateRoot(m_tree.insertNode(m_tree.getRoot(), value));
+			m_size++;
+		}
 		return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
 	}
 

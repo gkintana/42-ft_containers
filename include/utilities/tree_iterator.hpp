@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/29 10:09:13 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/29 10:17:57 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define TREE_ITERATOR_HPP
 
 // https://stackoverflow.com/questions/9597817/c-avl-tree-iterator-will-not-increment-properly
+
+#include "../utilities/iterator_traits.hpp"
 
 namespace ft {
 
