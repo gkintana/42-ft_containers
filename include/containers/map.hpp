@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/29 11:27:16 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 00:22:29 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,19 @@ class map {
 	}
 
 	mapped_type &at(const key_type &k) {
-		return this->find(k)->second;
+		iterator it = this->find(k);
+		if (it.base() == NULL) {
+			throw std::out_of_range("map::at");
+		}
+		return it->second;
 	}
 
 	// const mapped_type &at(const key_type &k) const;
+
+	mapped_type &operator[](const key_type &k) {
+		this->insert(ft::make_pair(k, mapped_type()));
+		return this->find(k)->second;
+	}
 
 	ft::pair<iterator, bool> insert(const value_type value) {
 		// m_root = m_tree.insertNode(m_root, val);
@@ -173,6 +182,7 @@ class map {
 		if (this->find(value.first).base() == NULL) {
 			m_tree.updateRoot(m_tree.insertNode(m_tree.getRoot(), value));
 			m_size++;
+			return ft::pair<iterator, bool>(iterator(m_tree.getRoot(), m_tree), true);
 		}
 		return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
 	}

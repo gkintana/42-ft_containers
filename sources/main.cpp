@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/29 00:08:54 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 00:20:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,12 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
 
+	std::cout << "map::at(3) = " << test_map.at(3) << std::endl;
+	try {
+		std::cout << "map::at(42) = " << test_map.at(42) << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "Error: " << e.what() << std::endl;
+	}
 	// NAMESPACE::map<int, int>::iterator i = test_map.insert(++test_map.begin(), NAMESPACE::pair<int, int>(7, 70));
 	// std::cout << "Insert Key Return Value = " << i->first << std::endl;
 	// // 1
@@ -533,6 +539,23 @@ int main() {
 		std::cout << "Iterator Value = " << it_map->second << std::endl;
 	}
 	// (void)i;
+
+	NAMESPACE::map<int, std::string> mp;
+
+	mp[42] = "fgzgxfn";
+	mp[25] = "funny";
+	mp[80] = "hey";
+	mp[12] = "no";
+	mp[27] = "bee";
+	mp[90] = "8";
+
+	std::cout << "---------- INCREMENT ----------" << std::endl;
+	NAMESPACE::map<int, std::string>::const_iterator it = mp.begin();
+	NAMESPACE::map<int, std::string>::const_iterator ite = mp.end();
+	for (; it != ite; it++) {
+		std::cout << "Iterator Key = " << it->first << std::endl;
+		std::cout << "Iterator Value = " << it->second << std::endl;
+	}
 
 	return 0;
 }
