@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/30 13:06:06 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 18:19:45 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,9 +183,9 @@ class map {
 		if (this->find(value.first).base() == NULL) {
 			m_tree.updateRoot(m_tree.insertNode(m_tree.getRoot(), value));
 			m_size++;
-			return ft::pair<iterator, bool>(iterator(m_tree.getRoot(), m_tree), true);
+			return ft::pair<iterator, bool>(this->find(value.first), true);
 		}
-		return ft::pair<iterator, bool>(iterator(NULL, m_tree), false);
+		return ft::pair<iterator, bool>(iterator(m_tree.getRoot(), m_tree), false);
 	}
 
 	iterator insert(iterator position, const value_type &val) {
@@ -245,7 +245,7 @@ class map {
 		size_type count = 0;
 
 		while (it != last) {
-			std::cout << "Erased Key Value = " << it.base()->value.first << std::endl;
+			// std::cout << "Erased Key Value = " << it.base()->value.first << std::endl;
 			it++;
 			count++;
 		}
@@ -299,8 +299,15 @@ class map {
 	iterator find(const key_type &k) {
 		return iterator(m_tree.search(m_tree.getRoot(), k), m_tree);
 	}
-	// const_iterator find(const key_type &k) const;
-	// size_type count(const key_type &k) const;
+
+	const_iterator find(const key_type &k) const {
+		return const_iterator(m_tree.search(m_tree.getRoot(), k), m_tree);
+	}
+
+	size_type count(const key_type &k) const {
+		return this->find(k).base() == NULL ? 0 : 1;
+	}
+
 	// iterator lower_bound(const key_type &k);
 	// const_iterator lower_bound(const key_type &) const;
 

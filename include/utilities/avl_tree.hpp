@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/30 13:03:29 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 18:09:40 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -430,7 +430,7 @@ class avl_tree {
 			return node;
 		}
 
-		pointer search(pointer node, key_type value) {
+		pointer search(pointer node, key_type value) const {
 			if (!node) {
 				return NULL;
 			} else if (value < node->value.first) {
