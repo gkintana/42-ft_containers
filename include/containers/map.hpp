@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/30 18:19:45 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 00:03:59 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,19 @@ class map {
 
 		// typedef unspecified                              node_type;              // C++17
 		// typedef INSERT_RETURN_TYPE<iterator, node_type>  insert_return_type;
+
+		class value_compare : public std::binary_function<value_type, value_type, bool> {
+			friend class map;
+			protected:
+				key_compare m_comp;
+
+				value_compare(key_compare c) : m_comp(c) {}
+
+			public:
+				bool operator()(const value_type &x, const value_type &y) const {
+					return m_comp(x.first, y.first);
+				}
+		};    // class value_compare
 
 	private:
 		tree_type         m_tree;
@@ -273,7 +286,22 @@ class map {
 	}
 
 	void swap(map &x) {
-		m_tree.swap(x);
+		// m_tree.swap(x);
+
+		tree_type temp_tree = m_tree;
+		key_compare temp_comp = m_comp;
+		allocator_type temp_alloc = m_alloc;
+		size_type temp_size = m_size;
+
+		m_tree = x.m_tree;
+		m_comp = x.m_comp;
+		m_alloc = x.m_alloc;
+		m_size = x.m_size;
+
+		x.m_tree = temp_tree;
+		x.m_comp = temp_comp;
+		x.m_alloc = temp_alloc;
+		x.m_size = temp_size;
 	}
 
 	void clear() {
@@ -308,9 +336,35 @@ class map {
 		return this->find(k).base() == NULL ? 0 : 1;
 	}
 
-	// iterator lower_bound(const key_type &k);
-	// const_iterator lower_bound(const key_type &) const;
+	iterator lower_bound(const key_type &k) {
+		if (this->find(k).base() != NULL) {
+			return this->find(k);
+		}
+		return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+	}
 
+	const_iterator lower_bound(const key_type &k) const {
+		if (this->find(k).base() != NULL) {
+			return this->find(k);
+		}
+		return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+	}
+
+	iterator upper_bound(const key_type &k) {
+		return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+	}
+
+	const_iterator upper_bound(const key_type &k) const {
+		return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+	}
+
+	ft::pair<iterator, iterator> equal_range(const key_type &k) {
+		return ft::make_pair(this->lower_bound(k), this->upper_bound(k));
+	}
+
+	ft::pair<const_iterator, const_iterator> equal_range(const key_type &k) const {
+		return ft::make_pair(this->lower_bound(k), this->upper_bound(k));
+	}
 
 	allocator_type get_allocator() const {
 		return m_alloc.get_allocator();

@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/30 22:43:25 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 23:53:25 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -448,6 +448,33 @@ class avl_tree {
 			} else {
 				return node;
 			}
+		}
+
+		pointer getKeySuccessor(pointer root, const key_type &key) const {
+			// if (k == m_sentinel->value.first) {
+			// 	return NULL;
+			// } else if (node->right != NULL) {
+			// 	return getMinimum(node->right);
+			// }
+
+			pointer successor = NULL;
+			while (root != NULL) {
+				// if (node->value.first < root->value.first) {
+				if (m_comp(key, root->value.first)) {
+					successor = root;
+					root = root->left;
+				// } else if (node->value.first > root->value.first) {
+				} else if (m_comp(root->value.first, key)) {
+					root = root->right;
+				} else {
+					break;
+				}
+			}
+
+			if (successor == NULL) {
+				return m_sentinel;
+			}
+			return successor;
 		}
 
 		pointer getNodeSuccessor(pointer root, pointer node) {
