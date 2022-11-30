@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/30 00:22:29 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 13:06:06 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../utilities/avl_tree.hpp"
 #include "../utilities/tree_iterator.hpp"
 #include "../utilities/reverse_iterator.hpp"
+#include "../utilities/lexicographical_compare.hpp"
 
 namespace ft {
 
@@ -309,6 +310,45 @@ class map {
 	}
 
 };
+
+/**
+ * @REMINDER: add ft::equal
+*/
+template <class Key, class T, class Compare, class Allocator>
+bool operator==(const ft::map<Key, T, Compare, Allocator> &lhs,
+                const ft::map<Key, T, Compare, Allocator> &rhs) {
+	return lhs.size() == rhs.size();
+}
+
+template <class Key, class T, class Compare, class Allocator>
+bool operator!=(const ft::map<Key, T, Compare, Allocator> &lhs,
+                const ft::map<Key, T, Compare, Allocator> &rhs) {
+	return !(lhs == rhs);
+}
+
+template <class Key, class T, class Compare, class Allocator>
+bool operator<(const ft::map<Key, T, Compare, Allocator> &lhs,
+               const ft::map<Key, T, Compare, Allocator> &rhs) {
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+}
+
+template <class Key, class T, class Compare, class Allocator>
+bool operator<=(const ft::map<Key, T, Compare, Allocator> &lhs,
+                const ft::map<Key, T, Compare, Allocator> &rhs) {
+	return !(rhs < lhs);
+}
+
+template <class Key, class T, class Compare, class Allocator>
+bool operator>(const ft::map<Key, T, Compare, Allocator> &lhs,
+               const ft::map<Key, T, Compare, Allocator> &rhs) {
+	return rhs < lhs;
+}
+
+template <class Key, class T, class Compare, class Allocator>
+bool operator>=(const ft::map<Key, T, Compare, Allocator> &lhs,
+                const ft::map<Key, T, Compare, Allocator> &rhs) {
+	return !(lhs < rhs);
+}
 
 }    // namespace ft
 

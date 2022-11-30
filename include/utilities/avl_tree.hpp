@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/29 10:08:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 13:03:29 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,9 +209,9 @@ class avl_tree {
 		pointer insertNode(pointer node, value_type value) {
 			if (!node) {
 				return createNode(value);
-			} else if (value < node->value) {
+			} else if (value.first < node->value.first) {
 				node->left = insertNode(node->left, value);
-			} else if (value > node->value) {
+			} else if (value.first > node->value.first) {
 				node->right = insertNode(node->right, value);
 			}
 
@@ -219,12 +219,12 @@ class avl_tree {
 
 			int balance = checkBalanceFactor(node);
 			if (balance > 1) {
-				if (value > node->left->value) {
+				if (value.first > node->left->value.first) {
 					node->left = leftRotate(node->left);
 				}
 				return rightRotate(node);
 			} else if (balance < -1) {
-				if (value < node->right->value) {
+				if (value.first < node->right->value.first) {
 					node->right = rightRotate(node->right);
 				}
 				return leftRotate(node);
@@ -451,10 +451,10 @@ class avl_tree {
 
 			pointer successor = NULL;
 			while (root != NULL) {
-				if (node->value < root->value) {
+				if (node->value.first < root->value.first) {
 					successor = root;
 					root = root->left;
-				} else if (node->value > root->value) {
+				} else if (node->value.first > root->value.first) {
 					root = root->right;
 				} else {
 					break;
