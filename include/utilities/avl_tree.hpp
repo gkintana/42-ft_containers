@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/30 18:09:40 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/11/30 22:43:25 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ class avl_tree {
 		typedef Key                                                           key_type;
 		typedef T                                                             mapped_type;
 		typedef ft::pair<const key_type, mapped_type>                         value_type;
-		typedef Compare                                                       value_compare;
+		typedef Compare                                                       key_compare;
 		typedef Allocator                                                     allocator_base;
 		typedef tree_node<value_type>                                         node_type;
 		typedef node_type*                                                    pointer;
@@ -66,7 +66,7 @@ class avl_tree {
 		// typedef tree_iterator<value_type>                                     iterator;
 
 	private:
-		value_compare m_comp;
+		key_compare m_comp;
 		allocator_type m_alloc;
 		allocator_base m_base;
 		pointer m_root;
@@ -76,7 +76,7 @@ class avl_tree {
 		size_type m_size;
 
 	public:
-		avl_tree(const value_compare &comp = value_compare(),
+		avl_tree(const key_compare &comp = key_compare(),
 		         const allocator_type &alloc = allocator_type()) : m_comp(comp),
 				                                                   m_alloc(alloc),
 				                                                   m_root(0),
@@ -134,7 +134,7 @@ class avl_tree {
 		}
 
 		void swap(avl_tree &x) {
-			value_compare temp_comp = m_comp;
+			key_compare temp_comp = m_comp;
 			allocator_type temp_alloc = m_alloc;
 			pointer temp_root = m_root;
 			size_type temp_size = m_size;
@@ -209,9 +209,11 @@ class avl_tree {
 		pointer insertNode(pointer node, value_type value) {
 			if (!node) {
 				return createNode(value);
-			} else if (value.first < node->value.first) {
+			// } else if (value.first < node->value.first) {
+			} else if (m_comp(value.first, node->value.first)) {
 				node->left = insertNode(node->left, value);
-			} else if (value.first > node->value.first) {
+			// } else if (value.first > node->value.first) {
+			} else if (m_comp(node->value.first, value.first)) {
 				node->right = insertNode(node->right, value);
 			}
 
@@ -219,12 +221,14 @@ class avl_tree {
 
 			int balance = checkBalanceFactor(node);
 			if (balance > 1) {
-				if (value.first > node->left->value.first) {
+				// if (value.first > node->left->value.first) {
+				if (m_comp(node->left->value.first, value.first)) {
 					node->left = leftRotate(node->left);
 				}
 				return rightRotate(node);
 			} else if (balance < -1) {
-				if (value.first < node->right->value.first) {
+				// if (value.first < node->right->value.first) {
+				if (m_comp(value.first, node->right->value.first)) {
 					node->right = rightRotate(node->right);
 				}
 				return leftRotate(node);
@@ -360,9 +364,11 @@ class avl_tree {
 		pointer deleteNode(pointer node, value_type value) {
 			if (!node) {
 				return node;
-			} else if (value < node->value) {
+			// } else if (value < node->value) {
+			} else if (m_comp(value.first, node->value.first)) {
 				node->left = deleteNode(node->left, value);
-			} else if (value > node->value) {
+			// } else if (value > node->value) {
+			} else if (m_comp(node->value.first, value.first)) {
 				node->right = deleteNode(node->right, value);
 			} else {
 				if (node->left == NULL && node->right == NULL) {
@@ -433,9 +439,11 @@ class avl_tree {
 		pointer search(pointer node, key_type value) const {
 			if (!node) {
 				return NULL;
-			} else if (value < node->value.first) {
+			// } else if (value < node->value.first) {
+			} else if (m_comp(value, node->value.first)) {
 				return search(node->left, value);
-			} else if (value > node->value.first) {
+			// } else if (value > node->value.first) {
+			} else if (m_comp(node->value.first, value)) {
 				return search(node->right, value);
 			} else {
 				return node;
@@ -451,10 +459,12 @@ class avl_tree {
 
 			pointer successor = NULL;
 			while (root != NULL) {
-				if (node->value.first < root->value.first) {
+				// if (node->value.first < root->value.first) {
+				if (m_comp(node->value.first, root->value.first)) {
 					successor = root;
 					root = root->left;
-				} else if (node->value.first > root->value.first) {
+				// } else if (node->value.first > root->value.first) {
+				} else if (m_comp(root->value.first, node->value.first)) {
 					root = root->right;
 				} else {
 					break;
@@ -476,10 +486,12 @@ class avl_tree {
 
 			pointer predecessor = NULL;
 			while (root != NULL) {
-				if (node->value > root->value) {
+				// if (node->value > root->value) {
+				if (m_comp(root->value.first, node->value.first)) {
 					predecessor = root;
 					root = root->right;
-				} else if (node->value < root->value) {
+				// } else if (node->value < root->value) {
+				} else if (m_comp(node->value.first, root->value.first)) {
 					root = root->left;
 				} else {
 					break;
