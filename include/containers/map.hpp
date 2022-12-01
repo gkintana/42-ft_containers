@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 22:25:39 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:33:30 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include <map>
 
 #include "../utilities/pair.hpp"
+#include "../utilities/map_iterator.hpp"
 #include "../utilities/avl_tree.hpp"
-#include "../utilities/tree_iterator.hpp"
 #include "../utilities/reverse_iterator.hpp"
 #include "../utilities/lexicographical_compare.hpp"
 
@@ -45,8 +45,8 @@ class map {
 		typedef node_type*                                  pointer;
 		typedef avl_tree<key_type, mapped_type,
 		                 key_compare, allocator_type>       tree_type;
-		typedef tree_iterator<value_type, tree_type>        iterator;
-		typedef const_tree_iterator<value_type, tree_type>  const_iterator;
+		typedef map_iterator<value_type, tree_type>         iterator;
+		typedef const_map_iterator<value_type, tree_type>   const_iterator;
 		// typedef implementation-defined                   iterator;
 		// typedef implementation-defined                   const_iterator;
 		typedef ft::reverse_iterator<iterator>              reverse_iterator;
