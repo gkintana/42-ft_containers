@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 22:59:22 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:15:18 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		typedef tree_node<value_type>                               node_type;
 		typedef node_type*                                          node_pointer;
 		typedef AVL                                                 tree_type;
-		typedef const_tree_iterator<value_type, tree_type>          const_iterator;
+		// typedef const_tree_iterator<value_type, tree_type>          const_iterator;
 		// typedef const node_pointer                                  const_node_pointer;
 
 	private:
@@ -84,8 +84,8 @@ class tree_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 
 		tree_iterator(node_pointer node, tree_type tree) : m_node(node), m_tree(tree) {}
 
-		tree_iterator(const const_iterator &other) : m_node(other.base()),
-		                                             m_tree(other.getTree()) {}
+		// tree_iterator(const const_iterator &other) : m_node(other.base()),
+		//                                              m_tree(other.getTree()) {}
 
 		tree_iterator(const tree_iterator &other) : m_node(other.m_node),
 		                                            m_tree(other.m_tree) {}
@@ -189,14 +189,14 @@ bool operator!=(const ft::tree_iterator<T, AVL> &lhs, const ft::tree_iterator<T,
 }
 
 template <class T, class AVL>
-bool operator==(const ft::tree_iterator<T, AVL> &lhs, const ft::const_tree_iterator<T, AVL> &const_rhs) {
-	ft::tree_iterator<T, AVL> rhs(const_rhs);
+bool operator==(const ft::tree_iterator<T, AVL> &lhs, const ft::const_tree_iterator<T, AVL> &rhs) {
+	// ft::tree_iterator<T, AVL> rhs(const_rhs);
 	return lhs.base() == rhs.base();
 }
 
 template <class T, class AVL>
-bool operator!=(const ft::tree_iterator<T, AVL> &lhs, const ft::const_tree_iterator<T, AVL> &const_rhs) {
-	return !(lhs == const_rhs);
+bool operator!=(const ft::tree_iterator<T, AVL> &lhs, const ft::const_tree_iterator<T, AVL> &rhs) {
+	return !(lhs == rhs);
 }
 
 
