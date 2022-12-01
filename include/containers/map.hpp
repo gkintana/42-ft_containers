@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 00:03:59 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 08:42:53 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,9 @@ class map {
 		return m_comp;
 	}
 
-	// value_compare value_comp() const;
+	value_compare value_comp() const {
+		return value_compare(this->key_comp());
+	}
 
 
 	iterator find(const key_type &k) {
