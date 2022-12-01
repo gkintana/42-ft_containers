@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 23:45:44 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:51:53 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 		typedef node_type*                                          node_pointer;
 		typedef AVL                                                 tree_type;
 		typedef map_iterator<value_type, tree_type>                 iterator;
-		// typedef const node_pointer                                  const_node_pointer;
 
 	private:
 		node_pointer m_node;

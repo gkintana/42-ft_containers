@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 23:33:33 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:59:12 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,9 @@
 
 #include <map>
 #include "pair.hpp"
-// #include "map_iterator.hpp"
+#include "map_iterator.hpp"
 
 namespace ft {
-
-// template <class T>
-// struct tree_node {
-// 	typedef T              value_type;
-// 	typedef tree_node*     pointer;
-// 	typedef std::size_t    size_type;
-
-// 	value_type    value;
-// 	pointer       parent;
-// 	pointer       left;
-// 	pointer       right;
-// 	size_type     height;
-
-// 	tree_node(value_type data) : value(data), parent(0), left(0), right(0), height(1) {}
-
-// 	~tree_node() {}
-// };
 
 template < class Key, class T, class Compare = std::less<Key>,
            class Allocator = std::allocator< ft::pair<const Key, T> > >
@@ -63,7 +46,6 @@ class avl_tree {
 		typedef const pointer                                                 const_pointer;
 		typedef typename allocator_base::template rebind<node_type>::other    allocator_type;
 		typedef std::size_t                                                   size_type;
-		// typedef tree_iterator<value_type>                                     iterator;
 
 	private:
 		key_compare m_comp;
@@ -71,18 +53,12 @@ class avl_tree {
 		allocator_base m_base;
 		pointer m_root;
 		pointer m_sentinel;
-		// pointer m_free;
-		// bool dont_free;
-		size_type m_size;
 
 	public:
 		avl_tree(const key_compare &comp = key_compare(),
 		         const allocator_type &alloc = allocator_type()) : m_comp(comp),
 				                                                   m_alloc(alloc),
-				                                                   m_root(0),
-																//    m_free(0),
-																//    dont_free(false),
-																   m_size(0) {
+				                                                   m_root(0) {
 			m_sentinel = m_alloc.allocate(1 * sizeof(node_type));
 			m_alloc.construct(m_sentinel, node_type());
 		}
@@ -121,34 +97,34 @@ class avl_tree {
 			return m_sentinel;
 		}
 
-		bool empty() const {
-			return !m_size;
-		}
+		// bool empty() const {
+		// 	return !m_size;
+		// }
 
-		size_type size() const {
-			return m_size;
-		}
+		// size_type size() const {
+		// 	return m_size;
+		// }
 
 		size_type max_size() const {
 			return m_alloc.max_size();
 		}
 
-		void swap(avl_tree &x) {
-			key_compare temp_comp = m_comp;
-			allocator_type temp_alloc = m_alloc;
-			pointer temp_root = m_root;
-			size_type temp_size = m_size;
+		// void swap(avl_tree &x) {
+		// 	key_compare temp_comp = m_comp;
+		// 	allocator_type temp_alloc = m_alloc;
+		// 	pointer temp_root = m_root;
+		// 	size_type temp_size = m_size;
 
-			m_comp = x.m_comp;
-			m_alloc = x.m_alloc;
-			m_root = x.m_root;
-			m_size = x.m_size;
+		// 	m_comp = x.m_comp;
+		// 	m_alloc = x.m_alloc;
+		// 	m_root = x.m_root;
+		// 	m_size = x.m_size;
 
-			x.m_comp = temp_comp;
-			x.m_alloc = temp_alloc;
-			x.m_root = temp_root;
-			x.m_size = temp_size;
-		}
+		// 	x.m_comp = temp_comp;
+		// 	x.m_alloc = temp_alloc;
+		// 	x.m_root = temp_root;
+		// 	x.m_size = temp_size;
+		// }
 
 		// pointer insertNode(pointer node, pointer parent, value_type value) {
 		// 	if (!node) {
@@ -583,7 +559,7 @@ class avl_tree {
 		pointer createNode(value_type value) {
 			pointer node = m_alloc.allocate(1 * sizeof(node_type));
 			m_alloc.construct(node, node_type(value));
-			m_size++;
+			// m_size++;
 			return node;
 		}
 

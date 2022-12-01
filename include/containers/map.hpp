@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 23:33:30 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:54:30 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include <iostream>
 #include <map>
 
-#include "../utilities/pair.hpp"
-#include "../utilities/map_iterator.hpp"
 #include "../utilities/avl_tree.hpp"
 #include "../utilities/reverse_iterator.hpp"
 #include "../utilities/lexicographical_compare.hpp"
@@ -34,8 +32,8 @@ class map {
 		typedef ft::pair<const key_type, mapped_type>       value_type;
 		typedef Compare                                     key_compare;
 		typedef Allocator                                   allocator_type;
-		typedef typename allocator_type::reference          reference;
-		typedef typename allocator_type::const_reference    const_reference;
+		// typedef typename allocator_type::reference          reference;
+		// typedef typename allocator_type::const_reference    const_reference;
 		// typedef typename allocator_type::pointer            pointer;
 		// typedef typename allocator_type::const_pointer      const_pointer;
 		typedef typename allocator_type::size_type          size_type;
@@ -47,14 +45,8 @@ class map {
 		                 key_compare, allocator_type>       tree_type;
 		typedef map_iterator<value_type, tree_type>         iterator;
 		typedef const_map_iterator<value_type, tree_type>   const_iterator;
-		// typedef implementation-defined                   iterator;
-		// typedef implementation-defined                   const_iterator;
 		typedef ft::reverse_iterator<iterator>              reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
-		// typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
-
-		// typedef unspecified                              node_type;              // C++17
-		// typedef INSERT_RETURN_TYPE<iterator, node_type>  insert_return_type;
 
 		class value_compare : public std::binary_function<value_type, value_type, bool> {
 			friend class map;

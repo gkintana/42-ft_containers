@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 23:33:56 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:59:47 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,9 +390,10 @@ int main() {
 	// std::cout << "node->left = " << node->left->value << std::endl;
 	// std::cout << "node->right = " << node->right->value << std::endl;
 
-	std::cout << "size = " <<  avl.size() << std::endl;
+	// std::cout << "size = " <<  avl.size() << std::endl;
 	std::cout << "max size = " << avl.max_size() << std::endl;
-	std::cout << "empty = " << std::boolalpha << avl.empty() << std::endl;
+	// std::cout << "empty = " << std::boolalpha << avl.empty() << std::endl;
+
 	// root = avl.deleteNode(root, 10);
 	// root = avl.deleteNode(root, 20);
 	// root = avl.deleteNode(root, ft::pair<int, int>(1, 10));
@@ -409,7 +410,7 @@ int main() {
 	avl.printPreOrder(root);
 	std::cout << "Printing AVL Contents (In Order Traversal)" << std::endl;
 	avl.printInOrder(root);
-	std::cout << "size = " << avl.size() << std::endl;
+	// std::cout << "size = " << avl.size() << std::endl;
 
 	avl.clear(root, true);
 	// ft::avl_tree<int, int>::iterator it = avl.begin();
