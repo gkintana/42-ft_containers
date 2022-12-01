@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:05:25 by gkintana          #+#    #+#             */
-/*   Updated: 2022/11/30 00:20:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/01 23:02:10 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,6 +432,8 @@ int main() {
 	// ms.insert();
 
 	NAMESPACE::map<int, int> test_map;
+	NAMESPACE::map<int, int>::iterator it_find = test_map.end();
+	NAMESPACE::map<int, int>::const_iterator const_it_find = test_map.end();
 
 	std::cout << "Empty: " << test_map.empty() << std::endl
 	          << "Size: " << test_map.size() << std::endl
@@ -443,6 +445,15 @@ int main() {
 	test_map.insert(NAMESPACE::pair<int, int>(6, 25));
 	test_map.insert(NAMESPACE::pair<int, int>(5, 50));
 	test_map.insert(NAMESPACE::pair<int, int>(4, 40));
+
+	std::cout << "map::find(3) = " << test_map.find(3)->first << std::endl;
+	std::cout << "map::find(333) = " << test_map.find(333)->first << std::endl;
+
+	NAMESPACE::map<int, int>::const_iterator con_it = test_map.find(333);
+	std::cout << "map::find(333) const = " << con_it->first << std::endl;
+
+	std::cout << "map::find(333) == map::end()\t\t" << std::boolalpha << (test_map.find(333) == it_find) << std::endl;
+	std::cout << "map::find(333) == map::end() const\t" << (test_map.find(333) == const_it_find) << std::endl;
 
 	std::cout << "map::at(3) = " << test_map.at(3) << std::endl;
 	try {
