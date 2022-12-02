@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/02 13:36:06 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/03 00:15:00 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ class avl_tree {
 				node->right = insertNode(node->right, value);
 			}
 
-			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+			updateHeight(node);
 
-			int balance = checkBalanceFactor(node);
+			int balance = getBalanceFactor(node);
 			if (balance > 1) {
 				if (m_comp(node->left->value.first, value.first)) {
 					node->left = leftRotate(node->left);
@@ -115,13 +115,13 @@ class avl_tree {
 			} else if (m_comp(node->value.first, value.first)) {
 				node->right = deleteNode(node->right, value);
 			} else {
-				if (node->left == NULL && node->right == NULL) {
+				if (!node->left && !node->right) {
 					return node = freeNode(node);
-				} else if (node->left == NULL && node->right != NULL) {
+				} else if (!node->left && node->right) {
 					pointer new_node = node->right;
 					node = freeNode(node);
 					return new_node;
-				} else if (node->left != NULL && node->right == NULL) {
+				} else if (node->left && !node->right) {
 					pointer new_node = node->left;
 					node = freeNode(node);
 					return new_node;
@@ -137,16 +137,16 @@ class avl_tree {
 				return node;
 			}
 
-			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
+			updateHeight(node);
 
-			int balance = checkBalanceFactor(node);
+			int balance = getBalanceFactor(node);
 			if (balance > 1) {
-				if (checkBalanceFactor(node->left) < 0) {
+				if (getBalanceFactor(node->left) < 0) {
 					node->left = leftRotate(node->left);
 				}
 				return rightRotate(node);
 			} else if (balance < -1) {
-				if (checkBalanceFactor(node->right) > 0) {
+				if (getBalanceFactor(node->right) > 0) {
 					node->right = rightRotate(node->right);
 				}
 				return leftRotate(node);
@@ -169,7 +169,7 @@ class avl_tree {
 
 		pointer getKeySuccessor(pointer root, const key_type &key) const {
 			pointer successor = NULL;
-			while (root != NULL) {
+			while (root) {
 				if (m_comp(key, root->value.first)) {
 					successor = root;
 					root = root->left;
@@ -179,22 +179,18 @@ class avl_tree {
 					break;
 				}
 			}
-
-			if (successor == NULL) {
-				return m_sentinel;
-			}
-			return successor;
+			return successor ? successor : m_sentinel;
 		}
 
 		pointer getNodeSuccessor(pointer root, pointer node) {
 			if (node == m_sentinel) {
 				return NULL;
-			} else if (node->right != NULL) {
+			} else if (node->right) {
 				return getMinimum(node->right);
 			}
 
 			pointer successor = NULL;
-			while (root != NULL) {
+			while (root) {
 				if (m_comp(node->value.first, root->value.first)) {
 					successor = root;
 					root = root->left;
@@ -204,22 +200,18 @@ class avl_tree {
 					break;
 				}
 			}
-
-			if (successor == NULL) {
-				return m_sentinel;
-			}
-			return successor;
+			return successor ? successor : m_sentinel;
 		}
 
 		pointer getNodePredecessor(pointer root, pointer node) {
 			if (node == m_sentinel) {
 				return getMaximum(root);
-			} else if (node->left != NULL) {
+			} else if (node->left) {
 				return getMaximum(node->left);
 			}
 
 			pointer predecessor = NULL;
-			while (root != NULL) {
+			while (root) {
 				if (m_comp(root->value.first, node->value.first)) {
 					predecessor = root;
 					root = root->right;
@@ -233,7 +225,7 @@ class avl_tree {
 		}
 
 		void printPreOrder(pointer node) {
-			if (node != NULL) {
+			if (node) {
 				std::cout << "Key = " << node->value.first
 				          << "\t\tValue = " << node->value.second << std::endl;
 				printPreOrder(node->left);
@@ -242,7 +234,7 @@ class avl_tree {
 		}
 
 		void printInOrder(pointer node) {
-			if (node != NULL) {
+			if (node) {
 				printInOrder(node->left);
 				std::cout << "Key = " << node->value.first
 				          << "\t\tValue = " << node->value.second;
@@ -260,7 +252,7 @@ class avl_tree {
 		}
 
 		void freeSentinelNode() {
-			if (m_sentinel != NULL) {
+			if (m_sentinel) {
 				m_alloc.destroy(m_sentinel);
 				m_alloc.deallocate(m_sentinel, 1 * sizeof(node_type));
 				m_sentinel = NULL;
@@ -272,7 +264,7 @@ class avl_tree {
 				freeSentinelNode();
 			}
 
-			if (node != NULL) {
+			if (node) {
 				clear(node->left, false);
 				clear(node->right, false);
 				m_alloc.destroy(node);
@@ -292,7 +284,7 @@ class avl_tree {
 			return (!node) ? 0 : node->height;
 		}
 
-		size_type checkBalanceFactor(pointer node) {
+		int getBalanceFactor(pointer node) {
 			return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
 		}
 
@@ -305,9 +297,7 @@ class avl_tree {
 		}
 
 		void updateHeight(pointer node) {
-			if (node != NULL) {
-				node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-			}
+			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
 		}
 
 		pointer leftRotate(pointer node) {
@@ -317,8 +307,8 @@ class avl_tree {
 			x->left = node;
 			node->right = y;
 
-			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+			updateHeight(node);
+			updateHeight(x);
 			return x;
 		}
 
@@ -329,8 +319,8 @@ class avl_tree {
 			x->right = node;
 			node->left = y;
 
-			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
-			x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+			updateHeight(node);
+			updateHeight(x);
 			return x;
 		}
 
