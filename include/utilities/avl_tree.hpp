@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/05 17:07:25 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/05 23:12:01 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,11 @@ class avl_tree {
 		}
 
 		pointer getKeySuccessor(pointer root, const key_type &key) const {
-			pointer successor = NULL;
+			pointer node = this->search(m_root, key);
+			if (node->right) {
+				return getMinimum(node->right);
+			}
+			pointer successor = m_sentinel;
 			while (root) {
 				if (m_comp(key, root->value.first)) {
 					successor = root;
@@ -180,7 +184,8 @@ class avl_tree {
 					break;
 				}
 			}
-			return successor ? successor : m_sentinel;
+			// std::cout << "Key = " << key << "  |  Successor = " << successor->value.first << std::endl;
+			return successor;
 		}
 
 		pointer getNodeSuccessor(pointer root, pointer node) {
@@ -190,7 +195,7 @@ class avl_tree {
 				return getMinimum(node->right);
 			}
 
-			pointer successor = NULL;
+			pointer successor = m_sentinel;
 			while (root) {
 				if (m_comp(node->value.first, root->value.first)) {
 					successor = root;
@@ -201,7 +206,7 @@ class avl_tree {
 					break;
 				}
 			}
-			return successor ? successor : m_sentinel;
+			return successor;
 		}
 
 		pointer getNodePredecessor(pointer root, pointer node) {
@@ -213,7 +218,7 @@ class avl_tree {
 				return getMaximum(node->left);
 			}
 
-			pointer predecessor = NULL;
+			pointer predecessor = m_sentinel;
 			while (root) {
 				if (m_comp(root->value.first, node->value.first)) {
 					predecessor = root;
@@ -224,7 +229,7 @@ class avl_tree {
 					break;
 				}
 			}
-			return predecessor ? predecessor : m_sentinel;
+			return predecessor;
 		}
 
 		void printPreOrder(pointer node) {
