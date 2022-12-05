@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/04 00:15:36 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/05 17:07:25 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ class avl_tree {
 
 		pointer search(pointer node, key_type value) const {
 			if (!node) {
-				return NULL;
+				return m_sentinel;
+				// return NULL;
 			} else if (m_comp(value, node->value.first)) {
 				return search(node->left, value);
 			} else if (m_comp(node->value.first, value)) {
@@ -184,7 +185,7 @@ class avl_tree {
 
 		pointer getNodeSuccessor(pointer root, pointer node) {
 			if (node == m_sentinel || !node) {
-				return NULL;
+				return m_sentinel;
 			} else if (node->right) {
 				return getMinimum(node->right);
 			}
@@ -205,7 +206,7 @@ class avl_tree {
 
 		pointer getNodePredecessor(pointer root, pointer node) {
 			if (!node) {
-				return NULL;
+				return m_sentinel;
 			} else if (node == m_sentinel) {
 				return getMaximum(root);
 			} else if (node->left) {
@@ -223,7 +224,7 @@ class avl_tree {
 					break;
 				}
 			}
-			return predecessor;
+			return predecessor ? predecessor : m_sentinel;
 		}
 
 		void printPreOrder(pointer node) {

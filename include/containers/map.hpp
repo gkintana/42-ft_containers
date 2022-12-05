@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 23:54:30 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/05 17:08:50 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,29 +113,29 @@ class map {
 
 	iterator begin() {
 		if (m_tree.getRoot() == NULL) {
-			return iterator(NULL, m_tree);
+			return iterator(m_tree.getSentinel(), m_tree);
 		}
 		return iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree);
 	}
 
 	const_iterator begin() const {
 		if (m_tree.getRoot() == NULL) {
-			return const_iterator(NULL, m_tree);
+			return const_iterator(m_tree.getSentinel(), m_tree);
 		}
 		return const_iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree);
 	}
 
 	iterator end() {
-		if (m_tree.getRoot() == NULL) {
-			return iterator(NULL, m_tree);
-		}
+		// if (m_tree.getRoot() == NULL) {
+		// 	return iterator(NULL, m_tree);
+		// }
 		return iterator(m_tree.getSentinel(), m_tree);
 	}
 
 	const_iterator end() const {
-		if (m_tree.getRoot() == NULL) {
-			return const_iterator(NULL, m_tree);
-		}
+		// if (m_tree.getRoot() == NULL) {
+		// 	return const_iterator(NULL, m_tree);
+		// }
 		return const_iterator(m_tree.getSentinel(), m_tree);
 	}
 
@@ -185,7 +185,7 @@ class map {
 	ft::pair<iterator, bool> insert(const value_type value) {
 		// m_root = m_tree.insertNode(m_root, val);
 		// m_tree.insertNode(val);
-		if (this->find(value.first).base() == NULL) {
+		if (this->find(value.first).base() == m_tree.getSentinel()) {
 			m_tree.updateRoot(m_tree.insertNode(m_tree.getRoot(), value));
 			m_size++;
 			return ft::pair<iterator, bool>(this->find(value.first), true);
@@ -220,7 +220,7 @@ class map {
 	}
 
 	size_type erase(const key_type &k) {
-		if (this->find(k).base() != NULL) {
+		if (this->find(k).base() != m_tree.getSentinel()) {
 			this->erase(this->find(k));
 			return 1;
 		}
@@ -326,18 +326,18 @@ class map {
 	}
 
 	size_type count(const key_type &k) const {
-		return this->find(k).base() == NULL ? 0 : 1;
+		return this->find(k).base() == m_tree.getSentinel() ? 0 : 1;
 	}
 
 	iterator lower_bound(const key_type &k) {
-		if (this->find(k).base() != NULL) {
+		if (this->find(k).base() != m_tree.getSentinel()) {
 			return this->find(k);
 		}
 		return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
 	}
 
 	const_iterator lower_bound(const key_type &k) const {
-		if (this->find(k).base() != NULL) {
+		if (this->find(k).base() != m_tree.getSentinel()) {
 			return this->find(k);
 		}
 		return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
