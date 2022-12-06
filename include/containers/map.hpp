@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/05 17:08:50 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/06 22:39:40 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <map>
 
+#include "stack.hpp"
 #include "../utilities/avl_tree.hpp"
 #include "../utilities/reverse_iterator.hpp"
 #include "../utilities/lexicographical_compare.hpp"
@@ -228,58 +229,16 @@ class map {
 	}
 
 	void erase(iterator first, iterator last) {
-		// iterator it(first);
-		// while (first != last) {
-
-		// }
-
-		// for (iterator it = first; first != last; ) {
-			// std::cout << "Erased Key Value = " << it->first << std::endl;
-		// 	this->erase(++it);
-		// 	it = first;
-		// }
-
-
-		// iterator i = first;
-		// while (first.base()->value.first != last.base()->value.first) {
-		// 	std::cout << "Erased Key Value = " << first.base()->value.first << std::endl;
-		// 	erase(first);
-		// 	first = ++i;
-		// }
-		iterator it = first;
-		size_type count = 0;
-
-		while (it != last) {
-			// std::cout << "Erased Key Value = " << it.base()->value.first << std::endl;
-			it++;
-			count++;
+		ft::stack<key_type> temp;
+		for (iterator it = first; it != last; it++) {
+			temp.push(it->first);
 		}
-
-		it--;
-		while (count > 0) {
-			erase(it--);
-			count--;
+		for ( ; !temp.empty(); temp.pop()) {
+			this->erase(temp.top());
 		}
-
-		// iterator j;
-		// while (--i != first) {
-		// 	j = i;
-		// 	std::cout << "Erased Key Value = " << i.base()->value.first << std::endl;
-		// 	erase(j);
-		// }
-			// erase(first);
-
-		// (void)last;
-		// iterator i = first;
-		// std::cout << "Erased Key Value = " << i.base()->value.first << std::endl;
-		// this->erase(++i);
-		// i = first;
-		// std::cout << "Erased Key Value = " << i.base()->value.first << std::endl;
 	}
 
 	void swap(map &x) {
-		// m_tree.swap(x);
-
 		tree_type temp_tree = m_tree;
 		key_compare temp_comp = m_comp;
 		allocator_type temp_alloc = m_alloc;
