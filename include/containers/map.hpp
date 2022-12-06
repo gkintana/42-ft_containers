@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/06 22:39:40 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/06 23:35:29 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 
 #include "stack.hpp"
 #include "../utilities/avl_tree.hpp"
-#include "../utilities/reverse_iterator.hpp"
+#include "../utilities/equal.hpp"
 #include "../utilities/lexicographical_compare.hpp"
+#include "../utilities/reverse_iterator.hpp"
 
 namespace ft {
 
@@ -330,7 +331,7 @@ class map {
 template <class Key, class T, class Compare, class Allocator>
 bool operator==(const ft::map<Key, T, Compare, Allocator> &lhs,
                 const ft::map<Key, T, Compare, Allocator> &rhs) {
-	return lhs.size() == rhs.size();
+	return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
 template <class Key, class T, class Compare, class Allocator>
