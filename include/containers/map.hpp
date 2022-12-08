@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/06 23:35:29 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/08 22:24:35 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ class map {
 
 	mapped_type &at(const key_type &k) {
 		iterator it = this->find(k);
-		if (it.base() == NULL) {
+		if (it.base() == m_tree.getSentinel()) {
 			throw std::out_of_range("map::at");
 		}
 		return it->second;
@@ -320,7 +320,7 @@ class map {
 	}
 
 	allocator_type get_allocator() const {
-		return m_alloc.get_allocator();
+		return m_alloc;
 	}
 
 };
