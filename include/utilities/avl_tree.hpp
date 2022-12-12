@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/05 23:12:01 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/12 15:40:21 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,49 +188,49 @@ class avl_tree {
 			return successor;
 		}
 
-		pointer getNodeSuccessor(pointer root, pointer node) {
-			if (node == m_sentinel || !node) {
-				return m_sentinel;
-			} else if (node->right) {
-				return getMinimum(node->right);
-			}
+		// pointer getNodeSuccessor(pointer root, pointer node) {
+		// 	if (node == m_sentinel || !node) {
+		// 		return m_sentinel;
+		// 	} else if (node->right) {
+		// 		return getMinimum(node->right);
+		// 	}
 
-			pointer successor = m_sentinel;
-			while (root) {
-				if (m_comp(node->value.first, root->value.first)) {
-					successor = root;
-					root = root->left;
-				} else if (m_comp(root->value.first, node->value.first)) {
-					root = root->right;
-				} else {
-					break;
-				}
-			}
-			return successor;
-		}
+		// 	pointer successor = m_sentinel;
+		// 	while (root) {
+		// 		if (m_comp(node->value.first, root->value.first)) {
+		// 			successor = root;
+		// 			root = root->left;
+		// 		} else if (m_comp(root->value.first, node->value.first)) {
+		// 			root = root->right;
+		// 		} else {
+		// 			break;
+		// 		}
+		// 	}
+		// 	return successor;
+		// }
 
-		pointer getNodePredecessor(pointer root, pointer node) {
-			if (!node) {
-				return m_sentinel;
-			} else if (node == m_sentinel) {
-				return getMaximum(root);
-			} else if (node->left) {
-				return getMaximum(node->left);
-			}
+		// pointer getNodePredecessor(pointer root, pointer node) {
+		// 	if (!node) {
+		// 		return m_sentinel;
+		// 	} else if (node == m_sentinel) {
+		// 		return getMaximum(root);
+		// 	} else if (node->left) {
+		// 		return getMaximum(node->left);
+		// 	}
 
-			pointer predecessor = m_sentinel;
-			while (root) {
-				if (m_comp(root->value.first, node->value.first)) {
-					predecessor = root;
-					root = root->right;
-				} else if (m_comp(node->value.first, root->value.first)) {
-					root = root->left;
-				} else {
-					break;
-				}
-			}
-			return predecessor;
-		}
+		// 	pointer predecessor = m_sentinel;
+		// 	while (root) {
+		// 		if (m_comp(root->value.first, node->value.first)) {
+		// 			predecessor = root;
+		// 			root = root->right;
+		// 		} else if (m_comp(node->value.first, root->value.first)) {
+		// 			root = root->left;
+		// 		} else {
+		// 			break;
+		// 		}
+		// 	}
+		// 	return predecessor;
+		// }
 
 		void printPreOrder(pointer node) {
 			if (node) {

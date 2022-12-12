@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/08 22:24:35 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/12 15:57:01 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ class map {
 		typedef node_type*                                  pointer;
 		typedef avl_tree<key_type, mapped_type,
 		                 key_compare, allocator_type>       tree_type;
-		typedef map_iterator<value_type, tree_type>         iterator;
-		typedef const_map_iterator<value_type, tree_type>   const_iterator;
+		typedef map_iterator<value_type, key_compare>         iterator;
+		typedef const_map_iterator<value_type, key_compare>   const_iterator;
 		typedef ft::reverse_iterator<iterator>              reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
 
@@ -115,30 +115,30 @@ class map {
 
 	iterator begin() {
 		if (m_tree.getRoot() == NULL) {
-			return iterator(m_tree.getSentinel(), m_tree);
+			return iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel());
 		}
-		return iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree);
+		return iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	const_iterator begin() const {
 		if (m_tree.getRoot() == NULL) {
-			return const_iterator(m_tree.getSentinel(), m_tree);
+			return const_iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel());
 		}
-		return const_iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree);
+		return const_iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	iterator end() {
 		// if (m_tree.getRoot() == NULL) {
 		// 	return iterator(NULL, m_tree);
 		// }
-		return iterator(m_tree.getSentinel(), m_tree);
+		return iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	const_iterator end() const {
 		// if (m_tree.getRoot() == NULL) {
 		// 	return const_iterator(NULL, m_tree);
 		// }
-		return const_iterator(m_tree.getSentinel(), m_tree);
+		return const_iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	reverse_iterator rbegin() {
@@ -192,7 +192,7 @@ class map {
 			m_size++;
 			return ft::pair<iterator, bool>(this->find(value.first), true);
 		}
-		return ft::pair<iterator, bool>(iterator(m_tree.getRoot(), m_tree), false);
+		return ft::pair<iterator, bool>(iterator(m_tree.getRoot(), m_tree.getRoot(), m_tree.getSentinel()), false);
 	}
 
 	iterator insert(iterator position, const value_type &val) {
@@ -278,11 +278,11 @@ class map {
 	}
 
 	iterator find(const key_type &k) {
-		return iterator(m_tree.search(m_tree.getRoot(), k), m_tree);
+		return iterator(m_tree.search(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	const_iterator find(const key_type &k) const {
-		return const_iterator(m_tree.search(m_tree.getRoot(), k), m_tree);
+		return const_iterator(m_tree.search(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	size_type count(const key_type &k) const {
@@ -293,22 +293,22 @@ class map {
 		if (this->find(k).base() != m_tree.getSentinel()) {
 			return this->find(k);
 		}
-		return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+		return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	const_iterator lower_bound(const key_type &k) const {
 		if (this->find(k).base() != m_tree.getSentinel()) {
 			return this->find(k);
 		}
-		return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+		return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	iterator upper_bound(const key_type &k) {
-		return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+		return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	const_iterator upper_bound(const key_type &k) const {
-		return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree);
+		return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 	}
 
 	ft::pair<iterator, iterator> equal_range(const key_type &k) {
