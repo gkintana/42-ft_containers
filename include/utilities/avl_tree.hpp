@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/12 15:40:21 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/13 00:49:14 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,13 @@
 // https://zarif98sjs.github.io/mindcraft/RedBlackTree/
 // https://www.youtube.com/watch?v=vRwi_UcZGjU
 
-#include <map>
 #include "pair.hpp"
 #include "map_iterator.hpp"
 
 namespace ft {
 
-template < class Key, class T, class Compare = std::less<Key>,
-           class Allocator = std::allocator< ft::pair<const Key, T> > >
+template <class Key, class T, class Compare = std::less<Key>,
+          class Allocator = std::allocator<ft::pair<const Key, T> > >
 class avl_tree {
 
 	public:
@@ -91,20 +90,11 @@ class avl_tree {
 			}
 
 			updateHeight(node);
-
 			int balance = getBalanceFactor(node);
-			if (balance > 1) {
-				if (m_comp(node->left->value.first, value.first)) {
-					node->left = leftRotate(node->left);
-				}
-				return rightRotate(node);
-			} else if (balance < -1) {
-				if (m_comp(value.first, node->right->value.first)) {
-					node->right = rightRotate(node->right);
-				}
-				return leftRotate(node);
-			}
-			return node;
+			return (balance > 1 && m_comp(value.first, node->left->value.first)) ? rightRotate(node) :
+			       (balance > 1 && m_comp(node->left->value.first, value.first)) ? leftThenRightRotate(node) :
+			       (balance < -1 && m_comp(node->right->value.first, value.first)) ? leftRotate(node) :
+			       (balance < -1 && m_comp(value.first, node->right->value.first)) ? rightThenLeftRotate(node) : node;
 		}
 
 		pointer deleteNode(pointer node, value_type value) {
@@ -136,36 +126,18 @@ class avl_tree {
 			if (!node) {
 				return node;
 			}
-
 			updateHeight(node);
-
 			int balance = getBalanceFactor(node);
-			if (balance > 1) {
-				if (getBalanceFactor(node->left) < 0) {
-					node->left = leftRotate(node->left);
-				}
-				return rightRotate(node);
-			} else if (balance < -1) {
-				if (getBalanceFactor(node->right) > 0) {
-					node->right = rightRotate(node->right);
-				}
-				return leftRotate(node);
-			}
-
-			return node;
+			return (balance > 1 && getBalanceFactor(node->left) >= 0) ? rightRotate(node) :
+			       (balance > 1 && getBalanceFactor(node->left) < 0) ? leftThenRightRotate(node) :
+			       (balance < -1 && getBalanceFactor(node->right) <= 0) ? leftRotate(node) :
+			       (balance < -1 && getBalanceFactor(node->right) > 0) ? rightThenLeftRotate(node) : node;
 		}
 
 		pointer search(pointer node, key_type value) const {
-			if (!node) {
-				return m_sentinel;
-				// return NULL;
-			} else if (m_comp(value, node->value.first)) {
-				return search(node->left, value);
-			} else if (m_comp(node->value.first, value)) {
-				return search(node->right, value);
-			} else {
-				return node;
-			}
+			return !node ? m_sentinel :
+			       m_comp(value, node->value.first) ? this->search(node->left, value) :
+			       m_comp(node->value.first, value) ? this->search(node->right, value) : node;
 		}
 
 		pointer getKeySuccessor(pointer root, const key_type &key) const {
@@ -184,53 +156,8 @@ class avl_tree {
 					break;
 				}
 			}
-			// std::cout << "Key = " << key << "  |  Successor = " << successor->value.first << std::endl;
 			return successor;
 		}
-
-		// pointer getNodeSuccessor(pointer root, pointer node) {
-		// 	if (node == m_sentinel || !node) {
-		// 		return m_sentinel;
-		// 	} else if (node->right) {
-		// 		return getMinimum(node->right);
-		// 	}
-
-		// 	pointer successor = m_sentinel;
-		// 	while (root) {
-		// 		if (m_comp(node->value.first, root->value.first)) {
-		// 			successor = root;
-		// 			root = root->left;
-		// 		} else if (m_comp(root->value.first, node->value.first)) {
-		// 			root = root->right;
-		// 		} else {
-		// 			break;
-		// 		}
-		// 	}
-		// 	return successor;
-		// }
-
-		// pointer getNodePredecessor(pointer root, pointer node) {
-		// 	if (!node) {
-		// 		return m_sentinel;
-		// 	} else if (node == m_sentinel) {
-		// 		return getMaximum(root);
-		// 	} else if (node->left) {
-		// 		return getMaximum(node->left);
-		// 	}
-
-		// 	pointer predecessor = m_sentinel;
-		// 	while (root) {
-		// 		if (m_comp(root->value.first, node->value.first)) {
-		// 			predecessor = root;
-		// 			root = root->right;
-		// 		} else if (m_comp(node->value.first, root->value.first)) {
-		// 			root = root->left;
-		// 		} else {
-		// 			break;
-		// 		}
-		// 	}
-		// 	return predecessor;
-		// }
 
 		void printPreOrder(pointer node) {
 			if (node) {
@@ -296,14 +223,6 @@ class avl_tree {
 			return (!node) ? 0 : getHeight(node->left) - getHeight(node->right);
 		}
 
-		pointer getMaximum(pointer node) {
-			pointer max = node;
-			while (max->right) {
-				max = max->right;
-			}
-			return max;
-		}
-
 		void updateHeight(pointer node) {
 			node->height = std::max(getHeight(node->left), getHeight(node->right)) + 1;
 		}
@@ -330,6 +249,16 @@ class avl_tree {
 			updateHeight(node);
 			updateHeight(x);
 			return x;
+		}
+
+		pointer leftThenRightRotate(pointer node) {
+			node->left = leftRotate(node->left);
+			return rightRotate(node);
+		}
+
+		pointer rightThenLeftRotate(pointer node) {
+			node->right = rightRotate(node->right);
+			return leftRotate(node);
 		}
 
 		pointer freeNode(pointer node) {
