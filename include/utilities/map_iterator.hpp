@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/12 15:59:18 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/12 22:44:27 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ template <class T, class Compare>
 class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 
 	public:
+		typedef Compare                                            	key_compare;
 		typedef ft::iterator<std::bidirectional_iterator_tag, T>    traits_type;
 		typedef typename traits_type::value_type                    value_type;
 		typedef typename traits_type::pointer                       pointer;
@@ -32,28 +33,29 @@ class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		typedef typename traits_type::iterator_category             iterator_category;
 		typedef tree_node<value_type>                               node_type;
 		typedef node_type*                                          node_pointer;
-		typedef Compare                                            	key_compare;
-		// typedef AVL                                                 tree_type;
 
 	private:
 		node_pointer m_node;
 		node_pointer m_root;
 		node_pointer m_sentinel;
 		key_compare m_comp;
-		// tree_type m_tree;
 
 	public:
-		map_iterator() : m_node(), m_root(), m_sentinel(), m_comp() {}
+		map_iterator() : m_node(),
+		                 m_root(),
+		                 m_sentinel(),
+		                 m_comp() {}
 
-		map_iterator(node_pointer node, node_pointer root, node_pointer sentinel, const key_compare &comp = key_compare()) : m_node(node),
-		                                                  m_root(root),
-														  m_sentinel(sentinel),
-														  m_comp(comp) {}
+		map_iterator(node_pointer node, node_pointer root, node_pointer sentinel,
+		             const key_compare &comp = key_compare()) : m_node(node),
+		                                                        m_root(root),
+		                                                        m_sentinel(sentinel),
+		                                                        m_comp(comp) {}
 
 		map_iterator(const map_iterator &other) : m_node(other.m_node),
 		                                          m_root(other.m_root),
 		                                          m_sentinel(other.m_sentinel),
-												  m_comp(other.m_comp) {}
+		                                          m_comp(other.m_comp) {}
 
 		map_iterator &operator=(const map_iterator &other) {
 			if (this != &other) {
@@ -72,10 +74,7 @@ class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		}
 
 		pointer operator->() const {
-			if (m_node != NULL) {
-				return &m_node->value;
-			}
-			return &m_sentinel->value;
+			return m_node ? &m_node->value : &m_sentinel->value;
 		}
 
 		node_pointer base() const {
@@ -93,10 +92,6 @@ class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 		key_compare getComp() const {
 			return m_comp;
 		}
-
-		// tree_type getTree() const {
-		// 	return m_tree;
-		// }
 
 		map_iterator &operator++() {
 			m_node = this->getNodeSuccessor(m_root, m_node);
@@ -120,7 +115,6 @@ class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 			return temp;
 		}
 
-
 	private:
 		node_pointer getNodeSuccessor(node_pointer root, node_pointer node) {
 			if (node == m_sentinel || !node) {
@@ -166,9 +160,9 @@ class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 			return predecessor;
 		}
 
-		node_pointer getMinimum(node_pointer node) const {
+		node_pointer getMinimum(node_pointer node) {
 			node_pointer min = node;
-			while (min && min->left) {
+			while (min->left) {
 				min = min->left;
 			}
 			return min;
@@ -182,7 +176,7 @@ class map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 			return max;
 		}
 
-};
+};    // class map_iterator
 
 template <class T, class Compare>
 bool operator==(const ft::map_iterator<T, Compare> &lhs, const ft::map_iterator<T, Compare> &rhs) {
@@ -200,6 +194,7 @@ template <class T, class Compare>
 class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, T> {
 
 	public:
+		typedef Compare                                             key_compare;
 		typedef ft::iterator<std::bidirectional_iterator_tag, T>    traits_type;
 		typedef typename traits_type::value_type                    value_type;
 		typedef typename traits_type::difference_type               difference_type;
@@ -208,9 +203,7 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 		typedef const value_type&                                   reference;
 		typedef tree_node<value_type>                               node_type;
 		typedef node_type*                                          node_pointer;
-		// typedef AVL                                                 tree_type;
-		typedef Compare                                            	key_compare;
-		typedef map_iterator<value_type, key_compare>                 iterator;
+		typedef map_iterator<value_type, key_compare>               iterator;
 
 	private:
 		node_pointer m_node;
@@ -219,22 +212,26 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 		key_compare m_comp;
 
 	public:
-		const_map_iterator() : m_node(), m_root(), m_sentinel(), m_comp() {}
+		const_map_iterator() : m_node(),
+		                       m_root(),
+		                       m_sentinel(),
+		                       m_comp() {}
 
-		const_map_iterator(const node_pointer node, node_pointer root, node_pointer sentinel, const key_compare &comp = key_compare()) : m_node(node),
-		                                                               m_root(root),
-														  m_sentinel(sentinel),
-														  m_comp(comp) {}
+		const_map_iterator(const node_pointer node, node_pointer root, node_pointer sentinel,
+		                   const key_compare &comp = key_compare()) : m_node(node),
+		                                                              m_root(root),
+		                                                              m_sentinel(sentinel),
+		                                                              m_comp(comp) {}
 
 		const_map_iterator(const iterator &other) : m_node(other.base()),
-		                                          m_root(other.getRoot()),
-		                                          m_sentinel(other.getSentinel()),
-												  m_comp(other.getComp()) {}
+		                                            m_root(other.getRoot()),
+		                                            m_sentinel(other.getSentinel()),
+		                                            m_comp(other.getComp()) {}
 
 		const_map_iterator(const const_map_iterator &other) : m_node(other.m_node),
 		                                                      m_root(other.m_root),
-		                                          m_sentinel(other.m_sentinel),
-												  m_comp(other.m_comp) {}
+		                                                      m_sentinel(other.m_sentinel),
+		                                                      m_comp(other.m_comp) {}
 
 		const_map_iterator &operator=(const const_map_iterator &other) {
 			if (this != &other) {
@@ -253,21 +250,12 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 		}
 
 		pointer operator->() const {
-			if (m_node != NULL) {
-				return &m_node->value;
-			}
-			return &m_sentinel->value;
+			return m_node ? &m_node->value : &m_sentinel->value;
 		}
 
 		node_pointer base() const {
 			return m_node;
 		}
-
-		
-
-		// tree_type getTree() const {
-		// 	return m_tree;
-		// }
 
 		const_map_iterator &operator++() {
 			m_node = this->getNodeSuccessor(m_root, m_node);
@@ -281,7 +269,6 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 		}
 
 		const_map_iterator &operator--() {
-			// m_node = m_tree.getNodePredecessor(m_tree.getRoot(), m_node);
 			m_node = this->getNodePredecessor(m_root, m_node);
 			return *this;
 		}
@@ -292,7 +279,7 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 			return temp;
 		}
 
-		private:
+	private:
 		node_pointer getNodeSuccessor(node_pointer root, node_pointer node) {
 			if (node == m_sentinel || !node) {
 				return m_sentinel;
@@ -337,9 +324,9 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 			return predecessor;
 		}
 
-		node_pointer getMinimum(node_pointer node) const {
+		node_pointer getMinimum(node_pointer node) {
 			node_pointer min = node;
-			while (min && min->left) {
+			while (min->left) {
 				min = min->left;
 			}
 			return min;
@@ -353,7 +340,7 @@ class const_map_iterator : public ft::iterator<std::bidirectional_iterator_tag, 
 			return max;
 		}
 
-};
+};    // class const_map_iterator
 
 template <class T, class Compare>
 bool operator==(const ft::const_map_iterator<T, Compare> &lhs, const ft::const_map_iterator<T, Compare> &rhs) {

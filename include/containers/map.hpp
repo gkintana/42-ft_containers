@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/12 22:10:46 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/12 22:24:10 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 namespace ft {
 
-template < class Key, class T, class Compare = std::less<Key>,
-			class Allocator = std::allocator< ft::pair<const Key, T> > >
+template <class Key, class T, class Compare = std::less<Key>,
+          class Allocator = std::allocator<ft::pair<const Key, T> > >
 class map {
 
 	public:
@@ -75,7 +75,7 @@ class map {
 		                                                               m_alloc(alloc),
 		                                                               m_size(0) {}
 
-		template < class InputIterator >
+		template <class InputIterator>
 		map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
 		    const allocator_type &alloc = allocator_type()) : m_comp(comp),
 		                                                      m_alloc(alloc),
@@ -173,7 +173,7 @@ class map {
 			return this->find(val.first);
 		}
 
-		template < class InputIterator >
+		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last) {
 			while (first != last) {
 				this->insert(ft::make_pair(first->first, first->second));
