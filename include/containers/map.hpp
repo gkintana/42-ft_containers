@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/12 22:24:10 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/13 14:07:37 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,38 @@ class map {
 			m_tree.clear(m_tree.getRoot(), true);
 		}
 
+		allocator_type get_allocator() const {
+			return m_alloc;
+		}
+
+		/**
+		** Element Access
+		**
+		** operator[]    access or insert specified element
+		*/
+
+		mapped_type &operator[](const key_type &k) {
+			this->insert(ft::make_pair(k, mapped_type()));
+			return this->find(k)->second;
+		}
+
+		/**
+		** Iterators
+		**
+		** begin     returns an iterator to the beginning
+		** end       returns an iterator to the end
+		** rbegin    returns a reverse iterator to the beginning
+		** rend      returns a reverse iterator to the end
+		*/
+
 		iterator begin() {
-			if (!m_tree.getRoot()) {
-				return iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel());
-			}
-			return iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree.getRoot(), m_tree.getSentinel());
+			return !m_tree.getRoot() ? iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel()) :
+			       iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree.getRoot(), m_tree.getSentinel());
 		}
 
 		const_iterator begin() const {
-			if (!m_tree.getRoot()) {
-				return const_iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel());
-			}
-			return const_iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree.getRoot(), m_tree.getSentinel());
+			return !m_tree.getRoot() ? const_iterator(m_tree.getSentinel(), m_tree.getRoot(), m_tree.getSentinel()) :
+			       const_iterator(m_tree.getMinimum(m_tree.getRoot()), m_tree.getRoot(), m_tree.getSentinel());
 		}
 
 		iterator end() {
@@ -141,6 +161,14 @@ class map {
 			return const_reverse_iterator(this->begin());
 		}
 
+		/**
+		** Capacity
+		**
+		** empty       checks whether the container is empty
+		** size        returns the number of elements
+		** max_size    returns the maximum possible number of elements
+		*/
+
 		bool empty() const {
 			return m_size == 0;
 		}
@@ -153,9 +181,18 @@ class map {
 			return m_tree.max_size();
 		}
 
-		mapped_type &operator[](const key_type &k) {
-			this->insert(ft::make_pair(k, mapped_type()));
-			return this->find(k)->second;
+		/**
+		** Modifiers
+		**
+		** clear     clears the contents
+		** insert    inserts elements
+		** erase     erases elements
+		** swap      swaps the contents
+		*/
+
+		void clear() {
+			m_tree.clear(m_tree.getRoot(), false);
+			m_size = 0;
 		}
 
 		ft::pair<iterator, bool> insert(const value_type value) {
@@ -224,17 +261,18 @@ class map {
 			x.m_size = temp_size;
 		}
 
-		void clear() {
-			m_tree.clear(m_tree.getRoot(), false);
-			m_size = 0;
-		}
+		/**
+		** Lookup
+		**
+		** count          returns the number of elements matching specific key
+		** find           finds element with specific key
+		** lower_bound    returns an iterator to the first element not less than the given key
+		** upper_bound    returns an iterator to the first element greater than the given key
+		** equal_range    returns range of elements matching a specific key
+		*/
 
-		key_compare key_comp() const {
-			return m_comp;
-		}
-
-		value_compare value_comp() const {
-			return value_compare(this->key_comp());
+		size_type count(const key_type &k) const {
+			return this->find(k).base() == m_tree.getSentinel() ? 0 : 1;
 		}
 
 		iterator find(const key_type &k) {
@@ -245,22 +283,14 @@ class map {
 			return const_iterator(m_tree.search(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 		}
 
-		size_type count(const key_type &k) const {
-			return this->find(k).base() == m_tree.getSentinel() ? 0 : 1;
-		}
-
 		iterator lower_bound(const key_type &k) {
-			if (this->find(k).base() != m_tree.getSentinel()) {
-				return this->find(k);
-			}
-			return iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
+			return this->find(k).base() != m_tree.getSentinel() ? this->find(k) :
+			       iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 		}
 
 		const_iterator lower_bound(const key_type &k) const {
-			if (this->find(k).base() != m_tree.getSentinel()) {
-				return this->find(k);
-			}
-			return const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
+			return this->find(k).base() != m_tree.getSentinel() ? this->find(k) :
+			       const_iterator(m_tree.getKeySuccessor(m_tree.getRoot(), k), m_tree.getRoot(), m_tree.getSentinel());
 		}
 
 		iterator upper_bound(const key_type &k) {
@@ -279,11 +309,26 @@ class map {
 			return ft::make_pair(this->lower_bound(k), this->upper_bound(k));
 		}
 
-		allocator_type get_allocator() const {
-			return m_alloc;
+		/**
+		** Observers
+		**
+		** key_comp      returns the function that compares keys
+		** value_comp    returns the function that compares keys in objects of type value_type
+		*/
+
+		key_compare key_comp() const {
+			return m_comp;
+		}
+
+		value_compare value_comp() const {
+			return value_compare(this->key_comp());
 		}
 
 };    // class map
+
+/**
+** Non-Member Functions
+*/
 
 template <class Key, class T, class Compare, class Allocator>
 bool operator==(const ft::map<Key, T, Compare, Allocator> &lhs, const ft::map<Key, T, Compare, Allocator> &rhs) {
