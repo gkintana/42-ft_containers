@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 23:43:44 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/01 23:44:36 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/13 23:11:34 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 namespace ft {
 
 /**
- * @brief    parent node will always be NULL, it only exists to ensure that
- *           ft::map::max_size and std::map::max_size will return the same value.
+ * @brief    parent node will always be NULL, it only exists to increase the
+ *           chances that ft::map::max_size and std::map::max_size will
+ *           return the same value in macOS.
 */
 template <class T>
 struct tree_node {

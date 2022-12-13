@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/13 17:06:21 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/13 23:09:08 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,100 +17,14 @@
 #include <memory>
 #include <exception>
 #include <sstream>
-
 #include "../utilities/type_traits.hpp"
 #include "../utilities/iterator_traits.hpp"
+#include "../utilities/iterator_validity.hpp"
 #include "../utilities/vector_iterator.hpp"
 #include "../utilities/reverse_iterator.hpp"
 #include "../utilities/lexicographical_compare.hpp"
 
-// https://en.cppreference.com/w/cpp/container/vector
-// https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
-// https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c
-// https://gcc.gnu.org/onlinedocs/gcc-4.6.2/libstdc++/api/a01069_source.html
-// https://stackoverflow.com/questions/3582608/how-to-correctly-implement-custom-iterators-and-const-iterators#
-// https://cplusplus.com/reference/memory/allocator/
-// https://codereview.stackexchange.com/questions/255149/stdvector-allocator-aware-implementation
-// https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c?rq=1
-// https://codereview.stackexchange.com/questions/94211/implementation-of-stdvector-class?rq=1
-// https://codereview.stackexchange.com/questions/96253/second-implementation-of-stdvector?rq=1
-// https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
-
-// https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
-// https://stackoverflow.com/questions/3582608/how-to-correctly-implement-custom-iterators-and-const-iterators#
-
-// https://stackoverflow.com/questions/61557539/how-can-i-use-my-custom-enable-if-in-c98
-// https://www.boost.org/doc/libs/1_55_0/libs/utility/enable_if.html
-// https://medium.com/@sidbhasin82/c-templates-what-is-std-enable-if-and-how-to-use-it-fd76d3abbabe
-
 namespace ft {
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename ft::input_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename ft::output_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename ft::forward_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename ft::bidirectional_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename ft::random_access_iterator_tag) {
-	if (first > last) {
-		throw std::length_error("cannot create std::vector larger than max_size()");
-	}
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename std::input_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename std::output_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename std::forward_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename std::bidirectional_iterator_tag) {
-	(void)first;
-	(void)last;
-}
-
-template <class Iter>
-void iterator_validity(Iter first, Iter last, typename std::random_access_iterator_tag) {
-	if (first > last) {
-		throw std::length_error("cannot create std::vector larger than max_size()");
-	}
-}
-
-template <class Iter>
-void check_range(Iter first, Iter last) {
-	iterator_validity(first, last, typename ft::iterator_traits<Iter>::iterator_category());
-}
 
 template <class T, class Allocator = std::allocator<T> >
 class vector {

@@ -1,0 +1,33 @@
+// https://en.cppreference.com/w/cpp/container/vector
+// https://stackoverflow.com/questions/5159061/implementation-of-vector-in-c
+// https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c
+// https://gcc.gnu.org/onlinedocs/gcc-4.6.2/libstdc++/api/a01069_source.html
+// https://stackoverflow.com/questions/3582608/how-to-correctly-implement-custom-iterators-and-const-iterators#
+// https://cplusplus.com/reference/memory/allocator/
+// https://codereview.stackexchange.com/questions/255149/stdvector-allocator-aware-implementation
+// https://codereview.stackexchange.com/questions/240457/stdvector-implementation-c?rq=1
+// https://codereview.stackexchange.com/questions/94211/implementation-of-stdvector-class?rq=1
+// https://codereview.stackexchange.com/questions/96253/second-implementation-of-stdvector?rq=1
+// https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
+
+// https://www.codeproject.com/Articles/36530/An-Introduction-to-Iterator-Traits
+// https://stackoverflow.com/questions/3582608/how-to-correctly-implement-custom-iterators-and-const-iterators#
+
+// https://stackoverflow.com/questions/61557539/how-can-i-use-my-custom-enable-if-in-c98
+// https://www.boost.org/doc/libs/1_55_0/libs/utility/enable_if.html
+// https://medium.com/@sidbhasin82/c-templates-what-is-std-enable-if-and-how-to-use-it-fd76d3abbabe
+
+
+// https://github.com/llvm/llvm-project/tree/main/libcxx
+// https://github.com/gcc-mirror/gcc/tree/master/libstdc%2B%2B-v3/include/bits
+// https://www.happycoders.eu/algorithms/red-black-tree-java/
+// https://www.cs.auckland.ac.nz/software/AlgAnim/red_black.html
+// https://web.stanford.edu/class/archive/cs/cs106l/cs106l.1176/lectures/lecture05/05_Templates.pdf
+// https://web.stanford.edu/class/archive/cs/cs106l/cs106l.1176/lectures/
+
+// https://github.com/dbjnbnrj/redblacktrees
+// https://www.cs.odu.edu/~zeil/cs361/latest/Public/treetraversal/index.html
+// https://zarif98sjs.github.io/mindcraft/RedBlackTree/
+// https://www.youtube.com/watch?v=vRwi_UcZGjU
+
+// https://stackoverflow.com/questions/9597817/c-avl-tree-iterator-will-not-increment-properly

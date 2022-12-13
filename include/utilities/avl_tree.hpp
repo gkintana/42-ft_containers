@@ -6,24 +6,12 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 22:39:21 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/13 00:49:14 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/13 23:09:17 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AVL_TREE_HPP
 #define AVL_TREE_HPP
-
-// https://github.com/llvm/llvm-project/tree/main/libcxx
-// https://github.com/gcc-mirror/gcc/tree/master/libstdc%2B%2B-v3/include/bits
-// https://www.happycoders.eu/algorithms/red-black-tree-java/
-// https://www.cs.auckland.ac.nz/software/AlgAnim/red_black.html
-// https://web.stanford.edu/class/archive/cs/cs106l/cs106l.1176/lectures/lecture05/05_Templates.pdf
-// https://web.stanford.edu/class/archive/cs/cs106l/cs106l.1176/lectures/
-
-// https://github.com/dbjnbnrj/redblacktrees
-// https://www.cs.odu.edu/~zeil/cs361/latest/Public/treetraversal/index.html
-// https://zarif98sjs.github.io/mindcraft/RedBlackTree/
-// https://www.youtube.com/watch?v=vRwi_UcZGjU
 
 #include "pair.hpp"
 #include "map_iterator.hpp"

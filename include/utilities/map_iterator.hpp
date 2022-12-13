@@ -6,14 +6,12 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:10:38 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/13 22:25:25 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/13 23:09:57 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_ITERATOR_HPP
 #define MAP_ITERATOR_HPP
-
-// https://stackoverflow.com/questions/9597817/c-avl-tree-iterator-will-not-increment-properly
 
 #include "iterator_traits.hpp"
 #include "tree_node.hpp"

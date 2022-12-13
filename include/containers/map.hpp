@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/13 14:07:37 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/13 23:02:07 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #define MAP_HPP
 
 #include <iostream>
-#include <map>
-
 #include "stack.hpp"
 #include "../utilities/avl_tree.hpp"
 #include "../utilities/equal.hpp"
