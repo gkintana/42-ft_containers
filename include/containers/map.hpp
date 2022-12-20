@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:49 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/14 00:06:17 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/20 11:32:13 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 #include <iostream>
 #include "stack.hpp"
-#include "../utilities/avl_tree.hpp"
-#include "../utilities/equal.hpp"
-#include "../utilities/lexicographical_compare.hpp"
-#include "../utilities/reverse_iterator.hpp"
+#include "avl_tree.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft {
 

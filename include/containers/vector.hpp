@@ -6,7 +6,7 @@
 /*   By: gkintana <gkintana@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 17:02:07 by gkintana          #+#    #+#             */
-/*   Updated: 2022/12/13 23:09:08 by gkintana         ###   ########.fr       */
+/*   Updated: 2022/12/20 11:35:33 by gkintana         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 #include <iostream>
 #include <memory>
 #include <exception>
-#include <sstream>
-#include "../utilities/type_traits.hpp"
-#include "../utilities/iterator_traits.hpp"
-#include "../utilities/iterator_validity.hpp"
-#include "../utilities/vector_iterator.hpp"
-#include "../utilities/reverse_iterator.hpp"
-#include "../utilities/lexicographical_compare.hpp"
+#include "type_traits.hpp"
+#include "iterator_traits.hpp"
+#include "iterator_validity.hpp"
+#include "vector_iterator.hpp"
+#include "reverse_iterator.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace ft {
 
@@ -164,18 +163,14 @@ class vector {
 
 		reference at(size_type pos) {
 			if (pos >= _size) {
-				std::stringstream str;
-				str << "vector::range_check: pos (which is " << pos << ") >= this->m_size() (which is " << _size << ")";
-				throw std::out_of_range(str.str());
+				throw std::out_of_range("ft::vector::at");
 			}
 			return *(_data + pos);
 		}
 
 		const_reference at(size_type pos) const {
 			if (pos >= _size) {
-				std::stringstream str;
-				str << "ft::vector::at(): pos (which is " << pos << ") >= this->size() (which is " << _size << ")";
-				throw std::out_of_range(str.str());
+				throw std::out_of_range("ft::vector::at");
 			}
 			return *(_data + pos);
 		}
