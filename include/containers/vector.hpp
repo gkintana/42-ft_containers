@@ -426,7 +426,7 @@ class vector {
 			          range = last - first,
 			          pos = 0;
 
-			for (size_type i = start; end + i < _size; i++) {
+			for (size_type i = start; end + pos < _size; i++) {
 				_data[i] = _data[end + pos++];
 			}
 			for (size_type i = 0; i < range; i++) {
