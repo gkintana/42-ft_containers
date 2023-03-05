@@ -58,7 +58,8 @@ class vector {
 		                                                                  _capacity(0) {}
 
 		explicit vector(size_type n, const value_type &val = value_type(),
-		                const allocator_type &alloc = allocator_type()) : _alloc(alloc),
+		                const allocator_type &alloc = allocator_type()) : _data(0),
+		                                                                  _alloc(alloc),
 		                                                                  _size(n),
 		                                                                  _capacity(n) {
 			_data = _alloc.allocate(_capacity);
@@ -327,6 +328,7 @@ class vector {
 				} else {
 					for (size_type i = _size; i > static_cast<size_type>(offset); i--) {
 						_alloc.construct(_data + i, *(_data + i - 1));
+						_alloc.destroy(_data + i - 1);
 					}
 					_alloc.construct(_data + size_type(offset), val);
 				}
@@ -352,9 +354,13 @@ class vector {
 			}
 
 			for (size_type i = range; i < new_size; i++) {
+				if (i < _size)
+					_alloc.destroy(_data + i);
 				_alloc.construct(_data + i, *(temp_data + i + old_value));
 			}
 			for (size_type i = offset; i < range; i++) {
+				if (i < _size)
+					_alloc.destroy(_data + i);
 				_alloc.construct(_data + i, val);
 			}
 
@@ -388,9 +394,13 @@ class vector {
 			}
 
 			for (size_type i = static_cast<size_type>(range); i < new_size; i++) {
+				if (i < _size)
+					_alloc.destroy(_data + i);
 				_alloc.construct(_data + i, *(temp_data + i + old_value));
 			}
 			for (size_type i = static_cast<size_type>(offset); i < static_cast<size_type>(range); i++) {
+				if (i < _size)
+					_alloc.destroy(_data + i);
 				_alloc.construct(_data + i, *first++);
 			}
 
