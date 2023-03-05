@@ -426,15 +426,12 @@ class vector {
 			          range = last - first,
 			          pos = 0;
 
-			for (size_type i = 0; i < _size; i++) {
-				if (i >= start && end + pos < _size) {
-					_data[i] = _data[end + pos++];
-				}
+			for (size_type i = start; end + i < _size; i++) {
+				_data[i] = _data[end + pos++];
 			}
-			for (size_type i = start + range; i < _size; i++) {
-				_alloc.destroy(_data + i);
+			for (size_type i = 0; i < range; i++) {
+				_alloc.destroy(_data + --_size);
 			}
-			_size -= range;
 			return first;
 		}
 
